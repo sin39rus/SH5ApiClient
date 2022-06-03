@@ -13,7 +13,7 @@ namespace SH5ApiClient.Core.Answears
         internal void CheckError()
         {
             if (ErrorCode != 0)
-                throw new ExceptionSH($"Запрос в API SH закончился ошибкой: {ErrMessage}");
+                throw new SHException($"Запрос в API SH закончился ошибкой: {ErrMessage}");
         }
     }
 }

@@ -34,7 +34,7 @@ namespace SH5ApiClient.Core.Answears
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
             SHStructAnswear? answear = JsonConvert.DeserializeObject<SHStructAnswear>(jsonText);
             if (answear == null)
-                throw new ExceptionSH("Ошибка разбора ответа SH.");
+                throw new SHException("Ошибка разбора ответа SH.");
             answear._headersDict = new(answear.Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
             answear.CheckError();
             return answear;

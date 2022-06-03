@@ -27,7 +27,7 @@ namespace SH5ApiClient.Core.Requests
             get => inn; set
             {
                 if (value is null || !value.IsINN())
-                    throw new ArgumentException("Не корректный ИНН \"{value}\".");
+                    throw new ArgumentException($"Не корректный ИНН \"{value}\".");
                 if (value.Length == 12)
                     CorrTypeEx = CorrTypeEx.CorrTypeEx1;
                 inn = value;
