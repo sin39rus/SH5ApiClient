@@ -1,4 +1,4 @@
-﻿namespace AddonCore.Models.Attributes
+﻿namespace SH5ApiClient.Infrastructure.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     internal sealed class OriginalNameAttribute : Attribute
