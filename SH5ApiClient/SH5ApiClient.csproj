@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Exceptions\" />
-    <Folder Include="Infrastructure\Attributes\" />
     <Folder Include="Infrastructure\Helpers\" />
-    <Folder Include="Core\" />
     <Folder Include="Infrastructure\Extensions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
