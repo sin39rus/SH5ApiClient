@@ -2,27 +2,41 @@
 
 namespace SH5ApiClient.Core.Answears
 {
+    /// <summary>
+    /// Ответ на запрос наличия прав для выполнения процедуры в API SH
+    /// </summary>
     public class SHAbleAnswear : SHAnswearBase
     {
+        private SHAbleAnswear() { }
+
         [JsonProperty("Version")]
-        public string Version { get; set; }
+        public string? Version { get; private set; }
 
         [JsonProperty("UserName")]
-        public string UserName { get; set; }
+        public string? UserName { get; private set; }
 
         [JsonProperty("procList")]
-        public string[] ProcList { get; set; }
+        public IEnumerable<string> ProcList { get; private set; } = Array.Empty<string>();
 
         [JsonProperty("allow")]
-        public bool[] Allow { get; set; }
+        public IEnumerable<bool> Allow { get; private set; } = Array.Empty<bool>();
 
-        /// <summary>
-        /// Разобрать ответ SH
-        /// </summary>
+        /// <summary>Проверить разрешение по имени процедуры.</summary>
+        /// <param name="procedureName">Имя процедуры</param>
+        /// <returns>true - если пользователю разрешено использовать процедуру.<para>false - если использовать процедуру нельзя.</para></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public bool CheckPermission(string procedureName)
+        {
+            int procIndex = ProcList.ToList().IndexOf(procedureName);
+            if (procIndex == -1)
+                throw new ArgumentOutOfRangeException($"Процедура {procedureName} не найдена.");
+            else
+                return Allow.ElementAt(procIndex);
+        }
+
+        /// <summary>Разобрать ответ SH</summary>
         /// <param name="jsonText">Содержимое ответа (json)</param>
         /// <returns>Ответ SH</returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="Exception"></exception>
         public static SHAbleAnswear Parse(string jsonText)
         {
             if (string.IsNullOrWhiteSpace(jsonText))

@@ -1,19 +1,19 @@
 ﻿namespace SH5ApiClient
 {
-    public class SH5ApiClient : ISH5ApiClient
+    public class ApiClient : IApiClient
     {
-        private readonly ConnectionParamSH5 _connectionParamSH5;
+        private readonly ConnectionParamSH5 _connectionParam;
 
-        public SH5ApiClient(ConnectionParamSH5 connectionParamSH5)
+        public ApiClient(ConnectionParamSH5 connectionParamSH5)
         {
-            _connectionParamSH5 = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
+            _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
         }
 
         public async Task<IEnumerable<СorrespondentSH>> LoadCorrespondentsAsync()
         {
             try
             {
-                CorrsRequest corrsRequest = new(_connectionParamSH5);
+                CorrsRequest corrsRequest = new(_connectionParam);
                 string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
                 SHExecAnswear answear = SHExecAnswear.Parse(jsonAnswear);
                 SHExecAnswearContent content = answear.GetAnswearContent("107");
@@ -24,12 +24,18 @@
                 throw new SH5ApiClientException("Ошибка загрузки справочника корреспондентов из SH.", ex);
             }
         }
-
+        public async Task<SHAbleAnswear> RequestPermissionExecuteProcedure(IEnumerable<string> procedureNames)
+        {
+            AbleRequest ableRequest = new(_connectionParam, procedureNames);
+            string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
+            SHAbleAnswear answear = SHAbleAnswear.Parse(jsonAnswear);
+            return answear;
+        }
         public async Task<IEnumerable<InternalСorrespondentSH>> LoadInternalСorrespondentsAsync()
         {
             try
             {
-                LEntitiesRequest corrsRequest = new(_connectionParamSH5);
+                LEntitiesRequest corrsRequest = new(_connectionParam);
                 string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
                 SHExecAnswear answear = SHExecAnswear.Parse(jsonAnswear);
                 SHExecAnswearContent content = answear.GetAnswearContent("102");
@@ -43,7 +49,7 @@
 
         public async Task<Dictionary<string, int>> LoadBankAccountsAsync()
         {
-            EnumValuesRequest request = new(_connectionParamSH5, "119", "6\\Payment_Place");
+            EnumValuesRequest request = new(_connectionParam, "119", "6\\Payment_Place");
             string jsonAnswear = await WebClient.WebPostAsync(request);
             SHEnumAnswear answear = SHEnumAnswear.Parse(jsonAnswear);
             return answear.GetBankAccounts('#');
@@ -58,7 +64,7 @@
 
         private async Task UpdateCorrespondentAsyncInternal(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
         {
-            CorrRequest request = new(_connectionParamSH5, guid);
+            CorrRequest request = new(_connectionParam, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
             if (bankName is not null)
                 jsonAnswear = SHExecAnswear.ChangeValue(jsonAnswear, "107", "34\\Bank_Name", bankName);
@@ -68,14 +74,14 @@
                 jsonAnswear = SHExecAnswear.ChangeValue(jsonAnswear, "107", "34\\Bank_BIK", bik);
             if (corAccount is not null)
                 jsonAnswear = SHExecAnswear.ChangeValue(jsonAnswear, "107", "34\\Bank_CAcc", corAccount);
-            string newRequest = SHExecAnswear.ConvertToRequest(jsonAnswear, "107", _connectionParamSH5, "UpdCorr");
-            string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParamSH5, ServerOperationType.sh5exec);
+            string newRequest = SHExecAnswear.ConvertToRequest(jsonAnswear, "107", _connectionParam, "UpdCorr");
+            string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam, ServerOperationType.sh5exec);
             SHExecAnswear.Parse(newRequestResult);
         }
 
         public async Task<СorrespondentSH> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
         {
-            InsCorrRequest corr = new(_connectionParamSH5, name, inn)
+            InsCorrRequest corr = new(_connectionParam, name, inn)
             {
                 CorrType = corrType,
                 CorrTypeEx = corrTypeEx,
@@ -88,6 +94,11 @@
             var answear = SHExecAnswear.Parse(result);
             return СorrespondentSH.Parse(answear.GetAnswearContent("107").GetValues()[0]);
 
+        }
+        public async Task<SHInfoAnswear> GetSHServerInfoAsync()
+        {
+            string answear = await WebClient.WebPostAsync(new SHInfoRequest(_connectionParam));
+            return SHInfoAnswear.Parse(answear);
         }
     }
 }

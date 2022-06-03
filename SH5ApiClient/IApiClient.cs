@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SH5ApiClient
+﻿namespace SH5ApiClient
 {
-    internal interface ISH5ApiClient
+    public interface IApiClient
     {
+        Task<SHInfoAnswear> GetSHServerInfoAsync();
+
         /// <summary>Создание корреспондента
         /// <para>По умолчанию внешний контрагент</para></summary>
         /// <param name="name">Наименование</param>
@@ -37,5 +33,8 @@ namespace SH5ApiClient
         /// <param name="bik">БИК</param>
         /// <param name="corAccount">Кор. счет</param>
         Task UpdateCorrespondentAsync(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount);
+        /// <summary>Запросить наличие прав на выполнение процедуры</summary>
+        /// <param name="procedureNames">Имена процедур для проверки</param>
+        Task<SHAbleAnswear> RequestPermissionExecuteProcedure(IEnumerable<string> procedureNames);
     }
 }

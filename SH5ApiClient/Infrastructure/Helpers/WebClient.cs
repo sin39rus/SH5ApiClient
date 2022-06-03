@@ -39,7 +39,8 @@ namespace SH5ApiClient.Infrastructure.Helpers
                 throw new ArgumentNullException(nameof(request));
 
             string url = $"http://{request.ConnectionParam.Address}:{request.ConnectionParam.Port}/api/{request.ServerOperationType}";
-            return WebPostInternalAsync(url, request.CreateJsonRequest());
+            string jsonRequest = request.CreateJsonRequest();
+            return WebPostInternalAsync(url, jsonRequest);
         }
         private static async Task<string> WebPostInternalAsync(string url, string request)
         {
