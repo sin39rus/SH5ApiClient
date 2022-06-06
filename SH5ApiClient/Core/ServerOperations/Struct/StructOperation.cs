@@ -24,17 +24,10 @@ namespace SH5ApiClient.Core.ServerOperations
         public StructOperationContent[] Content { get; private set; }
 
         public override string Uri => "sh5struct";
-
-        public static StructOperation Parse(string jsonText)
+        internal override void AfterParse()
         {
-            if (string.IsNullOrWhiteSpace(jsonText))
-                throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            StructOperation? answear = JsonConvert.DeserializeObject<StructOperation>(jsonText);
-            if (answear == null)
-                throw new ServerOperationsException("Ошибка разбора ответа SH.");
-            answear._headersDict = new(answear.Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
-            answear.CheckError();
-            return answear;
+            _headersDict = new(Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
+
         }
         /// <summary>
         /// Получение блока данных

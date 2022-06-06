@@ -55,29 +55,13 @@ namespace SH5ApiClient.Core.ServerOperations
                 throw new ArgumentException($"Блок данных с заголовком \"{dataHeader}\" отсутсвует.", nameof(dataHeader));
             return Content[_headersDict[dataHeader]];
         }
-
-        /// <summary>
-        /// Разобрать ответ SH
-        /// </summary>
-        /// <param name="jsonText">Содержимое ответа (json)</param>
-        /// <returns>Ответ SH</returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="Exception"></exception>
-        public static ExecOperation Parse(string jsonText)
+        internal override void AfterParse()
         {
-            if (string.IsNullOrWhiteSpace(jsonText))
-                throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            ExecOperation? answear = JsonConvert.DeserializeObject<ExecOperation>(jsonText);
-            if (answear == null)
-                throw new ArgumentException("Ошибка разбора ответа SH.");
-            answear._headersDict = new(answear.Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
-            answear.CheckError();
-            return answear;
+            _headersDict = new(Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
         }
-
         public static string ChangeValue(string inputJsonText, string head, string originalName, object newValue)
         {
-            ExecOperation shAnswear = Parse(inputJsonText);
+            ExecOperation shAnswear = Parse<ExecOperation>(inputJsonText);
             ExecOperationContent shAnswearContent = shAnswear.GetAnswearContent(head);
             int originalNameIndex = shAnswearContent.GetIndexOriginalName(originalName);
             JObject doc = JObject.Parse(inputJsonText);

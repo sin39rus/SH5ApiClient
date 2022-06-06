@@ -32,19 +32,9 @@ namespace SH5ApiClient.Core.ServerOperations
                 return Allow.ElementAt(procIndex);
         }
 
-        /// <summary>Разобрать ответ SH</summary>
-        /// <param name="jsonText">Содержимое ответа (json)</param>
-        /// <returns>Ответ SH</returns>
-        public static AbleOperation Parse(string jsonText)
+        internal override void AfterParse()
         {
-            if (string.IsNullOrWhiteSpace(jsonText))
-                throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            AbleOperation? answear = JsonConvert.DeserializeObject<AbleOperation>(jsonText);
-            if (answear == null)
-                throw new ArgumentException("Ошибка разбора ответа SH.");
-            answear.CheckError();
 
-            return answear;
         }
     }
 }

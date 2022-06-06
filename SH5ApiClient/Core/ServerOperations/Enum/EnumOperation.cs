@@ -27,30 +27,17 @@ namespace SH5ApiClient.Core.ServerOperations
 
         public override string Uri => "sh5enum";
 
-        /// <summary>
-        /// Разобрать ответ SH
-        /// </summary>
-        /// <param name="jsonText">Содержимое ответа (json)</param>
-        /// <returns>Ответ SH</returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="Exception"></exception>
-        public static EnumOperation Parse(string jsonText)
-        {
-            if (string.IsNullOrWhiteSpace(jsonText))
-                throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            EnumOperation? answear = JsonConvert.DeserializeObject<EnumOperation>(jsonText);
-            if (answear == null)
-                throw new ArgumentException("Ошибка разбора ответа SH.");
-            answear.CheckError();
-            return answear;
-        }
-
         public Dictionary<int, string> GetValues()
         {
             Dictionary<int, string> values = new();
             for (int x = 0; x < Values.Count; x++)
                 values.Add(Idents[x], Values[x]);
             return values;
+        }
+
+        internal override void AfterParse()
+        {
+
         }
     }
 }

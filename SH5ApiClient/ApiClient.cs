@@ -15,7 +15,7 @@
             {
                 CorrsRequest corrsRequest = new(_connectionParam);
                 string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
-                ExecOperation answear = ExecOperation.Parse(jsonAnswear);
+                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("107");
                 return СorrespondentSH.GetСorrespondentsFromSHAnswear(content);
             }
@@ -28,8 +28,7 @@
         {
             AbleRequest ableRequest = new(_connectionParam, procedureNames);
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
-            AbleOperation answear = AbleOperation.Parse(jsonAnswear);
-            return answear;
+            return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
         public async Task<IEnumerable<InternalСorrespondentSH>> LoadInternalСorrespondentsAsync()
         {
@@ -37,7 +36,7 @@
             {
                 LEntitiesRequest corrsRequest = new(_connectionParam);
                 string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
-                ExecOperation answear = ExecOperation.Parse(jsonAnswear);
+                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("102");
                 return InternalСorrespondentSH.GetСorrespondentsFromSHAnswear(content);
             }
@@ -51,7 +50,7 @@
         {
             EnumValuesRequest request = new(_connectionParam, head, path);
             string jsonAnswear = await WebClient.WebPostAsync(request);
-            return EnumOperation.Parse(jsonAnswear).GetValues();
+            return OperationBase.Parse<EnumOperation>(jsonAnswear).GetValues();
         }
 
         public Task UpdateCorrespondentAsync(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
@@ -75,7 +74,7 @@
                 jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_CAcc", corAccount);
             string newRequest = ExecOperation.ConvertToRequest(jsonAnswear, "107", _connectionParam, "UpdCorr");
             string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam);
-            ExecOperation.Parse(newRequestResult);
+            OperationBase.Parse<ExecOperation>(newRequestResult);
         }
 
         public async Task<СorrespondentSH> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
@@ -90,14 +89,14 @@
                 CorAccount = corAccount
             };
             string result = await WebClient.WebPostAsync(corr);
-            var answear = ExecOperation.Parse(result);
+            var answear = OperationBase.Parse<ExecOperation>(result);
             return СorrespondentSH.Parse(answear.GetAnswearContent("107").GetValues()[0]);
 
         }
         public async Task<InfoOperation> GetSHServerInfoAsync()
         {
             string answear = await WebClient.WebPostAsync(new SHInfoRequest(_connectionParam));
-            return InfoOperation.Parse(answear);
+            return OperationBase.Parse<InfoOperation>(answear);
         }
     }
 }

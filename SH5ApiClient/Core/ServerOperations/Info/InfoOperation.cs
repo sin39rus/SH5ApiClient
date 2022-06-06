@@ -47,22 +47,9 @@ namespace SH5ApiClient.Core.ServerOperations
 
         public override string Uri => "sh5info";
 
-        /// <summary>
-        /// Разобрать ответ SH
-        /// </summary>
-        /// <param name="jsonText">Содержимое ответа (json)</param>
-        /// <returns>Ответ SH</returns>
-        /// <exception cref="ArgumentException"></exception>
-        /// <exception cref="Exception"></exception>
-        public static InfoOperation Parse(string jsonText)
+        internal override void AfterParse()
         {
-            if (string.IsNullOrWhiteSpace(jsonText))
-                throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            InfoOperation? answear = JsonConvert.DeserializeObject<InfoOperation>(jsonText);
-            if (answear == null)
-                throw new Exception("Ошибка разбора ответа SH.");
-            answear.CheckError();
-            return answear;
+
         }
     }
 }

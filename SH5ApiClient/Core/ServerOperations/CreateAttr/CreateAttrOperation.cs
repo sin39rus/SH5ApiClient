@@ -3,5 +3,10 @@
     internal class CreateAttrOperation : OperationBase
     {
         public override string Uri => "sh5CreateAttr";
+
+        internal override void AfterParse()
+        {
+
+        }
     }
 }
