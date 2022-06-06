@@ -74,7 +74,7 @@
             if (corAccount is not null)
                 jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_CAcc", corAccount);
             string newRequest = ExecOperation.ConvertToRequest(jsonAnswear, "107", _connectionParam, "UpdCorr");
-            string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam, ServerOperationType.sh5exec);
+            string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam);
             ExecOperation.Parse(newRequestResult);
         }
 

@@ -2,8 +2,10 @@
 
 namespace SH5ApiClient.Core.ServerOperations
 {
-    public abstract class OperationsBase
+    public abstract class OperationBase
     {
+        public abstract string Uri { get; }
+
         [JsonProperty("errorCode")]
         public int ErrorCode { get; set; }
 

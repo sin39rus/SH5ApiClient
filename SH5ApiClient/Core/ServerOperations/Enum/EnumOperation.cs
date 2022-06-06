@@ -2,7 +2,7 @@
 
 namespace SH5ApiClient.Core.ServerOperations
 {
-    internal sealed class EnumOperation : OperationsBase
+    internal sealed class EnumOperation : OperationBase
     {
         [JsonProperty("Version")]
         public string? Version { get; set; }
@@ -24,6 +24,8 @@ namespace SH5ApiClient.Core.ServerOperations
 
         [JsonProperty("values")]
         public List<string> Values { get; set; } = new();
+
+        public override string Uri => "sh5enum";
 
         /// <summary>
         /// Разобрать ответ SH

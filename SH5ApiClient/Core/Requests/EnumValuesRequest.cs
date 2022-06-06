@@ -12,7 +12,10 @@ namespace SH5ApiClient.Core.Requests
     {
         public string Head { private set; get; }
         public string Path { private set; get; }
-        public EnumValuesRequest(ConnectionParamSH5 connectionParam, string head, string path) : base(connectionParam, ServerOperationType.sh5enum)
+
+        public override OperationBase Operation => new EnumOperation();
+
+        public EnumValuesRequest(ConnectionParamSH5 connectionParam, string head, string path) : base(connectionParam)
         {
             if (string.IsNullOrWhiteSpace(head))
                 throw new ArgumentException($"\"{nameof(head)}\" не может быть пустым или содержать только пробел.", nameof(head));

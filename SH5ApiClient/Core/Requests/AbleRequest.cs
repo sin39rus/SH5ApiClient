@@ -15,7 +15,7 @@ namespace SH5ApiClient.Core.Requests
         private readonly IEnumerable<string> procList;
 #pragma warning restore IDE0052
 
-        public AbleRequest(ConnectionParamSH5 connectionParamSH5, IEnumerable<string> procNameList) : base(connectionParamSH5, ServerOperationType.sh5able)
+        public AbleRequest(ConnectionParamSH5 connectionParamSH5, IEnumerable<string> procNameList) : base(connectionParamSH5)
         {
             if (procNameList is null)
                 throw new ArgumentNullException(nameof(procNameList));
@@ -23,6 +23,8 @@ namespace SH5ApiClient.Core.Requests
                 throw new ArgumentException("Список процедур пуст.");
             procList = procNameList;
         }
+
+        public override OperationBase Operation => new AbleOperation();
 
         public override string CreateJsonRequest() =>
             JsonConvert.SerializeObject(this);

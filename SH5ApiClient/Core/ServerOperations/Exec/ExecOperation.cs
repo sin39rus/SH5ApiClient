@@ -6,12 +6,10 @@ namespace SH5ApiClient.Core.ServerOperations
     /// <summary>
     /// Ответ SH
     /// </summary>
-    internal sealed class ExecOperation : OperationsBase
+    public sealed class ExecOperation : OperationBase
     {
         //Словарь заголовков данных
         private Dictionary<string, int> _headersDict = new();
-
-        private ExecOperation() { }
 
         /// <summary>
         /// Версия SH API
@@ -42,6 +40,8 @@ namespace SH5ApiClient.Core.ServerOperations
         /// </summary>
         [JsonProperty("shTable")]
         public ExecOperationContent[] Content { get; private set; } = Array.Empty<ExecOperationContent>();
+
+        public override string Uri => "sh5exec";
 
         /// <summary>
         /// Получение блока данных

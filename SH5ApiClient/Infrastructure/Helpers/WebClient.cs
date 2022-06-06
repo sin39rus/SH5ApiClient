@@ -27,10 +27,10 @@ namespace SH5ApiClient.Infrastructure.Helpers
                 throw new TaskCanceledException($"Запрос был отменен, так как истекло время ожидания {client.Timeout.Seconds} секунды.");
             }
         }
-        public static Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam, ServerOperationType serverOperationType)
+        public static Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam)
         {
 
-            string url = $"http://{connectionParam.Address}:{connectionParam.Port}/api/{serverOperationType}";
+            string url = $"http://{connectionParam.Address}:{connectionParam.Port}/api/sh5exec";
             return WebPostInternalAsync(url, request);
         }
         public static Task<string> WebPostAsync(RequestBase request)
@@ -38,7 +38,7 @@ namespace SH5ApiClient.Infrastructure.Helpers
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            string url = $"http://{request.ConnectionParam.Address}:{request.ConnectionParam.Port}/api/{request.ServerOperationType}";
+            string url = $"http://{request.ConnectionParam.Address}:{request.ConnectionParam.Port}/api/{request.Operation.Uri}";
             string jsonRequest = request.CreateJsonRequest();
             return WebPostInternalAsync(url, jsonRequest);
         }

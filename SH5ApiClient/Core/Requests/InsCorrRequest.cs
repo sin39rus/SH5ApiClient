@@ -7,7 +7,7 @@ namespace SH5ApiClient.Core.Requests
         private string inn;
         private CorrType corrType = CorrType.CorrType3;
 
-        public InsCorrRequest(ConnectionParamSH5 connectionParam, string name, string inn) : base("InsCorr", connectionParam, ServerOperationType.sh5exec)
+        public InsCorrRequest(ConnectionParamSH5 connectionParam, string name, string inn) : base("InsCorr", connectionParam)
         {
             Name = name;
             INN = inn;
@@ -79,6 +79,8 @@ namespace SH5ApiClient.Core.Requests
         /// </summary>
         [OriginalName("34\\Bank_PAcc")]
         public string? BankAccount { set; get; }
+
+        public override OperationBase Operation => new ExecOperation();
 
         public override string CreateJsonRequest()
         {

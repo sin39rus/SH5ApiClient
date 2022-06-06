@@ -3,11 +3,10 @@
 namespace SH5ApiClient.Core.ServerOperations
 {
     //ToDo написать тесты
-    internal sealed class StructOperation : OperationsBase
+    internal sealed class StructOperation : OperationBase
     {
         //Словарь заголовков данных
         private Dictionary<string, int> _headersDict = new();
-        private StructOperation() { }
 
         [JsonProperty("Version")]
         public string Version { get; private set; }
@@ -23,6 +22,9 @@ namespace SH5ApiClient.Core.ServerOperations
 
         [JsonProperty("shTable")]
         public StructOperationContent[] Content { get; private set; }
+
+        public override string Uri => "sh5struct";
+
         public static StructOperation Parse(string jsonText)
         {
             if (string.IsNullOrWhiteSpace(jsonText))

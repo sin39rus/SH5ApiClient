@@ -6,7 +6,7 @@ namespace SH5ApiClient.Core.ServerOperations
     /// <summary>
     /// Блок данных
     /// </summary>
-    internal sealed class ExecOperationContent
+    public sealed class ExecOperationContent
     {
         //Данные блока
         private Dictionary<string, string>[] _values = Array.Empty<Dictionary<string, string>>();

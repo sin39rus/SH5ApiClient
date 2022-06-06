@@ -6,9 +6,11 @@ namespace SH5ApiClient.Core.Requests
     {
         //Имя процедуры
         private const string procName = "Corrs";
-        public CorrsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam, ServerOperationType.sh5exec)
+        public CorrsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam)
         {
         }
+
+        public override OperationBase Operation => new ExecOperation();
 
         public override string CreateJsonRequest()
         {

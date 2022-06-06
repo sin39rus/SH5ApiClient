@@ -28,7 +28,9 @@ namespace SH5ApiClient.Core.Requests
         [OriginalName("6")]
         public GDocsRequestFilter? GDocsRequestFilter { get; set; }
 
-        public GDocsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam, ServerOperationType.sh5exec) { }
+        public override OperationBase Operation => new ExecOperation();
+
+        public GDocsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam) { }
 
         public override string CreateJsonRequest()
         {

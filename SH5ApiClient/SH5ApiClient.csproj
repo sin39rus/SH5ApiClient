@@ -16,7 +16,6 @@
   <ItemGroup>
     <Folder Include="Core\ServerOperations\Pass\" />
     <Folder Include="Core\ServerOperations\Lic\" />
-    <Folder Include="Core\ServerOperations\CreateAttr\" />
     <Folder Include="Core\ServerOperations\User\" />
     <Folder Include="Core\ServerOperations\Role\" />
   </ItemGroup>

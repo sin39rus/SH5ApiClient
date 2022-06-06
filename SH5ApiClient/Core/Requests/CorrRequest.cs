@@ -8,7 +8,9 @@ namespace SH5ApiClient.Core.Requests
         [OriginalName("4")]
         public string Guid { private set; get; }
 
-        public CorrRequest(ConnectionParamSH5 connectionParamSH5, string guid) : base("Corr", connectionParamSH5, ServerOperationType.sh5exec)
+        public override OperationBase Operation => new ExecOperation();
+
+        public CorrRequest(ConnectionParamSH5 connectionParamSH5, string guid) : base("Corr", connectionParamSH5)
         {
             if(System.Guid.TryParse(guid, out Guid value))
             {

@@ -9,14 +9,14 @@ namespace SH5ApiClient.Core.Requests
         [JsonIgnore]
         public ConnectionParamSH5 ConnectionParam { private set; get; }
         [JsonIgnore]
-        public ServerOperationType ServerOperationType { private set; get; }
+        public abstract OperationBase Operation { get; }
 
         /// <summary>
         /// Запрос в SH API
         /// </summary>
         /// <param name="procName">Имя выполняемой процедуры</param>
         /// <exception cref="ArgumentException"></exception>
-        protected RequestBase(string procName, ConnectionParamSH5 connectionParam, ServerOperationType operationType) : this(connectionParam, operationType)
+        protected RequestBase(string procName, ConnectionParamSH5 connectionParam) : this(connectionParam)
         {
             if (string.IsNullOrEmpty(procName))
                 throw new ArgumentException($"\"{nameof(procName)}\" не может быть пустым или содержать только пробел.", nameof(procName));
@@ -29,10 +29,9 @@ namespace SH5ApiClient.Core.Requests
         /// <param name="userName">Имя пользователя</param>
         /// <param name="password">Пароль пользователя</param>
         /// <exception cref="ArgumentException"></exception>
-        protected RequestBase(ConnectionParamSH5 connectionParam, ServerOperationType operationType)
+        protected RequestBase(ConnectionParamSH5 connectionParam)
         {
             ConnectionParam = connectionParam;
-            ServerOperationType = operationType;
             UserName = connectionParam.UserName;
             Password = connectionParam.Password;
         }

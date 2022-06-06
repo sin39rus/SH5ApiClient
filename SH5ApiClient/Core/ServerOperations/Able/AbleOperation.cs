@@ -3,10 +3,8 @@
 namespace SH5ApiClient.Core.ServerOperations
 {
     /// <summary>Запрос наличия прав для выполнения процедуры.</summary>
-    public sealed class AbleOperation : OperationsBase
+    public sealed class AbleOperation : OperationBase
     {
-        private AbleOperation() { }
-
         [JsonProperty("Version")]
         public string? Version { get; private set; }
 
@@ -18,6 +16,8 @@ namespace SH5ApiClient.Core.ServerOperations
 
         [JsonProperty("allow")]
         public IEnumerable<bool> Allow { get; private set; } = Array.Empty<bool>();
+
+        public override string Uri => "sh5able";
 
         /// <summary>Проверить разрешение по имени процедуры.</summary>
         /// <param name="procedureName">Имя процедуры</param>

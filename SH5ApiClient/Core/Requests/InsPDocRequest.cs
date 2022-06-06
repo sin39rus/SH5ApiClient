@@ -76,8 +76,8 @@ namespace SH5ApiClient.Core.Requests
         /// Информация об оплате
         /// </summary>
         public List<PaymentInfo> Payments { set; get; } = new();
-
-        public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, СorrespondentSH correspondent, InternalСorrespondentSH internalСorrespondent) : base(connectionParam, ServerOperationType.sh5exec)
+        public override OperationBase Operation => new ExecOperation();
+        public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, СorrespondentSH correspondent, InternalСorrespondentSH internalСorrespondent) : base(connectionParam)
         {
             DocumentDate = documentDate;
             PaymentType = paymentType;

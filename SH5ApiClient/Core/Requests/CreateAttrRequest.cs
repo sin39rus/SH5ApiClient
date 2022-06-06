@@ -10,7 +10,7 @@ namespace SH5ApiClient.Core.Requests
 {
     public class CreateAttrRequest : RequestBase
     {
-        public CreateAttrRequest(string bob, string ident, string caption, SHAttributeType sHAttributeType, ConnectionParamSH5 connectionParamSH5) : base(connectionParamSH5, ServerOperationType.sh5CreateAttr)
+        public CreateAttrRequest(string bob, string ident, string caption, SHAttributeType sHAttributeType, ConnectionParamSH5 connectionParamSH5) : base(connectionParamSH5)
         {
             Bob = bob ?? throw new ArgumentNullException(nameof(bob));
             Ident = ident ?? throw new ArgumentNullException(nameof(ident));
@@ -43,6 +43,9 @@ namespace SH5ApiClient.Core.Requests
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty("type")]
         public SHAttributeType SHAttributeType { get; set; }
+
+        public override OperationBase Operation => new CreateAttrOperation();
+
         public override string CreateJsonRequest() =>
             JsonConvert.SerializeObject(this);
     }

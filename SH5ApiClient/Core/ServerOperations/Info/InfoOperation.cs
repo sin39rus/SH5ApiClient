@@ -2,10 +2,8 @@
 
 namespace SH5ApiClient.Core.ServerOperations
 {
-    public sealed class InfoOperation : OperationsBase
+    public sealed class InfoOperation : OperationBase
     {
-        private InfoOperation() { }
-
         /// <summary>
         /// Версия API
         /// </summary>
@@ -46,6 +44,8 @@ namespace SH5ApiClient.Core.ServerOperations
         /// </summary>
         [JsonProperty("DB")]
         public InfoOperationContent? DBInfo { get; set; }
+
+        public override string Uri => "sh5info";
 
         /// <summary>
         /// Разобрать ответ SH

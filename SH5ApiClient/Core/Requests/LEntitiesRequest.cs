@@ -6,7 +6,8 @@ namespace SH5ApiClient.Core.Requests
     {
         //Имя процедуры
         private const string procName = "LEntities";
-        public LEntitiesRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam, ServerOperationType.sh5exec)
+        public override OperationBase Operation => new ExecOperation();
+        public LEntitiesRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam)
         {
         }
 

@@ -6,7 +6,8 @@ namespace SH5ApiClient.Core.Requests
     {
         private readonly int _rid;
         private readonly string _guid;
-        public PDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, int rid, string guid) : base(connectionParam, ServerOperationType.sh5exec)
+        public override OperationBase Operation => new ExecOperation();
+        public PDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, int rid, string guid) : base(connectionParam)
         {
             if (!Guid.TryParse(guid, out Guid _))
                 throw new ArgumentException("Не корректное значение параметра guid");

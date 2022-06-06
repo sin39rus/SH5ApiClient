@@ -6,7 +6,8 @@ namespace SH5ApiClient.Core.Requests
     {
         //Имя процедуры
         private const string procName = "PDocs";
-        public PDocsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam, ServerOperationType.sh5exec)
+        public override OperationBase Operation => new ExecOperation();
+        public PDocsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam)
         {
         }
         public override string CreateJsonRequest()
