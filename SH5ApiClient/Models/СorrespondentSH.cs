@@ -1,6 +1,4 @@
-﻿
-
-namespace SH5ApiClient.Models
+﻿namespace SH5ApiClient.Models
 {
     /// <summary>
     /// Корреспондент
@@ -37,7 +35,7 @@ namespace SH5ApiClient.Models
         /// </summary>
         [OriginalName("32")]
         public CorrTypeEx? CorrTypeEx { set; get; }
-        public static IEnumerable<СorrespondentSH> GetСorrespondentsFromSHAnswear(SHExecAnswearContent answear)
+        internal static IEnumerable<СorrespondentSH> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
         {
             foreach (Dictionary<string, string>? value in answear.GetValues())
             {

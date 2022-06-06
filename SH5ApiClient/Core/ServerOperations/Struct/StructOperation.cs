@@ -1,18 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
     //ToDo написать тесты
-    public class SHStructAnswear : SHAnswearBase
+    internal sealed class StructOperation : OperationsBase
     {
         //Словарь заголовков данных
         private Dictionary<string, int> _headersDict = new();
-        private SHStructAnswear() { }
+        private StructOperation() { }
 
         [JsonProperty("Version")]
         public string Version { get; private set; }
@@ -27,14 +22,14 @@ namespace SH5ApiClient.Core.Answears
         public string ActionType { get; private set; }
 
         [JsonProperty("shTable")]
-        public SHStructAnswearContent[] Content { get; private set; }
-        public static SHStructAnswear Parse(string jsonText)
+        public StructOperationContent[] Content { get; private set; }
+        public static StructOperation Parse(string jsonText)
         {
             if (string.IsNullOrWhiteSpace(jsonText))
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            SHStructAnswear? answear = JsonConvert.DeserializeObject<SHStructAnswear>(jsonText);
+            StructOperation? answear = JsonConvert.DeserializeObject<StructOperation>(jsonText);
             if (answear == null)
-                throw new SHException("Ошибка разбора ответа SH.");
+                throw new ServerOperationsException("Ошибка разбора ответа SH.");
             answear._headersDict = new(answear.Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
             answear.CheckError();
             return answear;
@@ -45,7 +40,7 @@ namespace SH5ApiClient.Core.Answears
         /// <param name="dataHeader">Имя заголовка данных</param>
         /// <returns>Блок данных</returns>
         /// <exception cref="ArgumentException"></exception>
-        public SHStructAnswearContent GetAnswearContent(string dataHeader)
+        public StructOperationContent GetAnswearContent(string dataHeader)
         {
             if (!_headersDict.ContainsKey(dataHeader))
                 throw new ArgumentException($"Блок данных с заголовком \"{dataHeader}\" отсутсвует.", nameof(dataHeader));

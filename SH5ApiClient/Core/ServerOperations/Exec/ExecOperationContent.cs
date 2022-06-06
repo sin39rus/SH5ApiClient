@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
     /// <summary>
     /// Блок данных
     /// </summary>
-    public sealed class SHExecAnswearContent
+    internal sealed class ExecOperationContent
     {
         //Данные блока
         private Dictionary<string, string>[] _values = Array.Empty<Dictionary<string, string>>();
@@ -55,7 +55,7 @@ namespace SH5ApiClient.Core.Answears
         /// <param name="originalName"></param>
         /// <returns>Индекс параметра OriginalName</returns>
         public int GetIndexOriginalName(string originalName)
-        { 
+        {
             int index = Original.ToList().IndexOf(originalName);
             if (index == -1)
                 throw new Exception($"Параметр {originalName} не найден.");

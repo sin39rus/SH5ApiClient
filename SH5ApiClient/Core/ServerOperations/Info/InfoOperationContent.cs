@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
     /// <summary>
     /// Информация о базе данных
     /// </summary>
-    public sealed class SHDBInfo
+    public sealed class InfoOperationContent
     {
         /// <summary>
         /// Идентификатор

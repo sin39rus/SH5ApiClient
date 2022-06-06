@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.Runtime.Serialization;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
-    public abstract class SHAnswearBase
+    public abstract class OperationsBase
     {
         [JsonProperty("errorCode")]
         public int ErrorCode { get; set; }
@@ -13,7 +12,7 @@ namespace SH5ApiClient.Core.Answears
         internal void CheckError()
         {
             if (ErrorCode != 0)
-                throw new SHException($"Запрос в API SH закончился ошибкой: {ErrMessage}");
+                throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage}");
         }
     }
 }

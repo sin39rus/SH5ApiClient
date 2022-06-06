@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
-    public sealed class SHInfoAnswear : SHAnswearBase
+    public sealed class InfoOperation : OperationsBase
     {
-        private SHInfoAnswear() { }
-        
+        private InfoOperation() { }
+
         /// <summary>
         /// Версия API
         /// </summary>
@@ -45,7 +45,7 @@ namespace SH5ApiClient.Core.Answears
         /// Информация о базе данных
         /// </summary>
         [JsonProperty("DB")]
-        public SHDBInfo? DBInfo { get; set; }
+        public InfoOperationContent? DBInfo { get; set; }
 
         /// <summary>
         /// Разобрать ответ SH
@@ -54,11 +54,11 @@ namespace SH5ApiClient.Core.Answears
         /// <returns>Ответ SH</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="Exception"></exception>
-        public static SHInfoAnswear Parse(string jsonText)
+        public static InfoOperation Parse(string jsonText)
         {
             if (string.IsNullOrWhiteSpace(jsonText))
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            SHInfoAnswear? answear = JsonConvert.DeserializeObject<SHInfoAnswear>(jsonText);
+            InfoOperation? answear = JsonConvert.DeserializeObject<InfoOperation>(jsonText);
             if (answear == null)
                 throw new Exception("Ошибка разбора ответа SH.");
             answear.CheckError();

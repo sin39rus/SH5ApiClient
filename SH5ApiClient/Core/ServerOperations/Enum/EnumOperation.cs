@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
-    public sealed class SHEnumAnswear : SHAnswearBase
+    internal sealed class EnumOperation : OperationsBase
     {
         [JsonProperty("Version")]
         public string? Version { get; set; }
@@ -37,11 +32,11 @@ namespace SH5ApiClient.Core.Answears
         /// <returns>Ответ SH</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="Exception"></exception>
-        public static SHEnumAnswear Parse(string jsonText)
+        public static EnumOperation Parse(string jsonText)
         {
             if (string.IsNullOrWhiteSpace(jsonText))
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            SHEnumAnswear? answear = JsonConvert.DeserializeObject<SHEnumAnswear>(jsonText);
+            EnumOperation? answear = JsonConvert.DeserializeObject<EnumOperation>(jsonText);
             if (answear == null)
                 throw new ArgumentException("Ошибка разбора ответа SH.");
             answear.CheckError();
@@ -54,20 +49,6 @@ namespace SH5ApiClient.Core.Answears
             for (int x = 0; x < Values.Count; x++)
                 values.Add(Idents[x], Values[x]);
             return values;
-        }
-        public Dictionary<string, int> GetBankAccounts(char splitChar)
-        {
-            Dictionary<string, int> accaunts = new();
-            for (int x = 0; x < Values.Count; x++)
-            {
-                if (Values[x].Split(splitChar).Length == 2)
-                {
-                    string bankAccaunt = Values[x].Split(splitChar)[1];
-                    if (!string.IsNullOrWhiteSpace(bankAccaunt))
-                        accaunts.Add(Values[x].Split(splitChar)[1], Idents[x]);
-                }
-            }
-            return accaunts;
         }
     }
 }

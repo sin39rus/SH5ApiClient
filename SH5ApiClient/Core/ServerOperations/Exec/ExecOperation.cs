@@ -1,18 +1,17 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SH5ApiClient.Models;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
     /// <summary>
     /// Ответ SH
     /// </summary>
-    public sealed class SHExecAnswear : SHAnswearBase
+    internal sealed class ExecOperation : OperationsBase
     {
         //Словарь заголовков данных
         private Dictionary<string, int> _headersDict = new();
 
-        private SHExecAnswear() { }
+        private ExecOperation() { }
 
         /// <summary>
         /// Версия SH API
@@ -42,7 +41,7 @@ namespace SH5ApiClient.Core.Answears
         /// Содержимое ответа
         /// </summary>
         [JsonProperty("shTable")]
-        public SHExecAnswearContent[] Content { get; private set; } = Array.Empty<SHExecAnswearContent>();
+        public ExecOperationContent[] Content { get; private set; } = Array.Empty<ExecOperationContent>();
 
         /// <summary>
         /// Получение блока данных
@@ -50,7 +49,7 @@ namespace SH5ApiClient.Core.Answears
         /// <param name="dataHeader">Имя заголовка данных</param>
         /// <returns>Блок данных</returns>
         /// <exception cref="ArgumentException"></exception>
-        public SHExecAnswearContent GetAnswearContent(string dataHeader)
+        public ExecOperationContent GetAnswearContent(string dataHeader)
         {
             if (!_headersDict.ContainsKey(dataHeader))
                 throw new ArgumentException($"Блок данных с заголовком \"{dataHeader}\" отсутсвует.", nameof(dataHeader));
@@ -64,11 +63,11 @@ namespace SH5ApiClient.Core.Answears
         /// <returns>Ответ SH</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="Exception"></exception>
-        public static SHExecAnswear Parse(string jsonText)
+        public static ExecOperation Parse(string jsonText)
         {
             if (string.IsNullOrWhiteSpace(jsonText))
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            SHExecAnswear? answear = JsonConvert.DeserializeObject<SHExecAnswear>(jsonText);
+            ExecOperation? answear = JsonConvert.DeserializeObject<ExecOperation>(jsonText);
             if (answear == null)
                 throw new ArgumentException("Ошибка разбора ответа SH.");
             answear._headersDict = new(answear.Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
@@ -78,8 +77,8 @@ namespace SH5ApiClient.Core.Answears
 
         public static string ChangeValue(string inputJsonText, string head, string originalName, object newValue)
         {
-            SHExecAnswear shAnswear = Parse(inputJsonText);
-            SHExecAnswearContent shAnswearContent = shAnswear.GetAnswearContent(head);
+            ExecOperation shAnswear = Parse(inputJsonText);
+            ExecOperationContent shAnswearContent = shAnswear.GetAnswearContent(head);
             int originalNameIndex = shAnswearContent.GetIndexOriginalName(originalName);
             JObject doc = JObject.Parse(inputJsonText);
 
@@ -95,7 +94,7 @@ namespace SH5ApiClient.Core.Answears
             value?.Replace(new JValue(newValue));
             return doc.ToString();
         }
-        public static string ConvertToRequest(string inputJsonText,string head, ConnectionParamSH5 connectionParam, string procName)
+        public static string ConvertToRequest(string inputJsonText, string head, ConnectionParamSH5 connectionParam, string procName)
         {
             JObject doc = JObject.Parse(inputJsonText);
             if (doc["shTable"] is null)

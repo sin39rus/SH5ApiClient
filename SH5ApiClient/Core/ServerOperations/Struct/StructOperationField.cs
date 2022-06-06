@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 
-namespace SH5ApiClient.Core.Answears
+namespace SH5ApiClient.Core.ServerOperations
 {
     /// <summary>
     /// Поле
     /// </summary>
-    public class SHStructAnswearField
+    internal sealed class StructOperationField
     {
-        private SHStructAnswearField() { }
+        private StructOperationField() { }
 
         /// <summary>
         /// Имя

@@ -1,5 +1,4 @@
-﻿
-namespace SH5ApiClient.Models
+﻿namespace SH5ApiClient.Models
 {
     public class InternalСorrespondentSH
     {
@@ -24,7 +23,7 @@ namespace SH5ApiClient.Models
         [OriginalName("4")]
         public string? GUID { set; get; }
 
-        public static IEnumerable<InternalСorrespondentSH> GetСorrespondentsFromSHAnswear(SHExecAnswearContent answear)
+        internal static IEnumerable<InternalСorrespondentSH> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
         {
             foreach (var value in answear.GetValues())
             {
