@@ -16,10 +16,10 @@ namespace SH5ApiClient.Core.ServerOperations
             if (ErrorCode != 0)
                 throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage}");
         }
+        /// <summary>Метод выполняемый после операции разбора.</summary>
         internal abstract void AfterParse();
-        /// <summary>
-        /// Разобрать ответ SH
-        /// </summary>
+
+        /// <summary>Разобрать ответ SH</summary>
         /// <param name="jsonText">Содержимое ответа (json)</param>
         /// <returns>Ответ SH</returns>
         /// <exception cref="ArgumentException"></exception>

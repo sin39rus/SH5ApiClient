@@ -3,12 +3,10 @@
     public class ApiClient : IApiClient
     {
         private readonly ConnectionParamSH5 _connectionParam;
-
         public ApiClient(ConnectionParamSH5 connectionParamSH5)
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
         }
-
         public async Task<IEnumerable<СorrespondentSH>> LoadCorrespondentsAsync()
         {
             try
@@ -45,21 +43,18 @@
                 throw new ApiClientException("Ошибка загрузки справочника внутренних корреспондентов из SH.", ex);
             }
         }
-
         public async Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path)
         {
             EnumValuesRequest request = new(_connectionParam, head, path);
             string jsonAnswear = await WebClient.WebPostAsync(request);
             return OperationBase.Parse<EnumOperation>(jsonAnswear).GetValues();
         }
-
         public Task UpdateCorrespondentAsync(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
         {
             if (string.IsNullOrWhiteSpace(guid) && !Guid.TryParse(guid, out Guid _))
                 throw new ArgumentException($"\"{nameof(guid)}\" не может быть пустым или содержать только пробел.", nameof(guid));
             return UpdateCorrespondentAsyncInternal(guid, bankName, bankAccount, bik, corAccount);
         }
-
         private async Task UpdateCorrespondentAsyncInternal(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
         {
             CorrRequest request = new(_connectionParam, guid);
@@ -76,7 +71,6 @@
             string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam);
             OperationBase.Parse<ExecOperation>(newRequestResult);
         }
-
         public async Task<СorrespondentSH> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
         {
             InsCorrRequest corr = new(_connectionParam, name, inn)

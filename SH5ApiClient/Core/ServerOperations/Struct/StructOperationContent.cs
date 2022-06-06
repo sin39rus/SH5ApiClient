@@ -4,7 +4,7 @@ namespace SH5ApiClient.Core.ServerOperations
 {
     internal sealed class StructOperationContent
     {
-        private StructOperationContent() { }
+        private StructOperationContent() { Head = string.Empty; }
 
         [JsonProperty("head")]
         public string Head { get; private set; }
@@ -13,7 +13,7 @@ namespace SH5ApiClient.Core.ServerOperations
         public bool SingleRow { get; private set; }
 
         [JsonProperty("fields")]
-        public StructOperationField[] Fields { get; private set; }
+        public StructOperationField[] Fields { get; private set; } = Array.Empty<StructOperationField>();
 
         public StructOperationField GetFieldInfo(string fieldName) =>
             Fields.Single(t => t.Name == fieldName);

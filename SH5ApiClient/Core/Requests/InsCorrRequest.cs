@@ -4,10 +4,11 @@ namespace SH5ApiClient.Core.Requests
 {
     public class InsCorrRequest : RequestBase
     {
-        private string inn;
+        private string _inn = string.Empty;
         private CorrType corrType = CorrType.CorrType3;
-
-        public InsCorrRequest(ConnectionParamSH5 connectionParam, string name, string inn) : base("InsCorr", connectionParam)
+        //Имя процедуры
+        private const string procName = "InsCorr";
+        public InsCorrRequest(ConnectionParamSH5 connectionParam, string name, string inn) : base(procName, connectionParam)
         {
             Name = name;
             INN = inn;
@@ -24,13 +25,13 @@ namespace SH5ApiClient.Core.Requests
         [OriginalName("2")]
         public string INN
         {
-            get => inn; set
+            get => _inn; set
             {
                 if (value is null || !value.IsINN())
                     throw new ArgumentException($"Не корректный ИНН \"{value}\".");
                 if (value.Length == 12)
                     CorrTypeEx = CorrTypeEx.CorrTypeEx1;
-                inn = value;
+                _inn = value;
             }
         }
         /// <summary>

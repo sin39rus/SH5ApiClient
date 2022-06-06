@@ -9,19 +9,19 @@ namespace SH5ApiClient.Core.ServerOperations
         private Dictionary<string, int> _headersDict = new();
 
         [JsonProperty("Version")]
-        public string Version { get; private set; }
+        public string? Version { get; private set; }
 
         [JsonProperty("UserName")]
-        public string UserName { get; private set; }
+        public string? UserName { get; private set; }
 
         [JsonProperty("actionName")]
-        public string ActionName { get; private set; }
+        public string? ActionName { get; private set; }
 
         [JsonProperty("actionType")]
-        public string ActionType { get; private set; }
+        public string? ActionType { get; private set; }
 
         [JsonProperty("shTable")]
-        public StructOperationContent[] Content { get; private set; }
+        public StructOperationContent[] Content { get; private set; } = Array.Empty<StructOperationContent>();
 
         public override string Uri => "sh5struct";
         internal override void AfterParse()

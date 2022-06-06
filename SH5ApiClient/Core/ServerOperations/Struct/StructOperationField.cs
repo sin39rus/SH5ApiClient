@@ -13,12 +13,12 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Имя
         /// </summary>
         [JsonProperty("path")]
-        public string Name { get; private set; }
+        public string? Name { get; private set; }
         /// <summary>
         /// Тип данных
         /// </summary>
         [JsonProperty("type")]
-        public string Type { get; private set; }
+        public string? Type { get; private set; }
         /// <summary>
         /// Размер атрибута
         /// </summary>
@@ -33,7 +33,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Описание
         /// </summary>
         [JsonProperty("caption")]
-        public string Caption { get; private set; }
+        public string? Caption { get; private set; }
     }
 
 }
