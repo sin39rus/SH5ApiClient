@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient
+﻿using SH5ApiClient.Models.DTO;
+
+namespace SH5ApiClient
 {
     public class ApiClient : IApiClient
     {
@@ -7,7 +9,7 @@
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
         }
-        public async Task<IEnumerable<СorrespondentSH>> LoadCorrespondentsAsync()
+        public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
         {
             try
             {
@@ -15,7 +17,7 @@
                 string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("107");
-                return СorrespondentSH.GetСorrespondentsFromSHAnswear(content);
+                return Сorrespondent.GetСorrespondentsFromSHAnswear(content);
             }
             catch (Exception ex)
             {
@@ -28,7 +30,7 @@
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task<IEnumerable<InternalСorrespondentSH>> LoadInternalСorrespondentsAsync()
+        public async Task<IEnumerable<InternalСorrespondent>> LoadInternalСorrespondentsAsync()
         {
             try
             {
@@ -36,7 +38,7 @@
                 string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("102");
-                return InternalСorrespondentSH.GetСorrespondentsFromSHAnswear(content);
+                return InternalСorrespondent.GetСorrespondentsFromSHAnswear(content);
             }
             catch (Exception ex)
             {
@@ -71,7 +73,7 @@
             string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam);
             OperationBase.Parse<ExecOperation>(newRequestResult);
         }
-        public async Task<СorrespondentSH> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
+        public async Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
         {
             InsCorrRequest corr = new(_connectionParam, name, inn)
             {
@@ -84,7 +86,7 @@
             };
             string result = await WebClient.WebPostAsync(corr);
             var answear = OperationBase.Parse<ExecOperation>(result);
-            return СorrespondentSH.Parse(answear.GetAnswearContent("107").GetValues()[0]);
+            return Сorrespondent.Parse(answear.GetAnswearContent("107").GetValues()[0]);
 
         }
         public async Task<InfoOperation> GetSHServerInfoAsync()

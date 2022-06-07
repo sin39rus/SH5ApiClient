@@ -1,33 +1,29 @@
-﻿namespace SH5ApiClient.Models
+﻿namespace SH5ApiClient.Models.DTO
 {
-    public class InternalСorrespondentSH
+    /// <summary>Внутренний корреспондент SH</summary>
+    public sealed class InternalСorrespondent
     {
-        /// <summary>
-        /// Rid
-        /// </summary>
+        /// <summary>Rid</summary>
         [OriginalName("1")]
         public int Rid { set; get; }
-        /// <summary>
-        /// Name
-        /// </summary>
+
+        /// <summary>Name</summary>
         [OriginalName("3")]
         public string? Name { set; get; }
-        /// <summary>
-        /// ИНН
-        /// </summary>
+
+        /// <summary>ИНН</summary>
         [OriginalName("2")]
         public string? INN { set; get; }
-        /// <summary>
-        /// Giud
-        /// </summary>
+
+        /// <summary>GUID</summary>
         [OriginalName("4")]
         public string? GUID { set; get; }
 
-        internal static IEnumerable<InternalСorrespondentSH> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
+        internal static IEnumerable<InternalСorrespondent> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
         {
             foreach (var value in answear.GetValues())
             {
-                yield return new InternalСorrespondentSH
+                yield return new InternalСorrespondent
                 {
                     Rid = int.TryParse(value["1"], out int rid) ? rid : 0,
                     Name = value["3"],

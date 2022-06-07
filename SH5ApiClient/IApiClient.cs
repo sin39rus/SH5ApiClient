@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient
+﻿using SH5ApiClient.Models.DTO;
+
+namespace SH5ApiClient
 {
     public interface IApiClient
     {
@@ -13,7 +15,7 @@
         /// <param name="bankName">Наименование банка</param>
         /// <param name="corAccount">Корр. счет</param>
         /// <param name="corrType">Тип корреспондента SH</param>
-        Task<СorrespondentSH> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
+        Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
 
         /// <summary>Запросить значения перечислимого атрибута.</summary>
         /// <param name="head">идентификатор таблицы</param>
@@ -22,10 +24,10 @@
         Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path);
 
         /// <summary>Загрузка справочника корреспондентов</summary>
-        Task<IEnumerable<СorrespondentSH>> LoadCorrespondentsAsync();
+        Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync();
 
         /// <summary>Загрузка справочника внутренних корреспондентов</summary>
-        Task<IEnumerable<InternalСorrespondentSH>> LoadInternalСorrespondentsAsync();
+        Task<IEnumerable<InternalСorrespondent>> LoadInternalСorrespondentsAsync();
 
         /// <summary>Обновление банковских реквизитов у корреспондента</summary>
         /// <param name="guid">Guid обновляемого корреспондента</param>

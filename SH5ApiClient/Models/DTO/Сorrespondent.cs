@@ -1,9 +1,7 @@
-﻿namespace SH5ApiClient.Models
+﻿namespace SH5ApiClient.Models.DTO
 {
-    /// <summary>
-    /// Корреспондент
-    /// </summary>
-    public class СorrespondentSH
+    /// <summary>Корреспондент SH</summary>
+    public sealed class Сorrespondent
     {
         /// <summary>
         /// Rid
@@ -35,7 +33,7 @@
         /// </summary>
         [OriginalName("32")]
         public CorrTypeEx? CorrTypeEx { set; get; }
-        internal static IEnumerable<СorrespondentSH> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
+        internal static IEnumerable<Сorrespondent> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
         {
             foreach (Dictionary<string, string>? value in answear.GetValues())
             {
@@ -43,9 +41,9 @@
             }
         }
 
-        public static СorrespondentSH Parse(Dictionary<string, string> value)
+        public static Сorrespondent Parse(Dictionary<string, string> value)
         {
-            return new СorrespondentSH
+            return new Сorrespondent
             {
                 Rid = int.TryParse(value["1"], out int rid) ? rid : 0,
                 Name = value["3"],

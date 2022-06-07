@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Models.DTO;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -41,12 +42,12 @@ namespace SH5ApiClient.Core.Requests
         /// Внешний корреспондент
         /// </summary>
         [OriginalName("105\\1")]
-        public СorrespondentSH Сorrespondent { private set; get; }
+        public Сorrespondent Сorrespondent { private set; get; }
         /// <summary>
         /// Собственное юридическое лицо
         /// </summary>
         [OriginalName("102\\1")]
-        public InternalСorrespondentSH InternalСorrespondent { private set; get; }
+        public InternalСorrespondent InternalСorrespondent { private set; get; }
         /// <summary>
         /// Финансовый блок
         /// </summary>
@@ -77,7 +78,7 @@ namespace SH5ApiClient.Core.Requests
         /// </summary>
         public List<PaymentInfo> Payments { set; get; } = new();
         public override OperationBase Operation => new ExecOperation();
-        public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, СorrespondentSH correspondent, InternalСorrespondentSH internalСorrespondent) : base(connectionParam)
+        public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, Сorrespondent correspondent, InternalСorrespondent internalСorrespondent) : base(connectionParam)
         {
             DocumentDate = documentDate;
             PaymentType = paymentType;
