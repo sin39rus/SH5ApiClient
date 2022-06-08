@@ -2,17 +2,13 @@
 {
     public enum CorrTypeEx
     {
-        /// <summary>
-        /// Юр. лицо
-        /// </summary>
-        CorrTypeEx0 = 0,
-        /// <summary>
-        /// Физ. лицо
-        /// </summary>
-        CorrTypeEx1 = 1,
-        /// <summary>
-        /// Cпец.корреспондент
-        /// </summary>
-        CorrTypeEx2 = 2
+        /// <summary>Юр. лицо</summary>
+        Organization = 0,
+
+        /// <summary>Физ. лицо</summary>
+        PrivatePerson = 1,
+
+        /// <summary>Cпец.корреспондент</summary>
+        Special = 2
     }
 }
