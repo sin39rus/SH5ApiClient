@@ -9,6 +9,20 @@ namespace SH5ApiClient
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
         }
+        public async Task<string> LoadGDocsAsync()
+        {
+            GDocsRequest request = new GDocsRequest(_connectionParam)
+            {
+                DateFrom = new DateTime(2021, 11, 01),
+                TTNTypeForRequest = TTNTypeForRequest.PurchaseInvoice,
+                GDocsRequestFilter = GDocsRequestFilter.CalculateSums
+            };
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            ExecOperationContent content = answear.GetAnswearContent("111");
+            var hh = content.GetValues();
+            return jsonAnswear;
+        }
         public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
         {
             try
@@ -30,7 +44,7 @@ namespace SH5ApiClient
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task<IEnumerable<InternalСorrespondent>> LoadInternalСorrespondentsAsync()
+        public async Task<IEnumerable<Сorrespondent>> LoadInternalСorrespondentsAsync()
         {
             try
             {
@@ -38,7 +52,7 @@ namespace SH5ApiClient
                 string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("102");
-                return InternalСorrespondent.GetСorrespondentsFromSHAnswear(content);
+                return Сorrespondent.GetСorrespondentsFromSHAnswear(content);
             }
             catch (Exception ex)
             {

@@ -18,6 +18,7 @@
     <Folder Include="Core\ServerOperations\Lic\" />
     <Folder Include="Core\ServerOperations\User\" />
     <Folder Include="Core\ServerOperations\Role\" />
+    <Folder Include="Models\DTO\Attributes\" />
   </ItemGroup>
 
 </Project>

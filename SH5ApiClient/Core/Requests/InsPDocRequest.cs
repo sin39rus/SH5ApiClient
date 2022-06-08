@@ -47,7 +47,7 @@ namespace SH5ApiClient.Core.Requests
         /// Собственное юридическое лицо
         /// </summary>
         [OriginalName("102\\1")]
-        public InternalСorrespondent InternalСorrespondent { private set; get; }
+        public Сorrespondent InternalСorrespondent { private set; get; }
         /// <summary>
         /// Финансовый блок
         /// </summary>
@@ -78,7 +78,7 @@ namespace SH5ApiClient.Core.Requests
         /// </summary>
         public List<PaymentInfo> Payments { set; get; } = new();
         public override OperationBase Operation => new ExecOperation();
-        public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, Сorrespondent correspondent, InternalСorrespondent internalСorrespondent) : base(connectionParam)
+        public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, Сorrespondent correspondent, Сorrespondent internalСorrespondent) : base(connectionParam)
         {
             DocumentDate = documentDate;
             PaymentType = paymentType;

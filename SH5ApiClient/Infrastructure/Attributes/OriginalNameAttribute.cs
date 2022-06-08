@@ -1,6 +1,6 @@
 ﻿namespace SH5ApiClient.Infrastructure.Attributes
 {
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = false)]
     internal sealed class OriginalNameAttribute : Attribute
     {
         internal string OriginalName { private set; get; }

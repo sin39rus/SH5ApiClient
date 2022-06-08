@@ -27,7 +27,7 @@ namespace SH5ApiClient
         Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync();
 
         /// <summary>Загрузка справочника внутренних корреспондентов</summary>
-        Task<IEnumerable<InternalСorrespondent>> LoadInternalСorrespondentsAsync();
+        Task<IEnumerable<Сorrespondent>> LoadInternalСorrespondentsAsync();
 
         /// <summary>Обновление банковских реквизитов у корреспондента</summary>
         /// <param name="guid">Guid обновляемого корреспондента</param>
@@ -39,5 +39,6 @@ namespace SH5ApiClient
         /// <summary>Запросить наличие прав на выполнение процедуры</summary>
         /// <param name="procedureNames">Имена процедур для проверки</param>
         Task<AbleOperation> RequestPermissionExecuteProcedure(IEnumerable<string> procedureNames);
+        Task<string> LoadGDocsAsync();
     }
 }

@@ -1,13 +1,14 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Корреспондент SH</summary>
+    [OriginalName("105")]
     public sealed class Сorrespondent
     {
         /// <summary>
         /// Rid
         /// </summary>
         [OriginalName("1")]
-        public int Rid { set; get; }
+        public int? Rid { set; get; }
         /// <summary>
         /// Name
         /// </summary>
@@ -45,10 +46,10 @@
         {
             return new Сorrespondent
             {
-                Rid = int.TryParse(value["1"], out int rid) ? rid : 0,
+                Rid = int.TryParse(value["1"], out int rid) ? rid : null,
                 Name = value["3"],
                 INN = value["2"],
-                GUID = value["4"].TrimStart('{').TrimEnd('}'),
+                GUID = value["4"]?.TrimStart('{').TrimEnd('}'),
                 CorrType = Enum.TryParse(typeof(CorrType), value["5"], out object? corrType) ? (CorrType?)corrType : null,
                 CorrTypeEx = Enum.TryParse(typeof(CorrTypeEx), value["32"], out object? corrTypeEx) ? (CorrTypeEx?)corrTypeEx : null
             };

@@ -12,7 +12,7 @@ namespace ConsoleForTest
             //var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
             ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9797);
             IApiClient client = new ApiClient(param);
-            var gg = client.LoadCorrespondentsAsync().Result;
+            var gg = client.LoadGDocsAsync().Result;
             var coors = client.LoadEnumeratedAttributeValuesAsync("119", "6\\Payment_Place").Result;
         }
     }
