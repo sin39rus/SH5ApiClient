@@ -3,25 +3,43 @@
 namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Финансовая информация</summary>
+    [OriginalName("112")]
     public class FinancialInfo
     {
         /// <summary>Закупочная сумма без налогов</summary>
+        [OriginalName("40")]
         public double Currency40 { set; get; }
+
         /// <summary>Закупочная сумма НДС</summary>
+        [OriginalName("41")] 
         public double Currency41 { set; get; }
+
         /// <summary>Закупочная сумма НСП</summary>
+        [OriginalName("42")] 
         public double Currency42 { set; get; }
+
         /// <summary>Отпускная сумма без налогов</summary>
+        [OriginalName("45")] 
         public double Currency45 { set; get; }
+
         /// <summary>Отпускная сумма НДС</summary>
+        [OriginalName("46")] 
         public double Currency46 { set; get; }
+
         /// <summary>Отпускная сумма НСП</summary>
+        [OriginalName("47")]
         public double Currency47 { set; get; }
+
         /// <summary>Компенсирующая сумма без налогов</summary>
+        [OriginalName("68")]
         public double Currency68  { set; get; }
+
         /// <summary>Компенсирующая сумму НДС</summary>
+        [OriginalName("69")]
         public double Currency69 { set; get; }
+
         /// <summary>Компенсирующая сумму НСП</summary>
+        [OriginalName("70")]
         public double Currency70 { set; get; }
         public static FinancialInfo? Parse(Dictionary<string, string> value)
         {
