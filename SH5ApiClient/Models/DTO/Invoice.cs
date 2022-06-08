@@ -6,7 +6,7 @@
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]
-        public uint Rid { set; get; }
+        public uint? Rid { set; get; }
 
         /// <summary>Type</summary>
         [OriginalName("5")]
@@ -27,7 +27,7 @@
                 return null;
             return new Invoice
             {
-                Rid = uint.TryParse(value["1"], out uint rid) ? rid : 0,
+                Rid = uint.TryParse(value["1"], out uint rid) ? rid : null,
                 Type = uint.TryParse(value["5"], out uint type) ? type : null,
                 Name = value.GetValueOrDefault("3"),
                 Date = DateTime.TryParse(value.GetValueOrDefault("31"), out DateTime date) ? date : null

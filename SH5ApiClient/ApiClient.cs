@@ -1,6 +1,4 @@
-﻿using SH5ApiClient.Models.DTO;
-
-namespace SH5ApiClient
+﻿namespace SH5ApiClient
 {
     public class ApiClient : IApiClient
     {
@@ -9,19 +7,20 @@ namespace SH5ApiClient
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
         }
-        public async Task<string> LoadGDocsAsync()
+        public async Task<IEnumerable<GDoc>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter)
         {
-            GDocsRequest request = new GDocsRequest(_connectionParam)
+            GDocsRequest request = new(_connectionParam)
             {
-                DateFrom = new DateTime(2021, 11, 01),
-                TTNTypeForRequest = TTNTypeForRequest.PurchaseInvoice,
-                GDocsRequestFilter = GDocsRequestFilter.CalculateSums
+                DateFrom = dateFrom,
+                DateTo = dateTo,
+                TTNTypeForRequest = ttnTypeForRequest,
+                GDocsRequestFilter = gDocsRequestFilter
             };
             string jsonAnswear = await WebClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             ExecOperationContent content = answear.GetAnswearContent("111");
-            var hh = content.GetValues();
-            return jsonAnswear;
+            return GDoc.GetGDocsFromSHAnswear(content)
+                .Where(t => t.TTNOptions is not null && t.TTNOptions.Value != TTNOptions.Unknown); //При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
         }
         public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
         {

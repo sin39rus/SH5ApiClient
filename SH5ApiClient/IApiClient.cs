@@ -39,6 +39,12 @@ namespace SH5ApiClient
         /// <summary>Запросить наличие прав на выполнение процедуры</summary>
         /// <param name="procedureNames">Имена процедур для проверки</param>
         Task<AbleOperation> RequestPermissionExecuteProcedure(IEnumerable<string> procedureNames);
-        Task<string> LoadGDocsAsync();
+        /// <summary>Запрос списка накладных</summary>
+        /// <param name="dateFrom">С даты включительно</param>
+        /// <param name="dateTo">По дату включительно</param>
+        /// <param name="ttnTypeForRequest">Типы запрашиваемых накладных</param>
+        /// <param name="gDocsRequestFilter">Фильтр накладных</param>
+        /// <returns></returns>
+        Task<IEnumerable<GDoc>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = null);
     }
 }

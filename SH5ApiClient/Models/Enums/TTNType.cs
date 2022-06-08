@@ -5,41 +5,31 @@
     /// </summary>
     public enum TTNType
     {
-        /// <summary>
-        /// Приходная накладная
-        /// </summary>
+        /// <summary>Приходная накладная</summary>
         PurchaseInvoice = 0,
-        /// <summary>
-        /// Возврат от получателя
-        /// </summary>
+
+        /// <summary>Возврат от получателя</summary>
         ReturnRecipient = 1,
-        /// <summary>
-        /// Расходная накладная
-        /// </summary>
+
+        /// <summary>Расходная накладная</summary>
         SalesInvoice = 4,
-        /// <summary>
-        /// Возврат поставщику
-        /// </summary>
+
+        /// <summary>Возврат поставщику</summary>
         ReturnSupplier = 5,
-        /// <summary>
-        /// Сличительная ведомость
-        /// </summary>
+
+        /// <summary>Сличительная ведомость</summary>
         CollationStatement = 8,
-        /// <summary>
-        /// Акт переработки
-        /// </summary>
+
+        /// <summary>Акт переработки</summary>
         ActProcessing = 10,
-        /// <summary>
-        /// Внутреннее перемещение
-        /// </summary>
+
+        /// <summary>Внутреннее перемещение</summary> 
         InternalMovement = 11,
-        /// <summary>
-        /// Комплектация
-        /// </summary>
+
+        /// <summary>Комплектация</summary>
         Compdection = 12,
-        /// <summary>
-        /// Декомплектация
-        /// </summary>
+
+        /// <summary>Декомплектация</summary>
         Decomposition = 13
     }
 }

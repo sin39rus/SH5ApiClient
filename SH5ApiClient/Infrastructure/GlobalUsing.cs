@@ -1,5 +1,6 @@
 ﻿global using SH5ApiClient.Models;
 global using SH5ApiClient.Models.Enums;
+global using SH5ApiClient.Models.DTO;
 
 global using SH5ApiClient.Core.Requests;
 global using SH5ApiClient.Core.ServerOperations;

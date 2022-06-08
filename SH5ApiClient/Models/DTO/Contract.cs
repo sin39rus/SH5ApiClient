@@ -1,6 +1,7 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Договор</summary>
+    [OriginalName("172")]
     public class Contract
     {
         /// <summary>Rid</summary>

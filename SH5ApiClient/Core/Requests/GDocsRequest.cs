@@ -7,24 +7,20 @@ namespace SH5ApiClient.Core.Requests
     {
         //Имя процедуры
         private const string procName = "GDocs";
-        /// <summary>
-        /// Отчет с  даты включительно
-        /// </summary>
+
+        /// <summary>Отчет с  даты включительно</summary>
         [OriginalName("1")]
         public DateTime? DateFrom { get; set; }
-        /// <summary>
-        /// Отчет по дату включительно
-        /// </summary>
+
+        /// <summary>Отчет по дату включительно</summary>
         [OriginalName("2")]
         public DateTime? DateTo { get; set; }
-        /// <summary>
-        /// Типы запрашиваемых накладных
-        /// </summary>
+
+        /// <summary>Типы запрашиваемых накладных</summary>
         [OriginalName("8")]
         public TTNTypeForRequest? TTNTypeForRequest { get; set; }
-        /// <summary>
-        /// Фильтр накладных
-        /// </summary>
+
+        /// <summary>Фильтр накладных</summary>
         [OriginalName("6")]
         public GDocsRequestFilter? GDocsRequestFilter { get; set; }
 
