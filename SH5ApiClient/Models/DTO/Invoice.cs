@@ -1,6 +1,7 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Счет-фактура</summary>
+    [OriginalName("117")]
     public class Invoice
     {
         /// <summary>Rid</summary>
