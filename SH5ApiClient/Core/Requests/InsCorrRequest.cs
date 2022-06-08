@@ -5,7 +5,7 @@ namespace SH5ApiClient.Core.Requests
     public class InsCorrRequest : RequestBase
     {
         private string _inn = string.Empty;
-        private CorrType corrType = CorrType.CorrType3;
+        private CorrType corrType = CorrType.OutsideCorrespondent;
         //Имя процедуры
         private const string procName = "InsCorr";
         public InsCorrRequest(ConnectionParamSH5 connectionParam, string name, string inn) : base(procName, connectionParam)
@@ -30,7 +30,7 @@ namespace SH5ApiClient.Core.Requests
                 if (value is null || !value.IsINN())
                     throw new ArgumentException($"Не корректный ИНН \"{value}\".");
                 if (value.Length == 12)
-                    CorrTypeEx = CorrTypeEx.CorrTypeEx1;
+                    CorrTypeEx = CorrTypeEx.PrivatePerson;
                 _inn = value;
             }
         }
@@ -45,7 +45,7 @@ namespace SH5ApiClient.Core.Requests
                 corrType = value;
                 CorrType3 = corrType switch
                 {
-                    CorrType.CorrType3 => Models.Enums.CorrType3.CorrType3_0,
+                    CorrType.OutsideCorrespondent => Models.Enums.CorrType3.NotDefined,
                     _ => null,
                 };
             }
@@ -59,7 +59,7 @@ namespace SH5ApiClient.Core.Requests
         /// Тип2
         /// </summary>
         [OriginalName("32")]
-        public CorrTypeEx CorrTypeEx { set; get; } = CorrTypeEx.CorrTypeEx0;
+        public CorrTypeEx CorrTypeEx { set; get; } = CorrTypeEx.Organization;
         /// <summary>
         /// ПлательщикБанк1
         /// </summary>

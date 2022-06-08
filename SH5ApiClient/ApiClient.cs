@@ -44,7 +44,7 @@ namespace SH5ApiClient
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task<IEnumerable<Сorrespondent>> LoadInternalСorrespondentsAsync()
+        public async Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync()
         {
             try
             {

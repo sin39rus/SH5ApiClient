@@ -27,7 +27,7 @@ namespace SH5ApiClient
         Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync();
 
         /// <summary>Загрузка справочника внутренних корреспондентов</summary>
-        Task<IEnumerable<Сorrespondent>> LoadInternalСorrespondentsAsync();
+        Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync();
 
         /// <summary>Обновление банковских реквизитов у корреспондента</summary>
         /// <param name="guid">Guid обновляемого корреспондента</param>
