@@ -46,5 +46,6 @@ namespace SH5ApiClient
         /// <param name="gDocsRequestFilter">Фильтр накладных</param>
         /// <returns></returns>
         Task<IEnumerable<GDoc>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = null);
+        Task RequestGDoc0Async(uint rid, string guid);
     }
 }

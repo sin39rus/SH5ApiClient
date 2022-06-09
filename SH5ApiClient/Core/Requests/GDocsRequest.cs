@@ -17,7 +17,7 @@ namespace SH5ApiClient.Core.Requests
         public DateTime? DateTo { get; set; }
 
         /// <summary>Типы запрашиваемых накладных</summary>
-        [OriginalName("8")]
+        [OriginalName("111\\8")]
         public TTNTypeForRequest? TTNTypeForRequest { get; set; }
 
         /// <summary>Фильтр накладных</summary>

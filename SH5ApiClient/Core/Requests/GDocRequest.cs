@@ -1,17 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SH5ApiClient.Core.Requests
 {
     public class GDocRequest : RequestBase
     {
-        private readonly int _rid;
+        private readonly uint _rid;
         private readonly string _guid;
-        public GDocRequest(TTNType ttnType, ConnectionParamSH5 connectionParam, int rid, string guid) : base(connectionParam)
+        public GDocRequest(ConnectionParamSH5 connectionParam, TTNType ttnType, uint rid, string guid) : base(connectionParam)
         {
             if (!Guid.TryParse(guid, out Guid _))
                 throw new ArgumentException("Не корректное значение параметра guid");

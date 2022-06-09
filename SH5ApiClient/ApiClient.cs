@@ -9,18 +9,25 @@
         }
         public async Task<IEnumerable<GDoc>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter)
         {
-            GDocsRequest request = new(_connectionParam)
+            try
             {
-                DateFrom = dateFrom,
-                DateTo = dateTo,
-                TTNTypeForRequest = ttnTypeForRequest,
-                GDocsRequestFilter = gDocsRequestFilter
-            };
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            ExecOperationContent content = answear.GetAnswearContent("111");
-            return GDoc.GetGDocsFromSHAnswear(content)
-                .Where(t => t.TTNOptions is not null && t.TTNOptions.Value != TTNOptions.Unknown); //При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
+                GDocsRequest request = new(_connectionParam)
+                {
+                    DateFrom = dateFrom,
+                    DateTo = dateTo,
+                    TTNTypeForRequest = ttnTypeForRequest,
+                    GDocsRequestFilter = gDocsRequestFilter
+                };
+                string jsonAnswear = await WebClient.WebPostAsync(request);
+                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+                ExecOperationContent content = answear.GetAnswearContent("111");
+                return GDoc.GetGDocsFromSHAnswear(content)
+                    .Where(t => t.TTNOptions is not null && t.TTNOptions.Value != TTNOptions.Unknown); //При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
+            }
+            catch (Exception ex)
+            {
+                throw new ApiClientException("Ошибка загрузки списка накладных. Подробности во внутреннем исключении.", ex);
+            }
         }
         public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
         {
@@ -34,7 +41,7 @@
             }
             catch (Exception ex)
             {
-                throw new ApiClientException("Ошибка загрузки справочника корреспондентов из SH.", ex);
+                throw new ApiClientException("Ошибка загрузки справочника корреспондентов. Подробности во внутреннем исключении.", ex);
             }
         }
         public async Task<AbleOperation> RequestPermissionExecuteProcedure(IEnumerable<string> procedureNames)
@@ -42,6 +49,15 @@
             AbleRequest ableRequest = new(_connectionParam, procedureNames);
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
+        }
+        public async Task RequestGDoc0Async(uint rid, string guid)
+        {
+            GDocRequest request = new GDocRequest(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            var gDoc0 = GDoc0.Parse(answear);
+
+
         }
         public async Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync()
         {
