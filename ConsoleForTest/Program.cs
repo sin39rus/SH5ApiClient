@@ -13,7 +13,7 @@ namespace ConsoleForTest
             //ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9797);
             ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9797);
             IApiClient client = new ApiClient(param);
-            var gdocs0 = client.LoadGDocsAsync(new DateTime(2021, 04, 05), new DateTime(2021, 04, 06), ttnTypeForRequest: SH5ApiClient.Models.Enums.TTNTypeForRequest.PurchaseInvoice, gDocsRequestFilter: SH5ApiClient.Models.Enums.GDocsRequestFilter.CalculateSums).Result.ToArray();
+            var correspondents = client.LoadCorrespondentsAsync().Result;
 
 
             var doc = client.RequestGDoc0Async(gdocs0[1].Rid.GetValueOrDefault(), gdocs0[1].GUID).Result;
