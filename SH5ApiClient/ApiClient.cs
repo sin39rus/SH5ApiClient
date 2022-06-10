@@ -29,7 +29,7 @@
                 throw new ApiClientException("Ошибка загрузки списка накладных. Подробности во внутреннем исключении.", ex);
             }
         }
-        public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
+        public async Task<IEnumerable<Сorrespondent?>> LoadCorrespondentsAsync()
         {
             try
             {
@@ -50,16 +50,14 @@
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task RequestGDoc0Async(uint rid, string guid)
+        public async Task<GDoc0?> RequestGDoc0Async(uint rid, string guid)
         {
-            GDocRequest request = new GDocRequest(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
+            GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            var gDoc0 = GDoc0.Parse(answear);
-
-
+            return GDoc0.Parse(answear);
         }
-        public async Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync()
+        public async Task<IEnumerable<Сorrespondent?>> LoadInternalCorrespondentsAsync()
         {
             try
             {
@@ -102,7 +100,7 @@
             string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam);
             OperationBase.Parse<ExecOperation>(newRequestResult);
         }
-        public async Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
+        public async Task<Сorrespondent?> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
         {
             InsCorrRequest corr = new(_connectionParam, name, inn)
             {

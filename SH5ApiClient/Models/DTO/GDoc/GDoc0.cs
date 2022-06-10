@@ -2,16 +2,19 @@
 {
     public class GDoc0
     {
+        [OriginalName("111")]
         public GDoc? Header { get; set; }
+        [OriginalName("112")]
+        public IEnumerable<GDocItem?>? Content { get; set; }
 
-
-        public static GDoc0 Parse(ExecOperation answear)
+        public static GDoc0? Parse(ExecOperation answear)
         {
-
-            ExecOperationContent headerContent = answear.GetAnswearContent("111");
+            ExecOperationContent header = answear.GetAnswearContent("111");
+            ExecOperationContent content = answear.GetAnswearContent("112");
             return new GDoc0
             {
-                Header = GDoc.Parse(headerContent.GetValues()[0]),
+                Header = GDoc.Parse(header.GetValues()[0]),
+                Content = content.GetValues().Select(t=> GDocItem.Parse(t))
             };
         }
     }

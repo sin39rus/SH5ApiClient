@@ -15,7 +15,7 @@ namespace SH5ApiClient
         /// <param name="bankName">Наименование банка</param>
         /// <param name="corAccount">Корр. счет</param>
         /// <param name="corrType">Тип корреспондента SH</param>
-        Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
+        Task<Сorrespondent?> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
 
         /// <summary>Запросить значения перечислимого атрибута.</summary>
         /// <param name="head">идентификатор таблицы</param>
@@ -24,10 +24,10 @@ namespace SH5ApiClient
         Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path);
 
         /// <summary>Загрузка справочника корреспондентов</summary>
-        Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync();
+        Task<IEnumerable<Сorrespondent?>> LoadCorrespondentsAsync();
 
         /// <summary>Загрузка справочника внутренних корреспондентов</summary>
-        Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync();
+        Task<IEnumerable<Сorrespondent?>> LoadInternalCorrespondentsAsync();
 
         /// <summary>Обновление банковских реквизитов у корреспондента</summary>
         /// <param name="guid">Guid обновляемого корреспондента</param>
@@ -46,6 +46,6 @@ namespace SH5ApiClient
         /// <param name="gDocsRequestFilter">Фильтр накладных</param>
         /// <returns></returns>
         Task<IEnumerable<GDoc>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = null);
-        Task RequestGDoc0Async(uint rid, string guid);
+        Task<GDoc0?> RequestGDoc0Async(uint rid, string guid);
     }
 }

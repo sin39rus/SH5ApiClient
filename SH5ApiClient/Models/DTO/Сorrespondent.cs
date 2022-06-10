@@ -1,6 +1,7 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Корреспондент SH</summary>
+    [OriginalName("105")]
     public sealed class Сorrespondent
     {
         /// <summary>Rid</summary>

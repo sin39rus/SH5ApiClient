@@ -1,5 +1,6 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
+    [OriginalName("111")]
     public class GDoc
     {
         /// <summary>Rid</summary>
@@ -60,7 +61,7 @@
 
         /// <summary>Финансовая информация</summary>
         [OriginalName("112")]
-        public FinancialInfo? FinancialInfo { set; get; }
+        public GDocItem? GDocItem { set; get; }
 
         /// <summary>Счет-фактура</summary>
         [OriginalName("117")]
@@ -101,8 +102,10 @@
                     yield return gDoc;
             }
         }
-        public static GDoc Parse(Dictionary<string, string> value)
+        public static GDoc? Parse(Dictionary<string, string> value)
         {
+            if (!value.Any())
+                return null;
             return new GDoc
             {
                 Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
@@ -119,10 +122,10 @@
                 CourceBase = double.TryParse(value.GetValueOrDefault("34"), out double courceBase) ? courceBase : null,
                 CourceInvoice = double.TryParse(value.GetValueOrDefault("35"), out double courceInvoice) ? courceInvoice : null,
                 DueDate = DateTime.TryParse(value.GetValueOrDefault("38"), out DateTime dueDate) ? dueDate : null,
-                FinancialInfo = FinancialInfo.Parse(value.Where(t => t.Key.StartsWith("112\\")).ToDictionary(t => t.Key.TrimStart("112\\"), g => g.Value)),
+                GDocItem = GDocItem.Parse(value.Where(t => t.Key.StartsWith("112\\")).ToDictionary(t => t.Key.TrimStart("112\\"), g => g.Value)),
                 Invoice = Invoice.Parse(value.Where(t => t.Key.StartsWith("117\\")).ToDictionary(t => t.Key.TrimStart("117\\"), g => g.Value)),
                 BuhOperation = BuhOperation.Parse(value.Where(t => t.Key.StartsWith("179\\")).ToDictionary(t => t.Key.TrimStart("179\\"), g => g.Value)),
-                Сontract = Contract.Parse(value.Where(t => t.Key.StartsWith("179\\")).ToDictionary(t => t.Key.TrimStart("179\\"), g => g.Value)),
+                Сontract = Contract.Parse(value.Where(t => t.Key.StartsWith("172\\")).ToDictionary(t => t.Key.TrimStart("172\\"), g => g.Value)),
                 PaymentAmount = decimal.TryParse(value.GetValueOrDefault("53"), out decimal paymentAmount) ? paymentAmount : null,
                 MinActiveDate = DateTime.TryParse(value.GetValueOrDefault("38"), out DateTime minActiveDate) ? minActiveDate : null,
                 Creator = User.Parse(value.Where(t => t.Key.StartsWith("109\\")).ToDictionary(t => t.Key.TrimStart("109\\"), g => g.Value)),
