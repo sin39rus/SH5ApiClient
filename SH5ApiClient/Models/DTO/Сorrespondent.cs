@@ -47,7 +47,7 @@
         [OriginalName("114")]
         public CorrespondentSpecification? CorrespondentSpecification { set; get; }
 
-        internal static IEnumerable<Сorrespondent> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
+        public static IEnumerable<Сorrespondent> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
         {
             foreach (Dictionary<string, string>? value in answear.GetValues())
             {

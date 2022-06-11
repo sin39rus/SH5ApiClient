@@ -1,0 +1,18 @@
+{
+  "UserName": "Admin",
+  "Password": "123456",
+  "procName": "Corrs",
+  "Input": [
+    {
+      "head": "107#1",
+      "original": [
+        "37"
+      ],
+      "values": [
+        [
+          "2"
+        ]
+      ]
+    }
+  ]
+}

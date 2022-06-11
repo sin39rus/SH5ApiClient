@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -8,13 +9,23 @@ namespace SH5ApiClient.Core.Requests
         private const string procName = "Corrs";
         public CorrsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam)
         {
+
         }
 
         public override OperationBase Operation => new ExecOperation();
 
         public override string CreateJsonRequest()
         {
-            return JsonConvert.SerializeObject(this);
+            return new JObject(
+                new JProperty("UserName", UserName),
+                new JProperty("Password", Password),
+                new JProperty("procName", ProcName),
+                new JProperty("Input", new JArray(
+                    new JObject(
+                        new JProperty("head", "107#1"),
+                        new JProperty("original", new JArray("37")),
+                        new JProperty("values", new JArray()
+                            {new JArray("2") }))))).ToString();
         }
     }
 }

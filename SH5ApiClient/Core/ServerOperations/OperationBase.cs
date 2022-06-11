@@ -24,7 +24,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// <returns>Ответ SH</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="Exception"></exception>
-        internal static T Parse<T>(string jsonText) where T : OperationBase
+        public static T Parse<T>(string jsonText) where T : OperationBase
         {
             if (string.IsNullOrWhiteSpace(jsonText))
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
