@@ -11,19 +11,19 @@ namespace SH5ApiClient.Models.DTO.Tests
     public class СorrespondentTests
     {
         [TestMethod()]
-        public void ParseTest()
+        public void ParseCorrespondentsTest()
         {
             string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Correspondents.json", Encoding.UTF8);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             ExecOperationContent content = answear.GetAnswearContent("107");
-            var coors = Сorrespondent.GetСorrespondentsFromSHAnswear(content).ToList();
+            var corrs = Сorrespondent.GetСorrespondentsFromSHAnswear(content).ToList();
 
-            var cor0 = coors[0];
-            var cor2 = coors[2];
+            var cor0 = corrs[0];
+            var cor2 = corrs[2];
 
-            Assert.AreEqual(7, coors.Count);
+            Assert.AreEqual(7, corrs.Count);
 
-            Assert.AreEqual(6, cor0.Rid);
+            Assert.AreEqual((uint)6, cor0.Rid);
             Assert.AreEqual("D660060C-13F8-7321-C562-AD2DEA7B0BCF", cor0.GUID);
             Assert.AreEqual(null, cor0.SubType);
             Assert.AreEqual(CorrTypeEx.Special, cor0.CorrTypeEx);
@@ -41,7 +41,7 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(null, cor0.Attributes34["BIK"]);
 
 
-            Assert.AreEqual(4, cor2.Rid);
+            Assert.AreEqual((uint)4, cor2.Rid);
             Assert.AreEqual("BA8E82DD-0690-B0F9-658F-5B803C59FE99", cor2.GUID);
             Assert.AreEqual(null, cor2.SubType);
             Assert.AreEqual(CorrTypeEx.Organization, cor2.CorrTypeEx);
@@ -57,6 +57,40 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual("Расчетный счет5", cor2.Attributes34["PAcc"]);
             Assert.AreEqual("Банк5", cor2.Attributes34["Bank"]);
             Assert.AreEqual("Бик5", cor2.Attributes34["BIK"]);
+        }
+        [TestMethod()]
+        public void ParseInternalCorrespondentsTest()
+        {
+            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\InternalCorrespondents.json", Encoding.UTF8);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            ExecOperationContent content = answear.GetAnswearContent("102");
+            var corrs = Сorrespondent.GetСorrespondentsFromSHAnswear(content).ToList();
+
+            Assert.AreEqual(1, corrs.Count);
+            var cor = corrs[0];
+
+            Assert.AreEqual((uint)0, cor.Rid);
+            Assert.AreEqual("605FB3DC-05E7-CF08-A6D5-38AEF2E76216", cor.GUID);
+            Assert.AreEqual(14, cor.PaymentIncomeSpan);
+            Assert.AreEqual(15, cor.PaymentExpenseSpan);
+            Assert.AreEqual("Юридицеское лицо", cor.Name);
+            Assert.AreEqual("123123123123", cor.INN);
+            Assert.AreEqual("Зав производстом", cor.Attributes7["PrSupervisor"]);
+            Assert.AreEqual("Гл бух", cor.Attributes7["Accountant"]);
+            Assert.AreEqual("Ген директор", cor.Attributes7["Manager"]);
+            Assert.AreEqual("ОКПО", cor.Attributes7["OKPO"]);
+            Assert.AreEqual("Физический адрес", cor.Attributes7["PAddr"]);
+            Assert.AreEqual("Юридисечкий адрес", cor.Attributes7["RAddr"]);
+            Assert.AreEqual("Кос счет", cor.Attributes7["CAcc"]);
+            Assert.AreEqual("Расчетный счет", cor.Attributes7["PAcc"]);
+            Assert.AreEqual("Банк", cor.Attributes7["Bank"]);
+            Assert.AreEqual("Бик", cor.Attributes7["BIK"]);
+            Assert.AreEqual("Полное наименование", cor.Attributes7["FullName"]);
+            Assert.AreEqual("ПрефД", cor.Attributes7["$ContractNum"]);
+            Assert.AreEqual("ПрефП", cor.Attributes7["$PriceLstNum"]);
+            Assert.AreEqual("ПрефПД", cor.Attributes7["$PDocNum"]);
+            Assert.AreEqual("ПерфСФ", cor.Attributes7["$IDocNum"]);
+            Assert.AreEqual("ПрефН", cor.Attributes7["$GDocNum"]);
         }
     }
 }

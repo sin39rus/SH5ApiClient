@@ -47,6 +47,15 @@
         [OriginalName("114")]
         public CorrespondentSpecification? CorrespondentSpecification { set; get; }
 
+        /// <summary>Cрок оплаты приходов</summary>
+        [OriginalName("11")]
+        public uint? PaymentIncomeSpan { set; get; }
+
+        /// <summary>Cрок оплаты расходов</summary>
+        [OriginalName("12")]
+        public uint? PaymentExpenseSpan { set; get; }
+
+
         public static IEnumerable<Сorrespondent> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
         {
             foreach (Dictionary<string, string>? value in answear.GetValues())
