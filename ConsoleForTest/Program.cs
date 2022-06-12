@@ -13,7 +13,7 @@ namespace ConsoleForTest
             ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9797);
             //ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9797);
             IApiClient client = new ApiClient(param);
-            var correspondents = client.LoadCorrespondentsAsync().Result;
+            var correspondents = client.LoadInternalCorrespondentsAsync().Result;
 
 
             //var gg2 = client.LoadCorrespondentsAsync().Result.ToList();

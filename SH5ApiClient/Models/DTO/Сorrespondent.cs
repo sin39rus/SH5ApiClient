@@ -6,7 +6,7 @@
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]
-        public int Rid { set; get; }
+        public uint? Rid { set; get; }
 
         /// <summary>Name</summary>
         [OriginalName("3")]
@@ -49,11 +49,11 @@
 
         /// <summary>Cрок оплаты приходов</summary>
         [OriginalName("11")]
-        public uint? PaymentIncomeSpan { set; get; }
+        public ushort? PaymentIncomeSpan { set; get; }
 
         /// <summary>Cрок оплаты расходов</summary>
         [OriginalName("12")]
-        public uint? PaymentExpenseSpan { set; get; }
+        public ushort? PaymentExpenseSpan { set; get; }
 
 
         public static IEnumerable<Сorrespondent> GetСorrespondentsFromSHAnswear(ExecOperationContent answear)
@@ -72,9 +72,11 @@
                 return null;
             return new Сorrespondent
             {
-                Rid = int.TryParse(value["1"], out int rid) ? rid : 0,
+                Rid = uint.TryParse(value["1"], out uint rid) ? rid : null,
                 INN = value.GetValueOrDefault("2"),
                 Name = value.GetValueOrDefault("3"),
+                PaymentIncomeSpan = ushort.TryParse(value.GetValueOrDefault("11"), out ushort paymentIncomeSpan) ? paymentIncomeSpan : null,
+                PaymentExpenseSpan = ushort.TryParse(value.GetValueOrDefault("12"), out ushort paymentExpenseSpan) ? paymentExpenseSpan : null,
                 GUID = value.GetValueOrDefault("4")?.TrimStart('{').TrimEnd('}'),
                 CorrType = Enum.TryParse(typeof(CorrType), value.GetValueOrDefault("5"), out object? corrType) ? (CorrType?)corrType : null,
                 CorrTypeEx = Enum.TryParse(typeof(CorrTypeEx), value.GetValueOrDefault("32"), out object? corrTypeEx) ? (CorrTypeEx?)corrTypeEx : null,

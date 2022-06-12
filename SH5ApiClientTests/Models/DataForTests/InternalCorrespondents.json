@@ -1,0 +1,150 @@
+{
+	"errorCode": 0,
+	"errMessage": "OK",
+	"Version": "1.12",
+	"UserName": "Admin",
+	"actionName": "LEntities",
+	"actionType": "Execute",
+	"shTable": [
+		{
+			"head": "102",
+			"recCount": 1,
+			"original": [
+				"1",
+				"4",
+				"11",
+				"12",
+				"3",
+				"2",
+				"7\\PrSupervisor",
+				"7\\Accountant",
+				"7\\Manager",
+				"7\\OKPO",
+				"7\\PAddr",
+				"7\\RAddr",
+				"7\\CAcc",
+				"7\\PAcc",
+				"7\\Bank",
+				"7\\BIK",
+				"7\\FullName",
+				"7\\$ContractNum",
+				"7\\$PriceLstNum",
+				"7\\$PDocNum",
+				"7\\$IDocNum",
+				"7\\$GDocNum"
+			],
+			"fields": [
+				"Rid",
+				"Guid",
+				"11",
+				"12",
+				"Name",
+				"Tin",
+				"7\\PrSupervisor",
+				"7\\Accountant",
+				"7\\Manager",
+				"7\\OKPO",
+				"7\\PAddr",
+				"7\\RAddr",
+				"7\\CAcc",
+				"7\\PAcc",
+				"7\\Bank",
+				"7\\BIK",
+				"7\\FullName",
+				"7\\$ContractNum",
+				"7\\$PriceLstNum",
+				"7\\$PDocNum",
+				"7\\$IDocNum",
+				"7\\$GDocNum"
+			],
+			"values": [
+				[
+					0
+				],
+				[
+					"{605FB3DC-05E7-CF08-A6D5-38AEF2E76216}"
+				],
+				[
+					14
+				],
+				[
+					15
+				],
+				[
+					"Юридицеское лицо"
+				],
+				[
+					"123123123123"
+				],
+				[
+					"Зав производстом"
+				],
+				[
+					"Гл бух"
+				],
+				[
+					"Ген директор"
+				],
+				[
+					"ОКПО"
+				],
+				[
+					"Физический адрес"
+				],
+				[
+					"Юридисечкий адрес"
+				],
+				[
+					"Кос счет"
+				],
+				[
+					"Расчетный счет"
+				],
+				[
+					"Банк"
+				],
+				[
+					"Бик"
+				],
+				[
+					"Полное наименование"
+				],
+				[
+					"ПрефД"
+				],
+				[
+					"ПрефП"
+				],
+				[
+					"ПрефПД"
+				],
+				[
+					"ПерфСФ"
+				],
+				[
+					"ПрефН"
+				]
+			]
+		},
+		{
+			"head": "102#1",
+			"recCount": 1,
+			"original": [
+				"239",
+				"240"
+			],
+			"fields": [
+				"MaxCount",
+				"240"
+			],
+			"values": [
+				[
+					65534
+				],
+				[
+					0
+				]
+			]
+		}
+	]
+}

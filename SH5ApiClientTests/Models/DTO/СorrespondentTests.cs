@@ -71,8 +71,8 @@ namespace SH5ApiClient.Models.DTO.Tests
 
             Assert.AreEqual((uint)0, cor.Rid);
             Assert.AreEqual("605FB3DC-05E7-CF08-A6D5-38AEF2E76216", cor.GUID);
-            Assert.AreEqual(14, cor.PaymentIncomeSpan);
-            Assert.AreEqual(15, cor.PaymentExpenseSpan);
+            Assert.AreEqual((ushort)14, cor.PaymentIncomeSpan);
+            Assert.AreEqual((ushort)15, cor.PaymentExpenseSpan);
             Assert.AreEqual("Юридицеское лицо", cor.Name);
             Assert.AreEqual("123123123123", cor.INN);
             Assert.AreEqual("Зав производстом", cor.Attributes7["PrSupervisor"]);
