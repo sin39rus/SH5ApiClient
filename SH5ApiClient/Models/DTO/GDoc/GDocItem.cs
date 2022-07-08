@@ -33,7 +33,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Количество </summary>
         [OriginalName("31")]
-        public double Quantity { set; get; }
+        public decimal Quantity { set; get; }
 
         /// <summary>Опции спецификаций накладных </summary>
         [OriginalName("32")]
@@ -41,43 +41,43 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Количество взвешенного (в гр)</summary>
         [OriginalName("74")]
-        public double AmountWeighed { set; get; }
+        public decimal AmountWeighed { set; get; }
 
         /// <summary>Закупочная сумма без налогов</summary>
         [OriginalName("40")]
-        public double Currency40 { set; get; }
+        public decimal Currency40 { set; get; }
 
         /// <summary>Закупочная сумма НДС</summary>
         [OriginalName("41")]
-        public double Currency41 { set; get; }
+        public decimal Currency41 { set; get; }
 
         /// <summary>Закупочная сумма НСП</summary>
         [OriginalName("42")]
-        public double Currency42 { set; get; }
+        public decimal Currency42 { set; get; }
 
         /// <summary>Отпускная сумма без налогов</summary>
         [OriginalName("45")]
-        public double Currency45 { set; get; }
+        public decimal Currency45 { set; get; }
 
         /// <summary>Отпускная сумма НДС</summary>
         [OriginalName("46")]
-        public double Currency46 { set; get; }
+        public decimal Currency46 { set; get; }
 
         /// <summary>Отпускная сумма НСП</summary>
         [OriginalName("47")]
-        public double Currency47 { set; get; }
+        public decimal Currency47 { set; get; }
 
         /// <summary>Компенсирующая сумма без налогов</summary>
         [OriginalName("68")]
-        public double Currency68 { set; get; }
+        public decimal Currency68 { set; get; }
 
         /// <summary>Компенсирующая сумму НДС</summary>
         [OriginalName("69")]
-        public double Currency69 { set; get; }
+        public decimal Currency69 { set; get; }
 
         /// <summary>Компенсирующая сумму НСП</summary>
         [OriginalName("70")]
-        public double Currency70 { set; get; }
+        public decimal Currency70 { set; get; }
 
         public static GDocItem? Parse(Dictionary<string, string> value)
         {
@@ -92,17 +92,17 @@ namespace SH5ApiClient.Models.DTO
                 Country = Country.Parse(value.Where(t => t.Key.StartsWith("231\\")).ToDictionary(t => t.Key.TrimStart("231\\"), g => g.Value)),
                 NDSInfo = NDSInfo.Parse(value.Where(t => t.Key.StartsWith("212\\")).ToDictionary(t => t.Key.TrimStart("212\\"), g => g.Value)),
                 NSPInfo = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213\\")).ToDictionary(t => t.Key.TrimStart("213\\"), g => g.Value)),
-                Quantity = double.Parse(value.GetValueOrDefault("31") ?? "0", CultureInfo.InvariantCulture),
-                Currency40 = double.Parse(value.GetValueOrDefault("40") ?? "0", CultureInfo.InvariantCulture),
-                Currency41 = double.Parse(value.GetValueOrDefault("41") ?? "0", CultureInfo.InvariantCulture),
-                Currency42 = double.Parse(value.GetValueOrDefault("42") ?? "0", CultureInfo.InvariantCulture),
-                Currency45 = double.Parse(value.GetValueOrDefault("45") ?? "0", CultureInfo.InvariantCulture),
-                Currency46 = double.Parse(value.GetValueOrDefault("46") ?? "0", CultureInfo.InvariantCulture),
-                Currency47 = double.Parse(value.GetValueOrDefault("47") ?? "0", CultureInfo.InvariantCulture),
-                Currency68 = double.Parse(value.GetValueOrDefault("68") ?? "0", CultureInfo.InvariantCulture),
-                Currency69 = double.Parse(value.GetValueOrDefault("69") ?? "0", CultureInfo.InvariantCulture),
-                Currency70 = double.Parse(value.GetValueOrDefault("70") ?? "0", CultureInfo.InvariantCulture),
-                AmountWeighed = double.Parse(value.GetValueOrDefault("74") ?? "0", CultureInfo.InvariantCulture)
+                Quantity = decimal.Parse(value.GetValueOrDefault("31") ?? "0", CultureInfo.InvariantCulture),
+                Currency40 = decimal.Parse(value.GetValueOrDefault("40") ?? "0", CultureInfo.InvariantCulture),
+                Currency41 = decimal.Parse(value.GetValueOrDefault("41") ?? "0", CultureInfo.InvariantCulture),
+                Currency42 = decimal.Parse(value.GetValueOrDefault("42") ?? "0", CultureInfo.InvariantCulture),
+                Currency45 = decimal.Parse(value.GetValueOrDefault("45") ?? "0", CultureInfo.InvariantCulture),
+                Currency46 = decimal.Parse(value.GetValueOrDefault("46") ?? "0", CultureInfo.InvariantCulture),
+                Currency47 = decimal.Parse(value.GetValueOrDefault("47") ?? "0", CultureInfo.InvariantCulture),
+                Currency68 = decimal.Parse(value.GetValueOrDefault("68") ?? "0", CultureInfo.InvariantCulture),
+                Currency69 = decimal.Parse(value.GetValueOrDefault("69") ?? "0", CultureInfo.InvariantCulture),
+                Currency70 = decimal.Parse(value.GetValueOrDefault("70") ?? "0", CultureInfo.InvariantCulture),
+                AmountWeighed = decimal.Parse(value.GetValueOrDefault("74") ?? "0", CultureInfo.InvariantCulture)
 
                 //Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
                 //GUID = value.GetValueOrDefault("4")?.TrimStart('{').TrimEnd('}'),
