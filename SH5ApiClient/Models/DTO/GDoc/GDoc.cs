@@ -1,5 +1,6 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
+    /// <summary>Заголовок накладной</summary>
     [OriginalName("111")]
     public class GDoc
     {

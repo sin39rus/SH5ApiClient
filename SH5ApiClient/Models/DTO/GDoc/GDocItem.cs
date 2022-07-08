@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
 namespace SH5ApiClient.Models.DTO
 {
+    /// <summary>Содержимое накладной</summary>
+    /// 
     [OriginalName("112")]
     public class GDocItem
     {

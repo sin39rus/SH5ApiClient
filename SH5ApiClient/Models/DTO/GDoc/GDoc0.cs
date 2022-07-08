@@ -1,9 +1,13 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
+    /// <summary>Приходная накладная</summary>
     public class GDoc0
     {
+        /// <summary>Заголовок накладной</summary>
         [OriginalName("111")]
         public GDoc? Header { get; set; }
+
+        /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
         public IEnumerable<GDocItem?>? Content { get; set; }
 
