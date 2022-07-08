@@ -11,7 +11,7 @@
                 return null;
             return new NSPInfo
             {
-                Rate = uint.TryParse(value.GetValueOrDefault("40"), out uint rate) ? rate : null
+                Rate = uint.TryParse(value.GetValueOrDefault("9"), out uint rate) ? rate : null
             };
         }
     }

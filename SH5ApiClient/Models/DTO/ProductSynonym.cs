@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System.Globalization;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Синоним товара</summary>
     [OriginalName("255")]
@@ -8,9 +10,15 @@
         [OriginalName("1")]
         public uint? Rid { set; get; }
 
-        /// <summary>FullName</summary>
+        /// <summary>CF</summary>
         [OriginalName("41")]
-        public double? FullName { set; get; } //ToDo: Не понял почему этот тип double
+        public decimal? CF { set; get; }
+
+        /// <summary>FullName</summary>
+        [OriginalName("22")]
+        public string? FullName { set; get; }
+
+        //ToDo Реализовать объект 244
 
         public static ProductSynonym? Parse(Dictionary<string, string> value)
         {
@@ -19,7 +27,8 @@
             return new ProductSynonym
             {
                 Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
-                FullName = double.TryParse(value.GetValueOrDefault("41"), out double fullName) ? fullName : null,
+                CF = decimal.TryParse(value.GetValueOrDefault("41"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal fullName) ? fullName : null,
+                FullName = value.GetValueOrDefault("22")
             };
         }
 
