@@ -18,7 +18,7 @@
 
         /// <summary>Rid</summary>
         [OriginalName("8")]
-        public uint? Time { set; get; }
+        public uint? Time { set; get; } //ToDo переделать в TimeSpan
 
         public static User? Parse(Dictionary<string, string> value)
         {

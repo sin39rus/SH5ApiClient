@@ -1,7 +1,13 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SH5ApiClient.Models.DTO
 {
-    /// <summary>Приходная накладная</summary>
-    public class GDoc0
+    /// <summary>Расходная накладная</summary>
+    public class GDoc4
     {
         /// <summary>Заголовок накладной</summary>
         [OriginalName("111")]
@@ -10,15 +16,14 @@
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
         public IEnumerable<GDocItem?>? Content { get; set; }
-
-        public static GDoc0? Parse(ExecOperation answear)
+        public static GDoc4? Parse(ExecOperation answear)
         {
             ExecOperationContent header = answear.GetAnswearContent("111");
             ExecOperationContent content = answear.GetAnswearContent("112");
-            return new GDoc0
+            return new GDoc4
             {
                 Header = GDocHeader.Parse(header.GetValues()[0]),
-                Content = content.GetValues().Select(t=> GDocItem.Parse(t))
+                Content = content.GetValues().Select(t => GDocItem.Parse(t))
             };
         }
     }

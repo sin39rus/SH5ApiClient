@@ -7,7 +7,7 @@
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
         }
-        public async Task<IEnumerable<GDoc>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter)
+        public async Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter)
         {
             try
             {
@@ -21,7 +21,7 @@
                 string jsonAnswear = await WebClient.WebPostAsync(request);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("111");
-                return GDoc.GetGDocsFromSHAnswear(content)
+                return GDocHeader.GetGDocsFromSHAnswear(content)
                     .Where(t => t.TTNOptions is not null && t.TTNOptions.Value != TTNOptions.Unknown); //При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
             }
             catch (Exception ex)
@@ -120,6 +120,14 @@
         {
             string answear = await WebClient.WebPostAsync(new SHInfoRequest(_connectionParam));
             return OperationBase.Parse<InfoOperation>(answear);
+        }
+
+        public async Task<GDoc4?> RequestGDoc4Async(uint rid, string guid)
+        {
+            GDocRequest request = new(_connectionParam, TTNType.SalesInvoice, rid, guid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return GDoc4.Parse(answear);
         }
     }
 }

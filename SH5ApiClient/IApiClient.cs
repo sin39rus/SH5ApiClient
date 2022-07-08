@@ -45,7 +45,12 @@ namespace SH5ApiClient
         /// <param name="ttnTypeForRequest">Типы запрашиваемых накладных</param>
         /// <param name="gDocsRequestFilter">Фильтр накладных</param>
         /// <returns></returns>
-        Task<IEnumerable<GDoc>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = null);
+        Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = null);
+        /// <summary>Запросить приходную накладную</summary>
+        /// <param name="rid">RID накладной</param>
+        /// <param name="guid">GOID накладной</param>
+        /// <returns>Приходная накладная</returns>
         Task<GDoc0?> RequestGDoc0Async(uint rid, string guid);
+        Task<GDoc4?> RequestGDoc4Async(uint rid, string guid);
     }
 }
