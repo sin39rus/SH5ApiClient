@@ -44,13 +44,13 @@
                 throw new ApiClientException("Ошибка загрузки справочника корреспондентов. Подробности во внутреннем исключении.", ex);
             }
         }
-        public async Task<AbleOperation> RequestPermissionExecuteProcedure(IEnumerable<string> procedureNames)
+        public async Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames)
         {
             AbleRequest ableRequest = new(_connectionParam, procedureNames);
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task<GDoc0?> RequestGDoc0Async(uint rid, string guid)
+        public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
@@ -122,7 +122,7 @@
             return OperationBase.Parse<InfoOperation>(answear);
         }
 
-        public async Task<GDoc4?> RequestGDoc4Async(uint rid, string guid)
+        public async Task<GDoc4?> GetGDoc4Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.SalesInvoice, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);

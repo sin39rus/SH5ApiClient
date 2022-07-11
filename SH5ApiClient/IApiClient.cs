@@ -38,7 +38,7 @@ namespace SH5ApiClient
         Task UpdateCorrespondentAsync(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount);
         /// <summary>Запросить наличие прав на выполнение процедуры</summary>
         /// <param name="procedureNames">Имена процедур для проверки</param>
-        Task<AbleOperation> RequestPermissionExecuteProcedure(IEnumerable<string> procedureNames);
+        Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames);
         /// <summary>Запрос списка накладных</summary>
         /// <param name="dateFrom">С даты включительно</param>
         /// <param name="dateTo">По дату включительно</param>
@@ -50,7 +50,7 @@ namespace SH5ApiClient
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GOID накладной</param>
         /// <returns>Приходная накладная</returns>
-        Task<GDoc0?> RequestGDoc0Async(uint rid, string guid);
-        Task<GDoc4?> RequestGDoc4Async(uint rid, string guid);
+        Task<GDoc0?> GetGDoc0Async(uint rid, string guid);
+        Task<GDoc4?> GetGDoc4Async(uint rid, string guid);
     }
 }
