@@ -16,6 +16,7 @@ namespace SH5ApiClient
         /// <param name="corAccount">Корр. счет</param>
         /// <param name="corrType">Тип корреспондента SH</param>
         Task<Сorrespondent?> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
+        Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
 
         /// <summary>Запросить значения перечислимого атрибута.</summary>
         /// <param name="head">идентификатор таблицы</param>
@@ -39,13 +40,13 @@ namespace SH5ApiClient
         /// <summary>Запросить наличие прав на выполнение процедуры</summary>
         /// <param name="procedureNames">Имена процедур для проверки</param>
         Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames);
-        /// <summary>Запрос списка накладных</summary>
+        /// <summary>Запрос списка накладных, по умолчанию возвращает только активные накладные</summary>
         /// <param name="dateFrom">С даты включительно</param>
         /// <param name="dateTo">По дату включительно</param>
         /// <param name="ttnTypeForRequest">Типы запрашиваемых накладных</param>
         /// <param name="gDocsRequestFilter">Фильтр накладных</param>
         /// <returns></returns>
-        Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = null);
+        Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices);
         /// <summary>Запросить приходную накладную</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GOID накладной</param>

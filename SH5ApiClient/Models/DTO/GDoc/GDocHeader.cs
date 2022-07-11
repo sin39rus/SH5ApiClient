@@ -135,7 +135,7 @@ namespace SH5ApiClient.Models.DTO
                 BuhOperation = BuhOperation.Parse(value.Where(t => t.Key.StartsWith("179\\")).ToDictionary(t => t.Key.TrimStart("179\\"), g => g.Value)),
                 Contract = Contract.Parse(value.Where(t => t.Key.StartsWith("172\\")).ToDictionary(t => t.Key.TrimStart("172\\"), g => g.Value)),
                 PaymentAmount = decimal.TryParse(value.GetValueOrDefault("53"), out decimal paymentAmount) ? paymentAmount : null,
-                MinActiveDate = DateTime.TryParse(value.GetValueOrDefault("38"), out DateTime minActiveDate) ? minActiveDate : null,
+                MinActiveDate = DateTime.TryParse(value.GetValueOrDefault("47"), out DateTime minActiveDate) ? minActiveDate : null,
                 Creator = User.Parse(value.Where(t => t.Key.StartsWith("109\\")).ToDictionary(t => t.Key.TrimStart("109\\"), g => g.Value)),
                 LastUpdater = User.Parse(value.Where(t => t.Key.StartsWith("109#1\\")).ToDictionary(t => t.Key.TrimStart("109#1\\"), g => g.Value))
             };

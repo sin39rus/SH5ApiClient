@@ -7,7 +7,7 @@
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
         }
-        public async Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter)
+        public async Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices)
         {
             try
             {
@@ -128,6 +128,13 @@
             string jsonAnswear = await WebClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc4.Parse(answear);
+        }
+        public async Task<GDoc11?> GetGDoc11Async(uint rid, string guid)
+        {
+            GDocRequest request = new(_connectionParam, TTNType.InternalMovement, rid, guid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return GDoc11.Parse(answear);
         }
     }
 }

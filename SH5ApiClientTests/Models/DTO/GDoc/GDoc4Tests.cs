@@ -80,7 +80,7 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(header.Attributes7["SKeeper0"], "sdfg sdfgsdfg sdfg");
             Assert.IsTrue(header.Attributes7.ContainsKey("PersonInCharge"));
             Assert.AreEqual(header.Attributes7["PersonInCharge"], "dfg dfg dfg");
-            Assert.IsNull(header.MinActiveDate);
+            Assert.AreEqual(header.MinActiveDate, new DateTime(2022, 05, 31));
 
             Assert.IsNotNull(header.Creator);
             Assert.AreEqual(header.Creator.Name, "Admin");
