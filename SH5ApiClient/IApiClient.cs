@@ -16,7 +16,6 @@ namespace SH5ApiClient
         /// <param name="corAccount">Корр. счет</param>
         /// <param name="corrType">Тип корреспондента SH</param>
         Task<Сorrespondent?> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
-        Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
 
         /// <summary>Запросить значения перечислимого атрибута.</summary>
         /// <param name="head">идентификатор таблицы</param>
@@ -47,11 +46,27 @@ namespace SH5ApiClient
         /// <param name="gDocsRequestFilter">Фильтр накладных</param>
         /// <returns></returns>
         Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices);
+
+        /// <summary>Загрузка списка товарных групп</summary>
+        /// <returns>Товарные группы</returns>
+        Task<IEnumerable<GGroup>> LoadGGroupsAsync();
+
         /// <summary>Запросить приходную накладную</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GOID накладной</param>
         /// <returns>Приходная накладная</returns>
         Task<GDoc0?> GetGDoc0Async(uint rid, string guid);
+
+        /// <summary>Запросить расходную накладную</summary>
+        /// <param name="rid">RID накладной</param>
+        /// <param name="guid">GUID накладной</param>
+        /// <returns>Расходная накладная накладная</returns>
         Task<GDoc4?> GetGDoc4Async(uint rid, string guid);
+
+        /// <summary>Запросить внутреннее перемещение</summary>
+        /// <param name="rid">RID накладной</param>
+        /// <param name="guid">GUID накладной</param>
+        /// <returns>Внутреннее перемещение</returns>
+        Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
     }
 }

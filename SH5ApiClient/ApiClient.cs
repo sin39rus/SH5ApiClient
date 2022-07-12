@@ -136,5 +136,13 @@
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc11.Parse(answear);
         }
+
+        public async Task<IEnumerable<GGroup>> LoadGGroupsAsync()
+        {
+            GGroupsRequest request = new(_connectionParam);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return GGroup.ParseGGroups(answear);
+        }
     }
 }
