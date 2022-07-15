@@ -1,8 +1,7 @@
 ﻿namespace SH5ApiClient.Models.Enums
 {
-    /// <summary>
-    /// Тип ТТН
-    /// </summary>
+    /// <summary>Тип ТТН</summary>
+    [OriginalName("24")]
     public enum TTNType
     {
         /// <summary>Приходная накладная</summary>

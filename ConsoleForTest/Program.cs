@@ -10,11 +10,10 @@ namespace ConsoleForTest
         static void Main()
         {
             //var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
-            //ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9797);
-            ConnectionParamSH5 param = new("Admin", "776417", "127.0.0.1", 9797);
+            ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9797);
+            //ConnectionParamSH5 param = new("Admin", "776417", "127.0.0.1", 9797);
             IApiClient client = new ApiClient(param);
-            var correspondents = client.LoadGGroupsAsync().Result.ToList();
-            var gg = correspondents.Count(t => t.Parent.Name == "Товары от поставщиков (Продукты)");
+            var correspondents = client.LoadGoodsFromGGroup(2).Result;
             //var gdoc11 = client.GetGDoc11Async(10, "B32CCD68-8979-0177-BAB3-68ED6C31E5AA").Result;
 
 

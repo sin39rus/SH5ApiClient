@@ -144,5 +144,13 @@
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GGroup.ParseGGroups(answear);
         }
+
+        public async Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroup(uint groupRid)
+        {
+            GoodsRequest request = new(_connectionParam, groupRid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return GoodsItem.ParseGoods(answear);
+        }
     }
 }
