@@ -73,5 +73,14 @@ namespace SH5ApiClient
         /// <param name="guid">GUID накладной</param>
         /// <returns>Внутреннее перемещение</returns>
         Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
+
+        /// <summary>Загрузка списка подразделений</summary>
+        /// <returns>Список подразделений</returns>
+        Task<IEnumerable<Depart>> LoadDeparts();
+        /// <summary>Загрузка информации о подразделении</summary>
+        /// <param name="rid">RID подразделения</param>
+        /// <param name="guid">GUID подразделения</param>
+        /// <returns></returns>
+        Task<IEnumerable<Depart>> LoadDepart(uint rid, string guid);
     }
 }

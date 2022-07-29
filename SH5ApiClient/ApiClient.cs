@@ -29,6 +29,37 @@
                 throw new ApiClientException("Ошибка загрузки списка накладных. Подробности во внутреннем исключении.", ex);
             }
         }
+        public async Task<IEnumerable<Depart>> LoadDeparts()
+        {
+            try
+            {
+                DepartsRequest departsRequest = new DepartsRequest(_connectionParam);
+                string jsonAnswear = await WebClient.WebPostAsync(departsRequest);
+                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+                ExecOperationContent content = answear.GetAnswearContent("106");
+                var departs = Depart.GetDepartsFromSHAnswear(content);
+                return departs;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiClientException("Ошибка загрузки справочника корреспондентов. Подробности во внутреннем исключении.", ex);
+            }
+        }
+        public async Task<IEnumerable<Depart>> LoadDepart(uint rid, string guid)
+        {
+            try
+            {
+                DepartRequest departRequest = new DepartRequest(_connectionParam, rid, guid);
+                string jsonAnswear = await WebClient.WebPostAsync(departRequest);
+                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+                ExecOperationContent content = answear.GetAnswearContent("107");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiClientException("Ошибка загрузки справочника корреспондентов. Подробности во внутреннем исключении.", ex);
+            }
+        }
         public async Task<IEnumerable<Сorrespondent?>> LoadCorrespondentsAsync()
         {
             try
