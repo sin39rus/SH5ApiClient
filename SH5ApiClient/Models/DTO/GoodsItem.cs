@@ -167,7 +167,7 @@
 
         /// <summary>Производитель</summary>
         [OriginalName("114")]
-        public CorrespondentSpecification? Producer { set; get; }
+        public KPP? Producer { set; get; }
 
         /// <summary>Единица измерения</summary>
         [OriginalName("206")]
@@ -226,7 +226,7 @@
                 RouteСorrespondent = Сorrespondent.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value)),
                 RKeeperCode = uint.TryParse(value.GetValueOrDefault("241"), out uint rKeeperCode) ? rKeeperCode : null,
 
-                Producer = CorrespondentSpecification.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
+                Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
                 MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
                 ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value))
             };

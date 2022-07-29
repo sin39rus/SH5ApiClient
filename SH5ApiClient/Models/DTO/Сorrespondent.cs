@@ -45,7 +45,7 @@
         public Dictionary<string, string> Attributes34 { set; get; } = new();
 
         [OriginalName("114")]
-        public CorrespondentSpecification? CorrespondentSpecification { set; get; }
+        public KPP? KPP { set; get; }
 
         /// <summary>Cрок оплаты приходов</summary>
         [OriginalName("11")]
@@ -84,7 +84,7 @@
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\"), g => g.Value),
                 Attributes7 = value.Where(t => t.Key.StartsWith("7\\")).ToDictionary(t => t.Key.TrimStart("7\\"), g => g.Value),
                 Attributes34 = value.Where(t => t.Key.StartsWith("34\\")).ToDictionary(t => t.Key.TrimStart("34\\"), g => g.Value),
-                CorrespondentSpecification = CorrespondentSpecification.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value))
+                KPP = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value))
             };
         }
 
