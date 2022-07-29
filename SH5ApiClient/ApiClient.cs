@@ -48,11 +48,14 @@
         {
             try
             {
-                DepartRequest departRequest = new DepartRequest(_connectionParam, rid, guid);
+                DepartRequest departRequest = new (_connectionParam, rid, guid);
                 string jsonAnswear = await WebClient.WebPostAsync(departRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-                ExecOperationContent content = answear.GetAnswearContent("107");
-                return null;
+                ExecOperationContent content = answear.GetAnswearContent("106");
+                var dep = Depart.Parse(content.GetValues()[0]);
+                dep.KPPs = KPP.GetKPPsFromSHAnswear(answear.GetAnswearContent("114"));
+                dep.AloLicInfos = AloLicInfo.GetAloLicInfosFromSHAnswear(answear.GetAnswearContent("115"));
+                return dep;
             }
             catch (Exception ex)
             {
