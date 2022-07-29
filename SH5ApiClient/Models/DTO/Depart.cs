@@ -37,7 +37,12 @@
         public Company? Company { get; set; }
 
         /// <summary>Список обособленных подразделений</summary>
+        [OriginalName("114")]
         public IEnumerable<KPP> KPPs { get; set; } = Array.Empty<KPP>();
+
+        /// <summary>Список обособленных подразделений</summary>
+        [OriginalName("115")]
+        public IEnumerable<AloLicInfo> AloLicInfos { get; set; } = Array.Empty<AloLicInfo>();
 
         //ToDo Не описаны 3 поля "31" "111\\8" "32"
 

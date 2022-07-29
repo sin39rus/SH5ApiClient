@@ -37,15 +37,14 @@
                 string jsonAnswear = await WebClient.WebPostAsync(departsRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("106");
-                var departs = Depart.GetDepartsFromSHAnswear(content);
-                return departs;
+                return Depart.GetDepartsFromSHAnswear(content);
             }
             catch (Exception ex)
             {
-                throw new ApiClientException("Ошибка загрузки справочника корреспондентов. Подробности во внутреннем исключении.", ex);
+                throw new ApiClientException("Ошибка загрузки справочника подразделений. Подробности во внутреннем исключении.", ex);
             }
         }
-        public async Task<IEnumerable<Depart>> LoadDepart(uint rid, string guid)
+        public async Task<Depart> GetDepart(uint rid, string guid)
         {
             try
             {
@@ -57,7 +56,7 @@
             }
             catch (Exception ex)
             {
-                throw new ApiClientException("Ошибка загрузки справочника корреспондентов. Подробности во внутреннем исключении.", ex);
+                throw new ApiClientException("Ошибка загрузки информации о подразделении. Подробности во внутреннем исключении.", ex);
             }
         }
         public async Task<IEnumerable<Сorrespondent?>> LoadCorrespondentsAsync()

@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SH5ApiClient", "SH5ApiClien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleForTest", "ConsoleForTest\ConsoleForTest.csproj", "{CD91E1FC-8FA5-4CE9-92DB-4C75BE45378B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SH5ApiClientTests", "SH5ApiClientTests\SH5ApiClientTests.csproj", "{05F59F00-829E-4992-BF53-83C2C6121012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SH5ApiClientTests", "SH5ApiClientTests\SH5ApiClientTests.csproj", "{05F59F00-829E-4992-BF53-83C2C6121012}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F12CC3B4-1C35-447C-A223-7770D1B81F0F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

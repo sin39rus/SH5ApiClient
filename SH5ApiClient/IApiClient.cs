@@ -36,9 +36,11 @@ namespace SH5ApiClient
         /// <param name="bik">БИК</param>
         /// <param name="corAccount">Кор. счет</param>
         Task UpdateCorrespondentAsync(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount);
+
         /// <summary>Запросить наличие прав на выполнение процедуры</summary>
         /// <param name="procedureNames">Имена процедур для проверки</param>
         Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames);
+
         /// <summary>Запрос списка накладных, по умолчанию возвращает только активные накладные</summary>
         /// <param name="dateFrom">С даты включительно</param>
         /// <param name="dateTo">По дату включительно</param>
@@ -77,10 +79,11 @@ namespace SH5ApiClient
         /// <summary>Загрузка списка подразделений</summary>
         /// <returns>Список подразделений</returns>
         Task<IEnumerable<Depart>> LoadDeparts();
+
         /// <summary>Загрузка информации о подразделении</summary>
         /// <param name="rid">RID подразделения</param>
         /// <param name="guid">GUID подразделения</param>
         /// <returns></returns>
-        Task<IEnumerable<Depart>> LoadDepart(uint rid, string guid);
+        Task<Depart> GetDepart(uint rid, string guid);
     }
 }

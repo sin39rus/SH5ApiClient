@@ -16,6 +16,8 @@
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
     <Version>1.2.1</Version>
+    <DebugType>portable</DebugType>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +30,10 @@
     <Folder Include="Core\ServerOperations\User\" />
     <Folder Include="Core\ServerOperations\Role\" />
     <Folder Include="Models\DTO\Attributes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
 </Project>
