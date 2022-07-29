@@ -34,17 +34,17 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(header.Supplier.Rid, (uint)4194304);
             Assert.AreEqual(header.Supplier.Name, "Склад 1");
             Assert.AreEqual(header.Supplier.SubType, CorrType3.AlcoholProducer);
-            Assert.IsNotNull(header.Supplier.CorrespondentSpecification);
-            Assert.AreEqual(header.Supplier.CorrespondentSpecification.Rid, 1);
-            Assert.AreEqual(header.Supplier.CorrespondentSpecification.Name, "666678678");
+            Assert.IsNotNull(header.Supplier.KPP);
+            Assert.AreEqual(header.Supplier.KPP.Rid, (uint)1);
+            Assert.AreEqual(header.Supplier.KPP.Name, "666678678");
 
             Assert.IsNotNull(header.Recipient);
             Assert.AreEqual(header.Recipient.Rid, (uint)8388608);
             Assert.AreEqual(header.Recipient.Name, "Склад 2");
             Assert.AreEqual(header.Recipient.SubType, CorrType3.AlcoholProducer);
-            Assert.IsNotNull(header.Recipient.CorrespondentSpecification);
-            Assert.IsNull(header.Recipient.CorrespondentSpecification.Rid);
-            Assert.IsNull(header.Recipient.CorrespondentSpecification.Name);
+            Assert.IsNotNull(header.Recipient.KPP);
+            Assert.IsNull(header.Recipient.KPP.Rid);
+            Assert.IsNull(header.Recipient.KPP.Name);
 
             Assert.AreEqual(header.Name, "123");
             Assert.IsTrue(header.Attributes6.ContainsKey("DocType1C"));
