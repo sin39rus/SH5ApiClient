@@ -29,7 +29,7 @@
                 throw new ApiClientException("Ошибка загрузки списка накладных. Подробности во внутреннем исключении.", ex);
             }
         }
-        public async Task<IEnumerable<Depart>> LoadDeparts()
+        public async Task<IEnumerable<Depart>> LoadDepartsAsync()
         {
             try
             {

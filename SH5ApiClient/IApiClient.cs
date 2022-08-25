@@ -78,7 +78,7 @@ namespace SH5ApiClient
 
         /// <summary>Загрузка списка подразделений</summary>
         /// <returns>Список подразделений</returns>
-        Task<IEnumerable<Depart>> LoadDeparts();
+        Task<IEnumerable<Depart>> LoadDepartsAsync();
 
         /// <summary>Загрузка информации о подразделении</summary>
         /// <param name="rid">RID подразделения</param>
