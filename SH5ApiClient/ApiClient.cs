@@ -62,7 +62,7 @@
                 throw new ApiClientException("Ошибка загрузки информации о подразделении. Подробности во внутреннем исключении.", ex);
             }
         }
-        public async Task<IEnumerable<Сorrespondent?>> LoadCorrespondentsAsync()
+        public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
         {
             try
             {
@@ -83,14 +83,14 @@
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
+        public async Task<GDoc0> GetGDoc0Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc0.Parse(answear);
         }
-        public async Task<IEnumerable<Сorrespondent?>> LoadInternalCorrespondentsAsync()
+        public async Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync()
         {
             try
             {
@@ -155,14 +155,14 @@
             return OperationBase.Parse<InfoOperation>(answear);
         }
 
-        public async Task<GDoc4?> GetGDoc4Async(uint rid, string guid)
+        public async Task<GDoc4> GetGDoc4Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.SalesInvoice, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc4.Parse(answear);
         }
-        public async Task<GDoc11?> GetGDoc11Async(uint rid, string guid)
+        public async Task<GDoc11> GetGDoc11Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.InternalMovement, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
