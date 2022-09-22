@@ -15,7 +15,8 @@ namespace SH5ApiClient
         /// <param name="bankName">Наименование банка</param>
         /// <param name="corAccount">Корр. счет</param>
         /// <param name="corrType">Тип корреспондента SH</param>
-        Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
+        /// <param name="corrTypeEx">Тип корреспондента SH</param>
+        Task<Сorrespondent?> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
 
         /// <summary>Запросить значения перечислимого атрибута.</summary>
         /// <param name="head">идентификатор таблицы</param>
@@ -62,19 +63,19 @@ namespace SH5ApiClient
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GOID накладной</param>
         /// <returns>Приходная накладная</returns>
-        Task<GDoc0> GetGDoc0Async(uint rid, string guid);
+        Task<GDoc0?> GetGDoc0Async(uint rid, string guid);
 
         /// <summary>Запросить расходную накладную</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
         /// <returns>Расходная накладная накладная</returns>
-        Task<GDoc4> GetGDoc4Async(uint rid, string guid);
+        Task<GDoc4?> GetGDoc4Async(uint rid, string guid);
 
         /// <summary>Запросить внутреннее перемещение</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
         /// <returns>Внутреннее перемещение</returns>
-        Task<GDoc11> GetGDoc11Async(uint rid, string guid);
+        Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
 
         /// <summary>Загрузка списка подразделений</summary>
         /// <returns>Список подразделений</returns>
@@ -84,6 +85,6 @@ namespace SH5ApiClient
         /// <param name="rid">RID подразделения</param>
         /// <param name="guid">GUID подразделения</param>
         /// <returns></returns>
-        Task<Depart> GetDepart(uint rid, string guid);
+        Task<Depart?> GetDepart(uint rid, string guid);
     }
 }

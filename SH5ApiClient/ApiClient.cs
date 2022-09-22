@@ -33,7 +33,7 @@
         {
             try
             {
-                DepartsRequest departsRequest = new DepartsRequest(_connectionParam);
+                DepartsRequest departsRequest = new(_connectionParam);
                 string jsonAnswear = await WebClient.WebPostAsync(departsRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("106");
@@ -44,17 +44,20 @@
                 throw new ApiClientException("Ошибка загрузки справочника подразделений. Подробности во внутреннем исключении.", ex);
             }
         }
-        public async Task<Depart> GetDepart(uint rid, string guid)
+        public async Task<Depart?> GetDepart(uint rid, string guid)
         {
             try
             {
-                DepartRequest departRequest = new (_connectionParam, rid, guid);
+                DepartRequest departRequest = new(_connectionParam, rid, guid);
                 string jsonAnswear = await WebClient.WebPostAsync(departRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("106");
                 var dep = Depart.Parse(content.GetValues()[0]);
-                dep.KPPs = KPP.GetKPPsFromSHAnswear(answear.GetAnswearContent("114"));
-                dep.AloLicInfos = AloLicInfo.GetAloLicInfosFromSHAnswear(answear.GetAnswearContent("115"));
+                if (dep != null)
+                {
+                    dep.KPPs = KPP.GetKPPsFromSHAnswear(answear.GetAnswearContent("114"));
+                    dep.AloLicInfos = AloLicInfo.GetAloLicInfosFromSHAnswear(answear.GetAnswearContent("115"));
+                }
                 return dep;
             }
             catch (Exception ex)
@@ -82,13 +85,6 @@
             AbleRequest ableRequest = new(_connectionParam, procedureNames);
             string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
-        }
-        public async Task<GDoc0> GetGDoc0Async(uint rid, string guid)
-        {
-            GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GDoc0.Parse(answear);
         }
         public async Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync()
         {
@@ -154,22 +150,27 @@
             string answear = await WebClient.WebPostAsync(new SHInfoRequest(_connectionParam));
             return OperationBase.Parse<InfoOperation>(answear);
         }
-
-        public async Task<GDoc4> GetGDoc4Async(uint rid, string guid)
+        public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
+        {
+            GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return GDoc0.Parse(answear);
+        }
+        public async Task<GDoc4?> GetGDoc4Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.SalesInvoice, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc4.Parse(answear);
         }
-        public async Task<GDoc11> GetGDoc11Async(uint rid, string guid)
+        public async Task<GDoc11?> GetGDoc11Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.InternalMovement, rid, guid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc11.Parse(answear);
         }
-
         public async Task<IEnumerable<GGroup>> LoadGGroupsAsync()
         {
             GGroupsRequest request = new(_connectionParam);
@@ -177,7 +178,6 @@
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GGroup.ParseGGroups(answear);
         }
-
         public async Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroup(uint groupRid)
         {
             GoodsRequest request = new(_connectionParam, groupRid);
