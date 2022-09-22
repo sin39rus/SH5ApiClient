@@ -70,6 +70,11 @@ namespace SH5ApiClient
         /// <param name="guid">GUID накладной</param>
         /// <returns>Расходная накладная накладная</returns>
         Task<GDoc4?> GetGDoc4Async(uint rid, string guid);
+        /// <summary>Запросить акт переработки</summary>
+        /// <param name="rid">RID накладной</param>
+        /// <param name="guid">GUID накладной</param>
+        /// <returns>Акт переработки</returns>
+        Task<GDoc10?> GetGDoc10Async(uint rid, string guid);
 
         /// <summary>Запросить внутреннее перемещение</summary>
         /// <param name="rid">RID накладной</param>

@@ -26,9 +26,13 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("213#1")]
         public NSPInfo? NSPInfo1 { set; get; }
 
-        /// <summary>Товар</summary>
+        /// <summary>Товар (Расход в акте переработки)</summary>
         [OriginalName("210")]
         public GoodsItem? GoodsItem { get; set; }
+
+        /// <summary>Товар (Приход в акте переработки)</summary>
+        [OriginalName("112#1")]
+        public GDocItem? GDocItemComing { get; set; }
 
         /// <summary>Страна</summary>
         [OriginalName("231")]
@@ -102,6 +106,7 @@ namespace SH5ApiClient.Models.DTO
                 Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
                 Options = uint.TryParse(value.GetValueOrDefault("32"), out uint options) ? options : null,
                 GoodsItem = GoodsItem.Parse(value.Where(t => t.Key.StartsWith("210\\")).ToDictionary(t => t.Key.TrimStart("210\\"), g => g.Value)),
+                GDocItemComing = Parse(value.Where(t => t.Key.StartsWith("112#1\\")).ToDictionary(t => t.Key.TrimStart("112#1\\"), g => g.Value)),
                 GTD = GTD.Parse(value.Where(t => t.Key.StartsWith("116\\")).ToDictionary(t => t.Key.TrimStart("116\\"), g => g.Value)),
                 Country = Country.Parse(value.Where(t => t.Key.StartsWith("231\\")).ToDictionary(t => t.Key.TrimStart("231\\"), g => g.Value)),
                 NDSInfo = NDSInfo.Parse(value.Where(t => t.Key.StartsWith("212\\")).ToDictionary(t => t.Key.TrimStart("212\\"), g => g.Value)),

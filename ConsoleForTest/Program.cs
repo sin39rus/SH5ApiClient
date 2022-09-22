@@ -13,7 +13,8 @@ namespace ConsoleForTest
             ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9797);
             //ConnectionParamSH5 param = new("Admin", "776417", "127.0.0.1", 9797);
             IApiClient client = new ApiClient(param);
-            var doc = client.GetGDoc4Async(56295,"AA48F554-5502-93CA-7D07-6F15E98439AD");
+            var ff = client.LoadGDocsAsync(DateTime.Now, DateTime.Now, SH5ApiClient.Models.Enums.TTNTypeForRequest.ActProcessing).Result;
+            var doc = client.GetGDoc10Async(58882, "ABCBA85D-F881-498B-5ABC-D8CF88382D20").Result;
         }
     }
 }
