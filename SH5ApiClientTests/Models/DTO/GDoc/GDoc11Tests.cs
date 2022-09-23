@@ -119,10 +119,10 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.IsNotNull(item2.GoodsItem.MeasureUnit);
             Assert.AreEqual(item2.GoodsItem.MeasureUnit.Rid, (uint)4);
             Assert.AreEqual(item2.GoodsItem.MeasureUnit.Name, "Литр");
-            Assert.AreEqual(item2.Currency67, 0);
-            Assert.AreEqual(item2.Currency68, 0);
-            Assert.AreEqual(item2.Currency69, 0);
-            Assert.AreEqual(item2.Currency70, 0);
+            Assert.IsNull(item2.Currency67);
+            Assert.IsNull(item2.Currency68);
+            Assert.IsNull(item2.Currency69);
+            Assert.IsNull(item2.Currency70);
             Assert.AreEqual(item2.Currency40, 178.0m);
             Assert.AreEqual(item2.Currency41, 0);
             Assert.AreEqual(item2.Currency42, 20.0m);

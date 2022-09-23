@@ -12,19 +12,19 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Ставка НДС</summary>
         [OriginalName("212")] // GDoc4 212#1
-        public NDSInfo? NDSInfo { set; get; }
+        public NDSInfo? PurchaseNDS { set; get; }
 
         /// <summary>Ставка НСП</summary>
         [OriginalName("213")] // GDoc4 213#1
-        public NSPInfo? NSPInfo { set; get; }
+        public NSPInfo? PurchaseNSP { set; get; }
 
         /// <summary>Ставка НДС Расходная накладная</summary>
         [OriginalName("212#1")]
-        public NDSInfo? NDSInfo1 { set; get; }
+        public NDSInfo? SaleNDS { set; get; }
 
         /// <summary>Ставка НСП Расходная накладная</summary>
         [OriginalName("213#1")]
-        public NSPInfo? NSPInfo1 { set; get; }
+        public NSPInfo? SaleNSP { set; get; }
 
         /// <summary>Товар (Расход в акте переработки)</summary>
         [OriginalName("210")]
@@ -80,19 +80,19 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Компенсированное количество и суммы (сумма, НДС, НСП)</summary>
         [OriginalName("67")]
-        public decimal Currency67 { get; set; }
+        public decimal? Currency67 { get; set; }
 
         /// <summary>Компенсирующая сумма без налогов</summary>
         [OriginalName("68")]
-        public decimal Currency68 { set; get; }
+        public decimal? Currency68 { set; get; }
 
         /// <summary>Компенсирующая сумму НДС</summary>
         [OriginalName("69")]
-        public decimal Currency69 { set; get; }
+        public decimal? Currency69 { set; get; }
 
         /// <summary>Компенсирующая сумму НСП</summary>
         [OriginalName("70")]
-        public decimal Currency70 { set; get; }
+        public decimal? Currency70 { set; get; }
 
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
@@ -109,10 +109,10 @@ namespace SH5ApiClient.Models.DTO
                 GDocItemComing = Parse(value.Where(t => t.Key.StartsWith("112#1\\")).ToDictionary(t => t.Key.TrimStart("112#1\\"), g => g.Value)),
                 GTD = GTD.Parse(value.Where(t => t.Key.StartsWith("116\\")).ToDictionary(t => t.Key.TrimStart("116\\"), g => g.Value)),
                 Country = Country.Parse(value.Where(t => t.Key.StartsWith("231\\")).ToDictionary(t => t.Key.TrimStart("231\\"), g => g.Value)),
-                NDSInfo = NDSInfo.Parse(value.Where(t => t.Key.StartsWith("212\\")).ToDictionary(t => t.Key.TrimStart("212\\"), g => g.Value)),
-                NDSInfo1 = NDSInfo.Parse(value.Where(t => t.Key.StartsWith("212#1\\")).ToDictionary(t => t.Key.TrimStart("212#1\\"), g => g.Value)),
-                NSPInfo = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213\\")).ToDictionary(t => t.Key.TrimStart("213\\"), g => g.Value)),
-                NSPInfo1 = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213#1\\")).ToDictionary(t => t.Key.TrimStart("213#1\\"), g => g.Value)),
+                PurchaseNDS = NDSInfo.Parse(value.Where(t => t.Key.StartsWith("212\\")).ToDictionary(t => t.Key.TrimStart("212\\"), g => g.Value)),
+                SaleNDS = NDSInfo.Parse(value.Where(t => t.Key.StartsWith("212#1\\")).ToDictionary(t => t.Key.TrimStart("212#1\\"), g => g.Value)),
+                PurchaseNSP = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213\\")).ToDictionary(t => t.Key.TrimStart("213\\"), g => g.Value)),
+                SaleNSP = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213#1\\")).ToDictionary(t => t.Key.TrimStart("213#1\\"), g => g.Value)),
                 Quantity = decimal.Parse(value.GetValueOrDefault("31") ?? "0", CultureInfo.InvariantCulture),
                 Currency40 = decimal.Parse(value.GetValueOrDefault("40") ?? "0", CultureInfo.InvariantCulture),
                 Currency41 = decimal.Parse(value.GetValueOrDefault("41") ?? "0", CultureInfo.InvariantCulture),
@@ -120,10 +120,10 @@ namespace SH5ApiClient.Models.DTO
                 Currency45 = decimal.Parse(value.GetValueOrDefault("45") ?? "0", CultureInfo.InvariantCulture),
                 Currency46 = decimal.Parse(value.GetValueOrDefault("46") ?? "0", CultureInfo.InvariantCulture),
                 Currency47 = decimal.Parse(value.GetValueOrDefault("47") ?? "0", CultureInfo.InvariantCulture),
-                Currency67 = decimal.Parse(value.GetValueOrDefault("67") ?? "0", CultureInfo.InvariantCulture),
-                Currency68 = decimal.Parse(value.GetValueOrDefault("68") ?? "0", CultureInfo.InvariantCulture),
-                Currency69 = decimal.Parse(value.GetValueOrDefault("69") ?? "0", CultureInfo.InvariantCulture),
-                Currency70 = decimal.Parse(value.GetValueOrDefault("70") ?? "0", CultureInfo.InvariantCulture),
+                Currency67 = decimal.TryParse(value.GetValueOrDefault("67"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency67) ? currency67 : null,
+                Currency68 = decimal.TryParse(value.GetValueOrDefault("68"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency68) ? currency68 : null,
+                Currency69 = decimal.TryParse(value.GetValueOrDefault("69"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency69) ? currency69 : null,
+                Currency70 = decimal.TryParse(value.GetValueOrDefault("70"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency70) ? currency70 : null,
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\".ToCharArray()), g => g.Value),
                 AmountWeighed = decimal.TryParse(value.GetValueOrDefault("74"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal amountWeighed) ? amountWeighed : null
             };
