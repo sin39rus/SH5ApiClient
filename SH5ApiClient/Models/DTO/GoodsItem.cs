@@ -178,6 +178,7 @@
         public ProductSynonym? ProductSynonym { set; get; }
 
 
+
         public static GoodsItem? Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
@@ -228,8 +229,7 @@
 
                 Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
                 MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
-                ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value))
-            };
+                ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value)),            };
         }
 
         public static IEnumerable<GoodsItem> ParseGoods(ExecOperation answear)

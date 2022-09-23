@@ -97,6 +97,10 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
         public Dictionary<string, string> Attributes6 { set; get; } = new();
+
+        /// <summary>Связанная накладная (возврат поставщику)</summary>
+        [OriginalName("111#1")]
+        public GDocHeader? RelatedInvoice { set; get; }
         public static GDocItem? Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
@@ -125,7 +129,8 @@ namespace SH5ApiClient.Models.DTO
                 Currency69 = decimal.TryParse(value.GetValueOrDefault("69"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency69) ? currency69 : null,
                 Currency70 = decimal.TryParse(value.GetValueOrDefault("70"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency70) ? currency70 : null,
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\".ToCharArray()), g => g.Value),
-                AmountWeighed = decimal.TryParse(value.GetValueOrDefault("74"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal amountWeighed) ? amountWeighed : null
+                AmountWeighed = decimal.TryParse(value.GetValueOrDefault("74"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal amountWeighed) ? amountWeighed : null,
+                RelatedInvoice = GDocHeader.Parse(value.Where(t => t.Key.StartsWith("111#1\\")).ToDictionary(t => t.Key.TrimStart("111#1\\"), g => g.Value)),
             };
         }
     }

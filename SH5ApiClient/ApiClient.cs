@@ -164,6 +164,13 @@
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc4.Parse(answear);
         }
+        public async Task<GDoc5?> GetGDoc5Async(uint rid, string guid)
+        {
+            GDocRequest request = new(_connectionParam, TTNType.ReturnSupplier, rid, guid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return GDoc5.Parse(answear);
+        }
         public async Task<GDoc10?> GetGDoc10Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.ActProcessing, rid, guid);
