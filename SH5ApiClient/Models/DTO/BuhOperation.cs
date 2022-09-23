@@ -6,7 +6,7 @@
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]
-        public int? Rid { set; get; }
+        public uint? Rid { set; get; }
 
         /// <summary>Name</summary>
         [OriginalName("3")]
@@ -18,7 +18,7 @@
                 return null;
             return new BuhOperation
             {
-                Rid = int.TryParse(value.GetValueOrDefault("1"), out int rid) ? rid : null,
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
                 Name = value.GetValueOrDefault("3")
             };
         }

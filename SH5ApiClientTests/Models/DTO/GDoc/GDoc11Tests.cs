@@ -27,7 +27,7 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(header.TTNOptions, TTNOptions.Active | TTNOptions.ActivatedByCntr1 | TTNOptions.ActivatedByCntr0);
             Assert.AreEqual(header.DateStamp, new DateTime(2022, 7, 11));
             Assert.IsNotNull(header.BuhOperation);
-            Assert.AreEqual(header.BuhOperation.Rid, 0);
+            Assert.AreEqual(header.BuhOperation.Rid, (uint)0);
             Assert.AreEqual(header.BuhOperation.Name, "Бух операция 1");
 
             Assert.IsNotNull(header.Supplier);
