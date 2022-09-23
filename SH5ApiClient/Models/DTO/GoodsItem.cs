@@ -177,7 +177,9 @@
         [OriginalName("255")]
         public ProductSynonym? ProductSynonym { set; get; }
 
-
+        /// <summary>Комплект</summary>
+        [OriginalName("215")]
+        public DishComposition? DishComposition { set; get; }
 
         public static GoodsItem? Parse(Dictionary<string, string> value)
         {
@@ -229,7 +231,9 @@
 
                 Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
                 MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
-                ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value)),            };
+                ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value)),
+                DishComposition = DishComposition.Parse(value.Where(t => t.Key.StartsWith("215\\")).ToDictionary(t => t.Key.TrimStart("215\\"), g => g.Value)),
+            };
         }
 
         public static IEnumerable<GoodsItem> ParseGoods(ExecOperation answear)

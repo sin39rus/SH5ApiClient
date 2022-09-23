@@ -24,10 +24,12 @@ namespace SH5ApiClient
         /// <returns></returns>
         Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path);
 
-        /// <summary>Загрузка справочника корреспондентов</summary>
+        /// <summary>Загрузка справочника корреспондентов
+        /// </summary>
         Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync();
 
-        /// <summary>Загрузка справочника внутренних корреспондентов</summary>
+        /// <summary>Загрузка справочника внутренних корреспондентов
+        /// </summary>
         Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync();
 
         /// <summary>Обновление банковских реквизитов у корреспондента</summary>
@@ -76,6 +78,13 @@ namespace SH5ApiClient
         /// <param name="guid">GUID накладной</param>
         /// <returns>Расходная накладная накладная</returns>
         Task<GDoc5?> GetGDoc5Async(uint rid, string guid);
+
+        /// <summary>Запросить сличительную ведомость</summary>
+        /// <param name="rid">RID накладной</param>
+        /// <param name="guid">GUID накладной</param>
+        /// <returns>Расходная накладная накладная</returns>
+        Task<GDoc8?> GetGDoc8Async(uint rid, string guid);
+
         /// <summary>Запросить акт переработки</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
