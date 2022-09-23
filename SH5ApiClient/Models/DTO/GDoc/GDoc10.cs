@@ -1,6 +1,6 @@
 ﻿namespace SH5ApiClient.Models.DTO
 {
-    /// <summary>Расходная накладная</summary>
+    /// <summary>Акт переработки</summary>
     public class GDoc10
     {
         /// <summary>Заголовок накладной</summary>
