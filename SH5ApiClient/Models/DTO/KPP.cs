@@ -40,6 +40,10 @@
         [OriginalName("107")]
         public Сorrespondent? Сorrespondent { set; get; }
 
+        /// <summary>Контрагент</summary>
+        [OriginalName("105")]
+        public Сorrespondent? Сorrespondent2 { set; get; }
+
         public static IEnumerable<KPP> GetKPPsFromSHAnswear(ExecOperationContent answear)
         {
             foreach (Dictionary<string, string>? value in answear.GetValues())
@@ -64,7 +68,8 @@
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\".ToCharArray()), g => g.Value),
                 Attributes7 = value.Where(t => t.Key.StartsWith("7\\")).ToDictionary(t => t.Key.TrimStart("7\\".ToCharArray()), g => g.Value),
                 Attributes35 = value.Where(t => t.Key.StartsWith("35\\")).ToDictionary(t => t.Key.TrimStart("35\\".ToCharArray()), g => g.Value),
-                Сorrespondent = Сorrespondent.Parse(value.Where(t => t.Key.StartsWith("107\\")).ToDictionary(t => t.Key.TrimStart("107\\"), g => g.Value))
+                Сorrespondent = Сorrespondent.Parse(value.Where(t => t.Key.StartsWith("107\\")).ToDictionary(t => t.Key.TrimStart("107\\"), g => g.Value)),
+                Сorrespondent2 = Сorrespondent.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value))
             };
         }
     }

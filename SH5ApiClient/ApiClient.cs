@@ -178,6 +178,13 @@
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc8.Parse(answear);
         }
+        public async Task<GDoc8Diffs?> GetGDoc8DiffsAsync(uint rid, string guid)
+        {
+            GDocRequest request = new(_connectionParam, TTNType.CollationStatementDiffs, rid, guid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return GDoc8Diffs.Parse(answear);
+        }
         public async Task<GDoc10?> GetGDoc10Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.ActProcessing, rid, guid);

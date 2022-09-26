@@ -46,7 +46,7 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("31")]
         public decimal Quantity { set; get; }
 
-        /// <summary>Опции спецификаций накладных </summary>
+        /// <summary>Опции спецификаций накладных</summary>
         [OriginalName("32")]
         public uint? Options { set; get; } //ToDo: Тип который надо определить
 
@@ -94,6 +94,28 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("70")]
         public decimal? Currency70 { set; get; }
 
+
+        /// <summary>Сличительная ведомость Излишки/недостачи количество</summary>
+        [OriginalName("55")]
+        public decimal Currency55 { set; get; }
+
+        /// <summary>Сличительная ведомость Излишки/недостачи сумма б/н</summary>
+        [OriginalName("50")]
+        public decimal Currency50 { set; get; }
+
+        /// <summary>Сличительная ведомость Излишки/недостачи НДС</summary>
+        [OriginalName("51")]
+        public decimal Currency51 { set; get; }
+
+        /// <summary>Сличительная ведомость Излишки/недостачи НСП</summary>
+        [OriginalName("52")]
+        public decimal Currency52 { set; get; }
+
+        /// <summary>Цена и ставки налогов излишков </summary>
+        [OriginalName("57")]
+        public decimal? Currency57 { set; get; }
+
+
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
         public Dictionary<string, string> Attributes6 { set; get; } = new();
@@ -124,6 +146,11 @@ namespace SH5ApiClient.Models.DTO
                 Currency45 = decimal.Parse(value.GetValueOrDefault("45") ?? "0", CultureInfo.InvariantCulture),
                 Currency46 = decimal.Parse(value.GetValueOrDefault("46") ?? "0", CultureInfo.InvariantCulture),
                 Currency47 = decimal.Parse(value.GetValueOrDefault("47") ?? "0", CultureInfo.InvariantCulture),
+                Currency55 = decimal.Parse(value.GetValueOrDefault("55") ?? "0", CultureInfo.InvariantCulture),
+                Currency50 = decimal.Parse(value.GetValueOrDefault("50") ?? "0", CultureInfo.InvariantCulture),
+                Currency51 = decimal.Parse(value.GetValueOrDefault("51") ?? "0", CultureInfo.InvariantCulture),
+                Currency52 = decimal.Parse(value.GetValueOrDefault("52") ?? "0", CultureInfo.InvariantCulture),
+                Currency57 = decimal.TryParse(value.GetValueOrDefault("57"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency57) ? currency57 : null,
                 Currency67 = decimal.TryParse(value.GetValueOrDefault("67"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency67) ? currency67 : null,
                 Currency68 = decimal.TryParse(value.GetValueOrDefault("68"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency68) ? currency68 : null,
                 Currency69 = decimal.TryParse(value.GetValueOrDefault("69"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal currency69) ? currency69 : null,

@@ -129,7 +129,7 @@
 
         /// <summary>Продажа (цена c налогами)</summary>
         [OriginalName("57")]
-        public decimal SalePriceWithTaxes { set; get; }
+        public decimal? SalePriceWithTaxes { set; get; }
 
         /// <summary>Продажа НДС</summary>
         [OriginalName("212#1")]

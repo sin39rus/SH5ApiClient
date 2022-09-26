@@ -19,6 +19,9 @@
         /// <summary>Сличительная ведомость</summary>
         CollationStatement = 8,
 
+        /// <summary>Сличительная ведомость излишки/недостачи</summary>
+        CollationStatementDiffs = 88,
+
         /// <summary>Акт переработки</summary>
         ActProcessing = 10,
 

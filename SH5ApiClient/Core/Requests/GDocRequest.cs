@@ -21,6 +21,7 @@ namespace SH5ApiClient.Core.Requests
                 TTNType.ActProcessing => "GDoc10",
                 TTNType.ReturnSupplier => "GDoc5",
                 TTNType.CollationStatement => "GDoc8",
+                TTNType.CollationStatementDiffs => "GDoc8Diffs",
                 TTNType.Compdection => "GDoc12",
                 TTNType.Decomposition => "GDoc13",
                 _ => throw new NotImplementedException($"Не известный тип накладной \"{ttnType}\".")
