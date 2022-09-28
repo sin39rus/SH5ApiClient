@@ -76,19 +76,19 @@ namespace SH5ApiClient
         /// <summary>Запросить возврат поставщику</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
-        /// <returns>Расходная накладная накладная</returns>
+        /// <returns>Возврат поставщику</returns>
         Task<GDoc5?> GetGDoc5Async(uint rid, string guid);
 
         /// <summary>Запросить сличительную ведомость</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
-        /// <returns>Расходная накладная накладная</returns>
+        /// <returns>Сличительную ведомость</returns>
         Task<GDoc8?> GetGDoc8Async(uint rid, string guid);
 
         /// <summary>Запросить сличительную ведомость излишки/недостачи</summary>
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
-        /// <returns>Расходная накладная накладная</returns>
+        /// <returns>Сличительную ведомость излишки/недостачи</returns>
         Task<GDoc8Diffs?> GetGDoc8DiffsAsync(uint rid, string guid);
 
         /// <summary>Запросить акт переработки</summary>
