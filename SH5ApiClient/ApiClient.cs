@@ -44,7 +44,7 @@
                 throw new ApiClientException("Ошибка загрузки справочника подразделений. Подробности во внутреннем исключении.", ex);
             }
         }
-        public async Task<Depart?> GetDepart(uint rid, string guid)
+        public async Task<Depart?> GetDepartAsync(uint rid, string guid)
         {
             try
             {

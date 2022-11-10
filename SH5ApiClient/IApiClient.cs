@@ -1,9 +1,9 @@
-﻿using SH5ApiClient.Models.DTO;
-
-namespace SH5ApiClient
+﻿namespace SH5ApiClient
 {
     public interface IApiClient
     {
+        /// <summary>Получение настроек сервера и информации о БД. </summary>
+        /// <returns>Информация о сервере SH</returns>
         Task<InfoOperation> GetSHServerInfoAsync();
 
         /// <summary>Создание корреспондента
@@ -111,6 +111,6 @@ namespace SH5ApiClient
         /// <param name="rid">RID подразделения</param>
         /// <param name="guid">GUID подразделения</param>
         /// <returns></returns>
-        Task<Depart?> GetDepart(uint rid, string guid);
+        Task<Depart?> GetDepartAsync(uint rid, string guid);
     }
 }
