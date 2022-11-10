@@ -166,6 +166,13 @@
             ExecOperationContent content = answear.GetAnswearContent("205");
             return MeasureGroup.GetMGroupsFromSHAnswear(content);
         }
+        public async Task<MeasureGroup?> GetMeasureGroupAsync(uint rid)
+        {
+            MGroupRequest request = new(_connectionParam, rid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return MeasureGroup.Parse(answear.GetAnswearContent("205").GetValues()[0]);
+        }
         public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);

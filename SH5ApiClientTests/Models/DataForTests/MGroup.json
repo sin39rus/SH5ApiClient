@@ -1,0 +1,30 @@
+{
+  "errorCode": 0,
+  "errMessage": "OK",
+  "Version": "1.12",
+  "UserName": "Admin",
+  "actionName": "MGroup",
+  "actionType": "Execute",
+  "shTable": [
+    {
+      "head": "205",
+      "recCount": 1,
+      "original": [
+        "1",
+        "3"
+      ],
+      "fields": [
+        "Rid",
+        "Name"
+      ],
+      "values": [
+        [
+          1
+        ],
+        [
+          "Весовые"
+        ]
+      ]
+    }
+  ]
+}

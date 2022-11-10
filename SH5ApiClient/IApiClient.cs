@@ -71,6 +71,11 @@
         /// <returns>Список групп единиц измерения</returns>
         Task<IEnumerable<MeasureGroup>> LoadMeasureGroupsAsync();
 
+        /// <summary>Загрузить группу единицы измерения</summary>
+        /// <param name="rid">RID группы ед.изм</param>
+        /// <returns>Группа единиц измерения</returns>
+        Task<MeasureGroup?> GetMeasureGroupAsync(uint rid);
+
 
         #region Работа с документами GDoc
         /// <summary>Запрос списка накладных, по умолчанию возвращает только активные накладные</summary>
