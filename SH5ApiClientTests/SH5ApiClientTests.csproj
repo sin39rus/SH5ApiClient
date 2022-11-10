@@ -29,6 +29,12 @@
     <None Update="Core\Requests\DataForTests\CorrsRequest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Models\DataForTests\Currencies.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Models\DataForTests\MGroups.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Models\DataForTests\Depart.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

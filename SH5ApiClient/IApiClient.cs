@@ -67,6 +67,11 @@
         /// <returns>Список валют</returns>
         Task<IEnumerable<Currency>> LoadCurrenciesAsync();
 
+        /// <summary>Запрос списока групп единиц измерения</summary>
+        /// <returns>Список групп единиц измерения</returns>
+        Task<IEnumerable<MeasureGroup>> LoadMeasureGroupsAsync();
+
+
         #region Работа с документами GDoc
         /// <summary>Запрос списка накладных, по умолчанию возвращает только активные накладные</summary>
         /// <param name="dateFrom">С даты включительно</param>
@@ -116,7 +121,7 @@
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
         /// <returns>Внутреннее перемещение</returns>
-        Task<GDoc11?> GetGDoc11Async(uint rid, string guid); 
+        Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
         #endregion
     }
 }

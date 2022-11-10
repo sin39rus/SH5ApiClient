@@ -158,6 +158,14 @@
             ExecOperationContent content = answear.GetAnswearContent("100");
             return Currency.GetCurrenciesFromSHAnswear(content);
         }
+        public async Task<IEnumerable<MeasureGroup>> LoadMeasureGroupsAsync()
+        {
+            MGroupsRequest request = new(_connectionParam);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            ExecOperationContent content = answear.GetAnswearContent("205");
+            return MeasureGroup.GetMGroupsFromSHAnswear(content);
+        }
         public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
