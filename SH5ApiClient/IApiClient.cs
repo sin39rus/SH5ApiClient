@@ -44,14 +44,6 @@
         /// <param name="procedureNames">Имена процедур для проверки</param>
         Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames);
 
-        /// <summary>Запрос списка накладных, по умолчанию возвращает только активные накладные</summary>
-        /// <param name="dateFrom">С даты включительно</param>
-        /// <param name="dateTo">По дату включительно</param>
-        /// <param name="ttnTypeForRequest">Типы запрашиваемых накладных</param>
-        /// <param name="gDocsRequestFilter">Фильтр накладных</param>
-        /// <returns></returns>
-        Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices);
-
         /// <summary>Загрузка списка товарных групп</summary>
         /// <returns>Товарные группы</returns>
         Task<IEnumerable<GGroup>> LoadGGroupsAsync();
@@ -60,6 +52,29 @@
         /// <param name="groupRid">Rid товарной группы</param>
         /// <returns>Список товаров в группе</returns>
         Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroup(uint groupRid); //ToDo реализовать расчет себестоимости, для этого надо запросить подразделение и дату https://docs.rkeeper.ru/sh5/api/protsedury-servera/slovari/tovary/goods-spisok-tovarov-v-gruppe
+
+        /// <summary>Загрузка списка подразделений</summary>
+        /// <returns>Список подразделений</returns>
+        Task<IEnumerable<Depart>> LoadDepartsAsync();
+
+        /// <summary>Загрузка информации о подразделении</summary>
+        /// <param name="rid">RID подразделения</param>
+        /// <param name="guid">GUID подразделения</param>
+        /// <returns></returns>
+        Task<Depart?> GetDepartAsync(uint rid, string guid);
+
+        /// <summary>Загрузка списка валют</summary>
+        /// <returns>Список валют</returns>
+        Task<IEnumerable<Currency>> LoadCurrenciesAsync();
+
+        #region Работа с документами GDoc
+        /// <summary>Запрос списка накладных, по умолчанию возвращает только активные накладные</summary>
+        /// <param name="dateFrom">С даты включительно</param>
+        /// <param name="dateTo">По дату включительно</param>
+        /// <param name="ttnTypeForRequest">Типы запрашиваемых накладных</param>
+        /// <param name="gDocsRequestFilter">Фильтр накладных</param>
+        /// <returns></returns>
+        Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices);
 
         /// <summary>Запросить приходную накладную</summary>
         /// <param name="rid">RID накладной</param>
@@ -101,16 +116,7 @@
         /// <param name="rid">RID накладной</param>
         /// <param name="guid">GUID накладной</param>
         /// <returns>Внутреннее перемещение</returns>
-        Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
-
-        /// <summary>Загрузка списка подразделений</summary>
-        /// <returns>Список подразделений</returns>
-        Task<IEnumerable<Depart>> LoadDepartsAsync();
-
-        /// <summary>Загрузка информации о подразделении</summary>
-        /// <param name="rid">RID подразделения</param>
-        /// <param name="guid">GUID подразделения</param>
-        /// <returns></returns>
-        Task<Depart?> GetDepartAsync(uint rid, string guid);
+        Task<GDoc11?> GetGDoc11Async(uint rid, string guid); 
+        #endregion
     }
 }

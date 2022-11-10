@@ -1,0 +1,56 @@
+{
+  "errorCode": 0,
+  "errMessage": "OK",
+  "Version": "1.12",
+  "UserName": "Admin",
+  "actionName": "Currencies",
+  "actionType": "Execute",
+  "shTable": [
+    {
+      "head": "100",
+      "recCount": 2,
+      "original": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "7\\PrnCode",
+        "7\\ISO4217"
+      ],
+      "fields": [
+        "Rid",
+        "Code",
+        "Name",
+        "Guid",
+        "7\\PrnCode",
+        "7\\ISO4217"
+      ],
+      "values": [
+        [
+          1,
+          0
+        ],
+        [
+          "у.е.",
+          "руб"
+        ],
+        [
+          "у.е.",
+          "Рубли"
+        ],
+        [
+          "{172E7210-C7CF-2671-AF87-7840C144651F}",
+          "{71DFCCE9-4BE7-DC03-4526-2D18164F6BC8}"
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          "643"
+        ]
+      ]
+    }
+  ]
+}

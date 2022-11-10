@@ -150,6 +150,14 @@
             string answear = await WebClient.WebPostAsync(new SHInfoRequest(_connectionParam));
             return OperationBase.Parse<InfoOperation>(answear);
         }
+        public async Task<IEnumerable<Currency>> LoadCurrenciesAsync()
+        {
+            CurrenciesRequest request = new(_connectionParam);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            ExecOperationContent content = answear.GetAnswearContent("100");
+            return Currency.GetCurrenciesFromSHAnswear(content);
+        }
         public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
