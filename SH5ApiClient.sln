@@ -9,12 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleForTest", "ConsoleFo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SH5ApiClientTests", "SH5ApiClientTests\SH5ApiClientTests.csproj", "{05F59F00-829E-4992-BF53-83C2C6121012}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F12CC3B4-1C35-447C-A223-7770D1B81F0F}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsForTest", "WinFormsForTest\WinFormsForTest.csproj", "{E33AD737-163E-4109-B570-5E479EB243F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsForTest", "WinFormsForTest\WinFormsForTest.csproj", "{E33AD737-163E-4109-B570-5E479EB243F1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ForTest", "ForTest", "{75C07294-5D85-49B6-A29A-D7C6A13B8A9A}"
 EndProject

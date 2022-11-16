@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class MGroupRequest : RequestBase
+    internal class MUnitsRequest : RequestBase
     {
         //Имя процедуры
-        private const string procName = "MGroup";
+        private const string procName = "MUnits";
+
         private readonly uint? _rid;
-        public MGroupRequest(ConnectionParamSH5 connectionParamSH5, uint? groupRid) : base(procName, connectionParamSH5)
-        {
-            _rid = groupRid;
-        }
         public override OperationBase Operation => new ExecOperation();
+        internal MUnitsRequest(ConnectionParamSH5 connectionParam, uint? ridMGroup = null) : base(procName, connectionParam)
+        {
+            _rid = ridMGroup;
+        }
         public override string CreateJsonRequest()
         {
             return new JObject(

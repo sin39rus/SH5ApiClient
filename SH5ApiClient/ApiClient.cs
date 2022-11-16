@@ -229,7 +229,7 @@
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GGroup.ParseGGroups(answear);
         }
-        public async Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroup(uint groupRid)
+        public async Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroupAsync(uint groupRid)
         {
             GoodsRequest request = new(_connectionParam, groupRid);
             string jsonAnswear = await WebClient.WebPostAsync(request);
@@ -237,5 +237,12 @@
             return GoodsItem.ParseGoods(answear);
         }
 
+        public async Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null)
+        {
+            MUnitsRequest request = new(_connectionParam, groupRid);
+            string jsonAnswear = await WebClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            return MeasureUnit.ParseMUnits(answear.GetAnswearContent("206"));
+        }
     }
 }

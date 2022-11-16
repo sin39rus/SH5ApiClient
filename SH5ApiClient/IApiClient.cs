@@ -51,7 +51,7 @@
         /// <summary>Запрос списка товаров в группе</summary>
         /// <param name="groupRid">Rid товарной группы</param>
         /// <returns>Список товаров в группе</returns>
-        Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroup(uint groupRid); //ToDo реализовать расчет себестоимости, для этого надо запросить подразделение и дату https://docs.rkeeper.ru/sh5/api/protsedury-servera/slovari/tovary/goods-spisok-tovarov-v-gruppe
+        Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroupAsync(uint groupRid); //ToDo реализовать расчет себестоимости, для этого надо запросить подразделение и дату https://docs.rkeeper.ru/sh5/api/protsedury-servera/slovari/tovary/goods-spisok-tovarov-v-gruppe
 
         /// <summary>Загрузка списка подразделений</summary>
         /// <returns>Список подразделений</returns>
@@ -67,15 +67,21 @@
         /// <returns>Список валют</returns>
         Task<IEnumerable<Currency>> LoadCurrenciesAsync();
 
+        #region Единицы измерения
         /// <summary>Запрос списока групп единиц измерения</summary>
         /// <returns>Список групп единиц измерения</returns>
         Task<IEnumerable<MeasureGroup>> LoadMeasureGroupsAsync();
 
         /// <summary>Загрузить группу единицы измерения</summary>
-        /// <param name="rid">RID группы ед.изм</param>
+        /// <param name="groupRid">RID группы ед.изм</param>
         /// <returns>Группа единиц измерения</returns>
-        Task<MeasureGroup?> GetMeasureGroupAsync(uint rid);
+        Task<MeasureGroup?> GetMeasureGroupAsync(uint groupRid);
 
+        /// <summary>Запрос списка единиц измерения в группе</summary>
+        /// <param name="groupRid">RID группы единиц измерения, по умолчанию по всем группам</param>
+        /// <returns>Список единиц измерения в группе</returns>
+        Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null); 
+        #endregion
 
         #region Работа с документами GDoc
         /// <summary>Запрос списка накладных, по умолчанию возвращает только активные накладные</summary>
