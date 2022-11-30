@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace SH5ApiClient.Core.ServerOperations
@@ -9,7 +10,7 @@ namespace SH5ApiClient.Core.ServerOperations
     public sealed class ExecOperationContent
     {
         //Данные блока
-        private Dictionary<string, string>[] _values = Array.Empty<Dictionary<string, string>>();
+        private Dictionary<string, string?>[] _values = Array.Empty<Dictionary<string, string?>>();
 
         /// <summary>
         /// Заголовок данных
@@ -33,19 +34,19 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Наименование полей SH
         /// </summary>
         [JsonProperty("fields")]
-        public string[]? Fields { get; private set; }
+        public string[] Fields { get; private set; } = Array.Empty<string>();
 
         /// <summary>
         /// Значение полей SH
         /// </summary>
         [JsonProperty("values")]
-        public string[][] Values { get; private set; } = Array.Empty<string[]>();
+        public object[][] Values { get; private set; } = Array.Empty<object[]>();
 
         /// <summary>
         /// Получить данные запроса
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, string>[] GetValues()
+        public Dictionary<string, string?>[] GetValues()
         {
             return _values;
         }
@@ -80,12 +81,12 @@ namespace SH5ApiClient.Core.ServerOperations
         /// </summary>
         private void TransformValues()
         {
-            _values = new Dictionary<string, string>[RecCount];
+            _values = new Dictionary<string, string?>[RecCount];
             for (int x = 0; x < RecCount; x++)
             {
-                _values[x] = new Dictionary<string, string>();
+                _values[x] = new Dictionary<string, string?>();
                 for (int y = 0; y < Original.Length; y++)
-                    _values[x].Add(Original[y], Values[y][x]);
+                    _values[x].Add(Original[y], Values[y][x]?.ToString());
             }
         }
     }
