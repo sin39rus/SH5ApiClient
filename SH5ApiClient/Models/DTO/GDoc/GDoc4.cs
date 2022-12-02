@@ -9,7 +9,7 @@
 
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
-        public IEnumerable<GDocItem?>? Content { get; set; }
+        public List<GDocItem?>? Content { get; set; }
         public static GDoc4? Parse(ExecOperation answear)
         {
             ExecOperationContent header = answear.GetAnswearContent("111");
@@ -17,7 +17,7 @@
             return new GDoc4
             {
                 Header = GDocHeader.Parse(header.GetValues()[0]),
-                Content = content.GetValues().Select(t => GDocItem.Parse(t))
+                Content = content.GetValues().Select(t => GDocItem.Parse(t)).ToList()
             };
         }
     }

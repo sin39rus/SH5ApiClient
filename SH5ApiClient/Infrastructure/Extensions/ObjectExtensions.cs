@@ -22,5 +22,13 @@ namespace SH5ApiClient.Infrastructure.Extensions
                 ?? throw new ArgumentNullException(nameof(propertyName), $"Свойство \"{nameof(propertyName)}\" не содержит атрибут \"SHOriginalName\"");
             return attribute.OriginalName;
         }
+        public static bool IsDictionary(this object obj)
+        {
+            return obj is System.Collections.IDictionary;
+        }
+        public static bool IsList(this object obj)
+        {
+            return obj is System.Collections.IList;
+        }
     }
 }

@@ -6,6 +6,11 @@
         internal string OriginalName { private set; get; }
         internal OriginalNameAttribute(string originalName)
         {
+            if (string.IsNullOrEmpty(originalName))
+            {
+                throw new ArgumentException($"\"{nameof(originalName)}\" не может быть неопределенным или пустым.", nameof(originalName));
+            }
+
             OriginalName = originalName;
         }
     }

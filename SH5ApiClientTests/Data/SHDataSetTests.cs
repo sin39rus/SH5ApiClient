@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SH5ApiClient.Data;
+using SH5ApiClient.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,6 +51,13 @@ namespace SH5ApiClient.Data.Tests
                 result
                 ).ToString();
             Assert.AreEqual(expected, actual);
+        }
+        [TestMethod()]
+        public void ParseTest()
+        {
+            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc4.json", Encoding.UTF8);
+            var result = DataSet.Parse<GDoc4>(jsonAnswear);
+
         }
     }
 
