@@ -56,10 +56,6 @@
         [OriginalName("3")]
         public string? Name { set; get; }
 
-        /// <summary>Базовая единица измерения</summary>
-        [OriginalName("206")]
-        public MeasureUnit? BaseMeasureUnit { set; get; }
-
         /// <summary>Ед.изм для отчетов</summary>
         [OriginalName("206#1")]
         public MeasureUnit? ReportMeasureUnit { set; get; }
@@ -204,7 +200,7 @@
                 AlcoholProductType = AlcoholProductType.Parse(value.Where(t => t.Key.StartsWith("201\\")).ToDictionary(t => t.Key.TrimStart("201\\"), g => g.Value)),
                 GGroup = GGroup.Parse(value.Where(t => t.Key.StartsWith("209\\")).ToDictionary(t => t.Key.TrimStart("209\\"), g => g.Value)),
 
-                BaseMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
+                MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
                 ReportMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#1\\")).ToDictionary(t => t.Key.TrimStart("206#1\\"), g => g.Value)),
                 RequestMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#2\\")).ToDictionary(t => t.Key.TrimStart("206#2\\"), g => g.Value)),
                 AutodocumentsMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#3\\")).ToDictionary(t => t.Key.TrimStart("206#3\\"), g => g.Value)),
@@ -230,7 +226,6 @@
                 RKeeperCode = uint.TryParse(value.GetValueOrDefault("241"), out uint rKeeperCode) ? rKeeperCode : null,
 
                 Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
-                MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
                 ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value)),
                 DishComposition = DishComposition.Parse(value.Where(t => t.Key.StartsWith("215\\")).ToDictionary(t => t.Key.TrimStart("215\\"), g => g.Value)),
             };

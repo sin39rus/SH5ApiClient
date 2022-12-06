@@ -117,9 +117,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(item1.GoodsItem.Rid, (uint)651);
             Assert.AreEqual(item1.GoodsItem.Name, "Точка доступа D-Link DAP-3310");
             Assert.AreEqual(item1.GoodsItem.Attributes6.Count, 21);
-            Assert.IsNotNull(item1.GoodsItem.BaseMeasureUnit);
-            Assert.AreEqual(item1.GoodsItem.BaseMeasureUnit.Rid, (uint)5);
-            Assert.AreEqual(item1.GoodsItem.BaseMeasureUnit.Name, "шт");
+            Assert.IsNotNull(item1.GoodsItem.MeasureUnit);
+            Assert.AreEqual(item1.GoodsItem.MeasureUnit.Rid, (uint)5);
+            Assert.AreEqual(item1.GoodsItem.MeasureUnit.Name, "шт");
             Assert.AreEqual(item1.Currency67, 2m);
             Assert.AreEqual(item1.Currency68, 0m);
             Assert.AreEqual(item1.Currency69, 0m);
@@ -132,12 +132,12 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.IsNull(item1.AmountWeighed);
 
             var item2 = item1.GDocItemComing;
-            Assert.IsNotNull(item2?.GoodsItem?.BaseMeasureUnit);
+            Assert.IsNotNull(item2?.GoodsItem?.MeasureUnit);
             Assert.AreEqual(item2.GoodsItem.Rid, (uint)672);
             Assert.AreEqual(item2.GoodsItem.Name, "Тач панель ELO Touch (в ассортименте) 15\"");
             Assert.AreEqual(item2.GoodsItem.Attributes6.Count, 21);
-            Assert.AreEqual(item2.GoodsItem.BaseMeasureUnit.Rid, (uint)5);
-            Assert.AreEqual(item2.GoodsItem.BaseMeasureUnit.Name, "шт");
+            Assert.AreEqual(item2.GoodsItem.MeasureUnit.Rid, (uint)5);
+            Assert.AreEqual(item2.GoodsItem.MeasureUnit.Name, "шт");
             Assert.IsNotNull(item2.GoodsItem.Producer);
             Assert.IsNotNull(item2.GoodsItem.AlcoholProductType);
 

@@ -78,140 +78,89 @@ namespace SH5ApiClient.Data
             }
         }
 
-        private class Node
+
+        public static T Parse<T>(string data) where T : notnull
         {
-            public Node(string name)
-            {
-                Name = name;
-            }
-            public string Name { set; get; }
-            public string FieldName { set; get; }
-            public string FullName { set; get; }
-            public string TableName { get; set; }
-            public bool IsObject { set; get; }
-            public List<Node> Childs { set; get; } = new List<Node>();
-        }
-
-        private static DataSet dataSet;
-        public static T Parse<T>(string data)
-        {
-            dataSet = ParseFromJson(data);
-            List<Node> tree = new List<Node>();
-            foreach (System.Data.DataTable dataTable in dataSet.Tables)
-            {
-                Node table = new Node(dataTable.TableName)
-                {
-                    IsObject = true,
-                    TableName = dataTable.TableName
-                };
-                tree.Add(table);
-                foreach (System.Data.DataColumn column in dataTable.Columns)
-                {
-                    Node currentNode = table;
-                    string[] array = column.Caption.Split('\\');
-                    for (int i = 0; i < array.Length; i++)
-                    {
-                        string? caption = array[i];
-                        if (currentNode.Childs.Any(t => t.Name == caption))
-                        {
-                            currentNode = currentNode.Childs.Single(t => t.Name == caption);
-                        }
-                        else
-                        {
-                            Node newNode = new Node(caption)
-                            {
-                                FullName = i < array.Length - 1 ? caption : column.Caption,
-                                IsObject = i < array.Length - 1,
-                                TableName = dataTable.TableName,
-                                FieldName = column.ColumnName
-                            };
-                            currentNode.Childs.Add(newNode);
-                            currentNode = newNode;
-                        }
-                    }
-                }
-            }
-
-
+            DataSet dataSet = ParseFromJson(data);
             T rootInstance = (T)Activator.CreateInstance(typeof(T))
                 ?? throw new ApiClientException($"Не удалось создать экземпляр класса {nameof(T)}");
 
 
-            foreach (var node in tree)
+
+            foreach (System.Data.DataTable dataTable in dataSet.Tables)
             {
                 PropertyInfo property = typeof(T).GetProperties()
-                    .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == node.Name)
-                    ?? throw new ApiClientException($"У объекта {typeof(T).Name} отсутствует свойство с атрибутом {node.Name}.");
+                    .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == dataTable.TableName)
+                    ?? throw new ApiClientException($"У объекта {typeof(T).Name} отсутствует свойство с атрибутом {dataTable.TableName}.");
+                var tableInstance = Activator.CreateInstance(property.PropertyType)
+                    ?? throw new ApiClientException($"Не удалось создать экземпляр класса {property.PropertyType.Name}");
+                property.SetValue(rootInstance, tableInstance);
 
-                var instance = Activator.CreateInstance(property.PropertyType);
-                property.SetValue(rootInstance, instance);
-                ReadNode(instance, node);
+
+                foreach (System.Data.DataRow dataRow in dataTable.Rows)
+                {
+                    object rowInstance = tableInstance;
+                    if (tableInstance.IsList())
+                    {
+                        Type genericType = tableInstance.GetType().GenericTypeArguments[0];
+                        rowInstance = Activator.CreateInstance(genericType) ?? throw new ApiClientException($"Не удалось создать экземпляр класса {nameof(genericType)}");
+                        (tableInstance as System.Collections.IList)?.Add(rowInstance);
+                    }
+
+                    foreach (System.Data.DataColumn column in dataTable.Columns)
+                    {
+                        try
+                        {
+                            var value = dataRow[column.ColumnName];
+                            object currentInstance = rowInstance;
+                            string[] array = column.Caption.Split('\\');
+                            for (int i = 0; i < array.Length; i++)
+                            {
+                                string? caption = array[i];
+                                if (currentInstance.IsDictionary())
+                                {
+                                    (currentInstance as System.Collections.IDictionary).Add(caption, Convert.ToString(value));
+                                    continue;
+                                }
+                                PropertyInfo rowProperty = currentInstance.GetType().GetProperties()
+                                    .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == caption)
+                                    ?? throw new ApiClientException($"У объекта {currentInstance.GetType().Name} отсутствует свойство с атрибутом {caption}.");
+                                if (IsObject(array, i))
+                                {
+                                    if (rowProperty.GetValue(currentInstance) is null)
+                                    {
+                                        object newInstance = Activator.CreateInstance(rowProperty.PropertyType);
+                                        rowProperty.SetValue(currentInstance, newInstance);
+                                        currentInstance = newInstance;
+                                    }
+                                    else
+                                        currentInstance = rowProperty.GetValue(currentInstance);
+                                }
+                                else
+                                {
+                                    SetPropertyValue(currentInstance, rowProperty, value);
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                    }
+                }
             }
             return rootInstance;
         }
 
-        private static void ReadNode(object instance, Node root)
+        private static bool IsObject(string[] array, int i)
         {
-            if (instance.IsList())
-            {
-                for (int i = 0; i < dataSet.Tables[root.TableName]?.Rows.Count; i++)
-                {
-
-                    Type genericType = instance.GetType().GenericTypeArguments[0];
-                    var genInstance = Activator.CreateInstance(genericType);
-                    (instance as System.Collections.IList).Add(genInstance);
-                    Rrr(genInstance, root, i);
-                }
-            }
-            else
-            {
-                Rrr(instance, root, 0);
-            }
-        }
-
-        private static object Rrr(object instance, Node root, int i)
-        {
-            foreach (var node in root.Childs)
-            {
-                object currentInstance = instance;
-
-                if (instance.IsDictionary())
-                {
-                    string? value = Convert.ToString(dataSet.Tables[node.TableName]?.Rows[i][node.FieldName]);
-                    var dict = instance as Dictionary<string, string?> ?? throw new ApiClientException($"Для объекта {nameof(instance)} не верно определен тип словаря.");
-                    dict.Add(node.Name, value);
-                    continue;
-                }
-
-                PropertyInfo property = instance.GetType().GetProperties()
-                    .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == node.Name)
-                    ?? throw new ApiClientException($"У объекта {instance.GetType().Name} отсутствует свойство с атрибутом {node.Name}.");
-                if (node.Childs.Count <= 0)
-                {
-                    var value = dataSet.Tables[node.TableName]?.Rows[i][node.FieldName];
-                    SetPropertyValue(currentInstance, property, value);
-                    Console.WriteLine($"{node.TableName} {node.FullName}");
-                }
-                else
-                {
-                    if (node.IsObject)
-                    {
-                        currentInstance = Activator.CreateInstance(property.PropertyType);
-                        property.SetValue(instance, currentInstance);
-                    }
-                    ReadNode(currentInstance, node);
-                }
-            }
-            return instance;
+            return i < array.Length - 1;
         }
 
         private static void SetPropertyValue(object instance, PropertyInfo property, object? value)
         {
             if (instance is null) throw new ArgumentNullException(nameof(instance));
             if (property is null) throw new ArgumentNullException(nameof(property));
-
-
-
 
             object? data;
             try
@@ -252,9 +201,25 @@ namespace SH5ApiClient.Data
                 {
                     data = Convert.ToInt32(value);
                 }
+                else if (property.PropertyType == typeof(ushort?))
+                {
+                    data = value is DBNull ? null : Convert.ToUInt16(value);
+                }
+                else if (property.PropertyType == typeof(ushort))
+                {
+                    data = Convert.ToUInt16(value);
+                }
+                else if (property.PropertyType == typeof(short?))
+                {
+                    data = value is DBNull ? null : Convert.ToInt16(value);
+                }
+                else if (property.PropertyType == typeof(short))
+                {
+                    data = Convert.ToInt16(value);
+                }
                 else if (property.PropertyType == typeof(decimal?) || property.PropertyType == typeof(decimal))
                 {
-                    data = Convert.ToDecimal(value);
+                    data = value is DBNull ? null : Convert.ToDecimal(value);
                 }
                 else if (property.PropertyType == typeof(string))
                 {
@@ -266,25 +231,24 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(DateTime?))
                 {
-                    data = null;
+                    data = value is DBNull ? null : Convert.ToDateTime(value);
                 }
                 else if (property.PropertyType == typeof(TTNOptions?) || property.PropertyType == typeof(TTNOptions))
                 {
-
                     data = Enum.Parse(typeof(TTNOptions), value?.ToString()) ?? null;
+                }
+                else if (property.PropertyType == typeof(CorrType3?) || property.PropertyType == typeof(CorrType3))
+                {
+                    data = Enum.Parse(typeof(CorrType3), value?.ToString()) ?? null;
                 }
                 else
                 {
-                    var ff = value.GetType();
-                    var hhh = property.PropertyType;
-                    bool ee = ff == hhh;
-                    data = null;
+                    throw new ApiClientException($"Тип свойства {property.PropertyType.Name} не определен.");
                 }
                 property.SetValue(instance, data);
             }
             catch (Exception)
             {
-                var ff = value.GetType();
                 throw;
             }
 

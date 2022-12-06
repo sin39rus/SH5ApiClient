@@ -65,9 +65,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(item1.GoodsItem.Attributes6.Count, 21);
             foreach (var attribute in item1.GoodsItem.Attributes6)
                 Assert.IsNull(attribute.Value);
-            Assert.IsNotNull(item1.GoodsItem.BaseMeasureUnit);
-            Assert.AreEqual(item1.GoodsItem.BaseMeasureUnit.Rid, (uint)5);
-            Assert.AreEqual(item1.GoodsItem.BaseMeasureUnit.Name, "шт");
+            Assert.IsNotNull(item1.GoodsItem.MeasureUnit);
+            Assert.AreEqual(item1.GoodsItem.MeasureUnit.Rid, (uint)5);
+            Assert.AreEqual(item1.GoodsItem.MeasureUnit.Name, "шт");
             Assert.IsNotNull(item1.GoodsItem.DishComposition);
             Assert.IsNull(item1.GoodsItem.DishComposition.Name);
             Assert.IsNull(item1.GoodsItem.DishComposition.Rid);
@@ -90,9 +90,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(item2.GoodsItem.Attributes6.Count, 21);
             foreach (var attribute in item2.GoodsItem.Attributes6)
                 Assert.IsNull(attribute.Value);
-            Assert.IsNotNull(item2.GoodsItem.BaseMeasureUnit);
-            Assert.AreEqual(item2.GoodsItem.BaseMeasureUnit.Rid, (uint)5);
-            Assert.AreEqual(item2.GoodsItem.BaseMeasureUnit.Name, "шт");
+            Assert.IsNotNull(item2.GoodsItem.MeasureUnit);
+            Assert.AreEqual(item2.GoodsItem.MeasureUnit.Rid, (uint)5);
+            Assert.AreEqual(item2.GoodsItem.MeasureUnit.Name, "шт");
             Assert.IsNotNull(item2.GoodsItem.DishComposition);
             Assert.IsNull(item2.GoodsItem.DishComposition.Name);
             Assert.IsNull(item2.GoodsItem.DishComposition.Rid);
@@ -116,9 +116,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(item3.GoodsItem.Attributes6.Count, 21);
             foreach (var attribute in item3.GoodsItem.Attributes6)
                 Assert.IsNull(attribute.Value);
-            Assert.IsNotNull(item3.GoodsItem.BaseMeasureUnit);
-            Assert.AreEqual(item3.GoodsItem.BaseMeasureUnit.Rid, (uint)5);
-            Assert.AreEqual(item3.GoodsItem.BaseMeasureUnit.Name, "шт");
+            Assert.IsNotNull(item3.GoodsItem.MeasureUnit);
+            Assert.AreEqual(item3.GoodsItem.MeasureUnit.Rid, (uint)5);
+            Assert.AreEqual(item3.GoodsItem.MeasureUnit.Name, "шт");
             Assert.IsNotNull(item3.GoodsItem.DishComposition);
             Assert.AreEqual(item3.GoodsItem.DishComposition.Rid, (uint)192);
             Assert.AreEqual(item3.GoodsItem.DishComposition.Name, "Кассовая лента термо-80мм (21м)");

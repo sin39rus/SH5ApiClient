@@ -18,7 +18,9 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("22")]
         public string? FullName { set; get; }
 
-        //ToDo Реализовать объект 244
+        /// <summary>Синоним</summary>
+        [OriginalName("244")]
+        public SynonymMeasureUnit? SynonymMeasureUnit { set; get; }
 
         public static ProductSynonym? Parse(Dictionary<string, string> value)
         {

@@ -88,9 +88,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(goodsItem1.Attributes6.Count, 21);
             foreach (var attribute in goodsItem1.Attributes6)
                 Assert.IsNull(attribute.Value);
-            Assert.IsNotNull(goodsItem1.BaseMeasureUnit);
-            Assert.AreEqual(goodsItem1.BaseMeasureUnit.Rid, (uint)5);
-            Assert.AreEqual(goodsItem1.BaseMeasureUnit.Name, "шт");
+            Assert.IsNotNull(goodsItem1.MeasureUnit);
+            Assert.AreEqual(goodsItem1.MeasureUnit.Rid, (uint)5);
+            Assert.AreEqual(goodsItem1.MeasureUnit.Name, "шт");
             Assert.IsNotNull(item1.SaleNDS);
             Assert.AreEqual(item1.SaleNDS.Rate, (uint)1);
             Assert.IsNotNull(item1.SaleNSP);
@@ -135,9 +135,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(goodsItem2.Name, "ШТРИХ-КАРТ-Ф Крышка отсека для бумаги без валик");
 
             Assert.AreEqual(goodsItem2.Attributes6.Count, 21);
-            Assert.IsNotNull(goodsItem2.BaseMeasureUnit);
-            Assert.AreEqual(goodsItem2.BaseMeasureUnit.Rid, (uint)5);
-            Assert.AreEqual(goodsItem2.BaseMeasureUnit.Name, "шт");
+            Assert.IsNotNull(goodsItem2.MeasureUnit);
+            Assert.AreEqual(goodsItem2.MeasureUnit.Rid, (uint)5);
+            Assert.AreEqual(goodsItem2.MeasureUnit.Name, "шт");
             Assert.IsNotNull(item2.SaleNDS);
             Assert.AreEqual(item2.SaleNDS.Rate, (uint)2);
             Assert.IsNotNull(item2.SaleNSP);
