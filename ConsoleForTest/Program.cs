@@ -17,18 +17,8 @@ namespace ConsoleForTest
             //IApiClient client =  new ApiClient(param);
             //var ff = client.LoadMeasureUnitsAsync().Result.ToList();
 
-            Dictionary<string,string> dict = new Dictionary<string,string>();
-            List<string> list = new List<string>();
-
-            bool d = dict is System.Collections.IDictionary;
-            bool d2 = list is System.Collections.IDictionary;
-
-            bool dd = dict is System.Collections.IList;
-            bool dd2 = list is System.Collections.IList;
-
-
             string jsonAnswear = File.ReadAllText(@"..\..\..\..\SH5ApiClientTests\Models\DataForTests\Gdoc4.json", Encoding.UTF8);
-            var result = DataSet.Parse<GDoc4>(jsonAnswear);
+            var result = DataExecutable.Parse<GDoc4>(jsonAnswear);
         }
     }
 }

@@ -125,7 +125,7 @@ namespace SH5ApiClient.Models.DTO
                 Attributes7 = value.Where(t => t.Key.StartsWith("7\\")).ToDictionary(t => t.Key.TrimStart("7\\".ToCharArray()), g => g.Value),
                 Supplier = Сorrespondent.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value)),
                 Recipient = Сorrespondent.Parse(value.Where(t => t.Key.StartsWith("105#1\\")).ToDictionary(t => t.Key.TrimStart("105#1\\"), g => g.Value)),
-                Currency = Currency.Parse(value.Where(t => t.Key.StartsWith("100\\")).ToDictionary(t => t.Key.TrimStart("100\\"), g => g.Value)),
+                //Currency = Currency.Parse(value.Where(t => t.Key.StartsWith("100\\")).ToDictionary(t => t.Key.TrimStart("100\\"), g => g.Value)),
                 DateStamp = DateTime.TryParse(value.GetValueOrDefault("31"), out DateTime dateStamp) ? dateStamp : null,
                 CourceBase = decimal.TryParse(value.GetValueOrDefault("34"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal courceBase) ? courceBase : null,
                 CourceInvoice = decimal.TryParse(value.GetValueOrDefault("35"), NumberStyles.Number, CultureInfo.InvariantCulture, out decimal courceInvoice) ? courceInvoice : null,

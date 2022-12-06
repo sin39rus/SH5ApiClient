@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Linq;
+using SH5ApiClient.Data;
 
 namespace SH5ApiClient.Models.DTO.Tests
 {
@@ -15,15 +16,14 @@ namespace SH5ApiClient.Models.DTO.Tests
         public void ParseGDoc11Test()
         {
             string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc11.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            var gDoc11 = GDoc11.Parse(answear);
+            var gDoc11 = DataExecutable.Parse<GDoc11>(jsonAnswear);
             Assert.IsNotNull(gDoc11);
             Assert.IsNotNull(gDoc11.Header);
             Assert.IsNotNull(gDoc11.Content);
 
             var header = gDoc11.Header;
             Assert.AreEqual(header.Rid, (uint)10);
-            Assert.AreEqual(header.GUID, "B32CCD68-8979-0177-BAB3-68ED6C31E5AA");
+            Assert.AreEqual(header.GUID, "{B32CCD68-8979-0177-BAB3-68ED6C31E5AA}");
             Assert.AreEqual(header.TTNOptions, TTNOptions.Active | TTNOptions.ActivatedByCntr1 | TTNOptions.ActivatedByCntr0);
             Assert.AreEqual(header.DateStamp, new DateTime(2022, 7, 11));
             Assert.IsNotNull(header.BuhOperation);

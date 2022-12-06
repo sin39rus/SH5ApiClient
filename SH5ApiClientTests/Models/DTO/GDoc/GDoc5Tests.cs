@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Data;
 using SH5ApiClient.Models.Enums;
 using System;
 using System.IO;
@@ -15,15 +16,14 @@ namespace SH5ApiClient.Models.DTO.Tests
         public void ParseGDoc5Test()
         {
             string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc5.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            var gDoc5 = GDoc5.Parse(answear);
+            var gDoc5 = DataExecutable.Parse<GDoc5>(jsonAnswear);
             Assert.IsNotNull(gDoc5);
             Assert.IsNotNull(gDoc5.Header);
             Assert.IsNotNull(gDoc5.Content);
 
             var header = gDoc5.Header;
             Assert.AreEqual(header.Rid, (uint?)58883);
-            Assert.AreEqual(header.GUID, "5427A28F-A71B-0139-621B-0DAF87FAD4BD");
+            Assert.AreEqual(header.GUID, "{5427A28F-A71B-0139-621B-0DAF87FAD4BD}");
             Assert.AreEqual(header.TTNOptions, TTNOptions.Active | TTNOptions.ActivatedByCntr0);
             Assert.AreEqual(header.DateStamp, new DateTime(2022, 09, 22));
             Assert.IsNull(header.DueDate);

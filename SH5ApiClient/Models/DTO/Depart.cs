@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Data;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Подразделение</summary>
     [OriginalName("106")]

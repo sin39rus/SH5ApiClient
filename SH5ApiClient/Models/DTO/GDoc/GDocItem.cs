@@ -135,7 +135,7 @@ namespace SH5ApiClient.Models.DTO
             {
                 Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
                 Options = uint.TryParse(value.GetValueOrDefault("32"), out uint options) ? options : null,
-                Currency = Currency.Parse(value.Where(t => t.Key.StartsWith("100\\")).ToDictionary(t => t.Key.TrimStart("100\\"), g => g.Value)),
+                //Currency = Currency.Parse(value.Where(t => t.Key.StartsWith("100\\")).ToDictionary(t => t.Key.TrimStart("100\\"), g => g.Value)),
                 GoodsItem = GoodsItem.Parse(value.Where(t => t.Key.StartsWith("210\\")).ToDictionary(t => t.Key.TrimStart("210\\"), g => g.Value)),
                 GDocItemComing = Parse(value.Where(t => t.Key.StartsWith("112#1\\")).ToDictionary(t => t.Key.TrimStart("112#1\\"), g => g.Value)),
                 GTD = GTD.Parse(value.Where(t => t.Key.StartsWith("116\\")).ToDictionary(t => t.Key.TrimStart("116\\"), g => g.Value)),

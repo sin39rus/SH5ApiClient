@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using SH5ApiClient.Models.DTO;
 
 namespace SH5ApiClient.Core.Requests
 {

@@ -1,7 +1,9 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Data;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Акт переработки</summary>
-    public class GDoc10
+    public class GDoc10 : DataExecutable
     {
         /// <summary>Заголовок накладной</summary>
         [OriginalName("111")]
@@ -9,7 +11,7 @@
 
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
-        public IEnumerable<GDocItem?>? Content { get; set; }
+        public List<GDocItem?>? Content { get; set; }
         public static GDoc10? Parse(ExecOperation answear)
         {
             ExecOperationContent header = answear.GetAnswearContent("111");
@@ -17,7 +19,7 @@
             return new GDoc10
             {
                 Header = GDocHeader.Parse(header.GetValues()[0]),
-                Content = content.GetValues().Select(t => GDocItem.Parse(t))
+                Content = content.GetValues().Select(t => GDocItem.Parse(t)).ToList()
             };
         }
     }

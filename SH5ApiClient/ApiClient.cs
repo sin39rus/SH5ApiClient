@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient
+﻿using SH5ApiClient.Data;
+
+namespace SH5ApiClient
 {
     public class ApiClient : IApiClient
     {
@@ -154,9 +156,7 @@
         {
             CurrenciesRequest request = new(_connectionParam);
             string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            ExecOperationContent content = answear.GetAnswearContent("100");
-            return Currency.GetCurrenciesFromSHAnswear(content);
+            return DataExecutable.Parse<Currencies>(jsonAnswear);
         }
         public async Task<IEnumerable<MeasureGroup>> LoadMeasureGroupsAsync()
         {

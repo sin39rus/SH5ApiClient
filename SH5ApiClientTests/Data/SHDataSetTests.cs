@@ -56,7 +56,7 @@ namespace SH5ApiClient.Data.Tests
         public void ParseTest()
         {
             string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc4.json", Encoding.UTF8);
-            var result = DataSet.Parse<GDoc4>(jsonAnswear);
+            var result = DataExecutable.Parse<GDoc4>(jsonAnswear);
 
         }
     }

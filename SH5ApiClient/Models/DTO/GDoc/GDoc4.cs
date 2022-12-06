@@ -1,7 +1,9 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Data;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Расходная накладная</summary>
-    public class GDoc4
+    public class GDoc4 : DataExecutable
     {
         /// <summary>Заголовок накладной</summary>
         [OriginalName("111")]
