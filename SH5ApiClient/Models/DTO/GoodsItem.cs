@@ -145,7 +145,7 @@
 
         /// <summary>Маршрут Контрагент</summary>
         [OriginalName("105")]
-        public Сorrespondent? RouteСorrespondent { set; get; }
+        public СorrespondentOld? RouteСorrespondent { set; get; }
         //ToDo Object106 не разобрался
 
 
@@ -222,10 +222,10 @@
                 SaleNSP = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213#1\\")).ToDictionary(t => t.Key.TrimStart("213#1\\"), g => g.Value)),
 
                 RouteTTNType = Enum.TryParse(typeof(TTNType), value.GetValueOrDefault("24"), out object? routeTTNType) ? (TTNType?)routeTTNType : null,
-                RouteСorrespondent = Сorrespondent.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value)),
+                //RouteСorrespondent = СorrespondentOld.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value)),
                 RKeeperCode = uint.TryParse(value.GetValueOrDefault("241"), out uint rKeeperCode) ? rKeeperCode : null,
 
-                Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
+                //Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
                 ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value)),
                 DishComposition = DishComposition.Parse(value.Where(t => t.Key.StartsWith("215\\")).ToDictionary(t => t.Key.TrimStart("215\\"), g => g.Value)),
             };

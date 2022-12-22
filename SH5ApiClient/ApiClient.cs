@@ -62,18 +62,9 @@ namespace SH5ApiClient
         }
         public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
         {
-            try
-            {
-                CorrsRequest corrsRequest = new(_connectionParam);
-                string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
-                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-                ExecOperationContent content = answear.GetAnswearContent("107");
-                return Сorrespondent.GetСorrespondentsFromSHAnswear(content);
-            }
-            catch (Exception ex)
-            {
-                throw new ApiClientException("Ошибка загрузки справочника корреспондентов. Подробности во внутреннем исключении.", ex);
-            }
+            CorrsRequest corrsRequest = new(_connectionParam);
+            string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
+            return DataExecutable.Parse<Сorrespondents>(jsonAnswear);
         }
         public async Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames)
         {
@@ -81,20 +72,11 @@ namespace SH5ApiClient
             string jsonAnswear = await _webClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync()
+        public async Task<IEnumerable<InnerСorrespondent>> LoadInternalCorrespondentsAsync()
         {
-            try
-            {
-                LEntitiesRequest corrsRequest = new(_connectionParam);
-                string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
-                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-                ExecOperationContent content = answear.GetAnswearContent("102");
-                return Сorrespondent.GetСorrespondentsFromSHAnswear(content);
-            }
-            catch (Exception ex)
-            {
-                throw new ApiClientException("Ошибка загрузки справочника внутренних корреспондентов из SH.", ex);
-            }
+            LEntitiesRequest corrsRequest = new(_connectionParam);
+            string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
+            return DataExecutable.Parse<InnerСorrespondents>(jsonAnswear);
         }
         public async Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path)
         {
@@ -136,8 +118,7 @@ namespace SH5ApiClient
                 CorAccount = corAccount
             };
             string result = await _webClient.WebPostAsync(corr);
-            var answear = OperationBase.Parse<ExecOperation>(result);
-            return Сorrespondent.Parse(answear.GetAnswearContent("107").GetValues()[0]);
+            return DataExecutable.Parse<Сorrespondents>(result).First();
 
         }
         public async Task<InfoOperation> GetSHServerInfoAsync()

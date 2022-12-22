@@ -33,7 +33,10 @@ namespace SH5ApiClientTests
                     return Task.FromResult(File.ReadAllText(@"..\..\..\Models\DataForTests\MGroup.json", Encoding.UTF8)); 
                 case MUnitsRequest:
                     return Task.FromResult(File.ReadAllText(@"..\..\..\Models\DataForTests\MUnits.json", Encoding.UTF8));
-
+                case LEntitiesRequest:
+                    return Task.FromResult(File.ReadAllText(@"..\..\..\Models\DataForTests\InternalCorrespondents.json", Encoding.UTF8));
+                case CorrsRequest:
+                    return Task.FromResult(File.ReadAllText(@"..\..\..\Models\DataForTests\Correspondents.json", Encoding.UTF8));
                 case GDocRequest:
                     if (request.ProcName == "GDoc10")
                         return Task.FromResult(File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc10.json", Encoding.UTF8));

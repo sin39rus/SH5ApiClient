@@ -193,6 +193,14 @@ namespace SH5ApiClient.Data
                 {
                     data = Enum.Parse(typeof(GoodsItemFlags), value?.ToString()) ?? null;
                 }
+                else if (property.PropertyType == typeof(CorrType?) || property.PropertyType == typeof(CorrType))
+                {
+                    data = Enum.Parse(typeof(CorrType), value?.ToString()) ?? null;
+                }
+                else if (property.PropertyType == typeof(CorrTypeEx?) || property.PropertyType == typeof(CorrTypeEx))
+                {
+                    data = Enum.Parse(typeof(CorrTypeEx), value?.ToString()) ?? null;
+                }
                 else
                 {
                     throw new ApiClientException($"Тип свойства {property.Name} не определен.");

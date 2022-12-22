@@ -47,7 +47,7 @@
                 To = DateTime.TryParse(value["32"], out DateTime to) ? to : null,
                 LicNum = value.GetValueOrDefault("3"),
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\"), g => g.Value),
-                KPP = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value))
+                //KPP = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value))
             };
         }
     }

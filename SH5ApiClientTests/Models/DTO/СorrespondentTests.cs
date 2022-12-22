@@ -13,18 +13,15 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseCorrespondentsTest()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Correspondents.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            ExecOperationContent content = answear.GetAnswearContent("107");
-            var corrs = Сorrespondent.GetСorrespondentsFromSHAnswear(content).ToList();
+            var corrs = Options.ApiClient.LoadCorrespondentsAsync().Result;
 
-            var cor0 = corrs[0];
-            var cor2 = corrs[2];
+            var cor0 = corrs.ElementAt(0);
+            var cor2 = corrs.ElementAt(2);
 
-            Assert.AreEqual(7, corrs.Count);
+            Assert.AreEqual(7, corrs.Count());
 
             Assert.AreEqual((uint)6, cor0.Rid);
-            Assert.AreEqual("D660060C-13F8-7321-C562-AD2DEA7B0BCF", cor0.GUID);
+            Assert.AreEqual("{D660060C-13F8-7321-C562-AD2DEA7B0BCF}", cor0.GUID);
             Assert.AreEqual(null, cor0.SubType);
             Assert.AreEqual(CorrTypeEx.Special, cor0.CorrTypeEx);
             Assert.AreEqual(CorrType.Selling, cor0.CorrType);
@@ -42,7 +39,7 @@ namespace SH5ApiClient.Models.DTO.Tests
 
 
             Assert.AreEqual((uint)4, cor2.Rid);
-            Assert.AreEqual("BA8E82DD-0690-B0F9-658F-5B803C59FE99", cor2.GUID);
+            Assert.AreEqual("{BA8E82DD-0690-B0F9-658F-5B803C59FE99}", cor2.GUID);
             Assert.AreEqual(null, cor2.SubType);
             Assert.AreEqual(CorrTypeEx.Organization, cor2.CorrTypeEx);
             Assert.AreEqual(CorrType.InternalCorrespondent, cor2.CorrType);
@@ -61,16 +58,17 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseInternalCorrespondentsTest()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\InternalCorrespondents.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            ExecOperationContent content = answear.GetAnswearContent("102");
-            var corrs = Сorrespondent.GetСorrespondentsFromSHAnswear(content).ToList();
+            var corrs = (InnerСorrespondents)Options.ApiClient.LoadInternalCorrespondentsAsync().Result;
 
-            Assert.AreEqual(1, corrs.Count);
-            var cor = corrs[0];
+            Assert.AreEqual(1, corrs.Count());
+            
+            Assert.AreEqual((uint)65534, corrs.InnerСorrespondent.MaxCount);
+            Assert.AreEqual((uint)0, corrs.InnerСorrespondent.HiddenCount);
+
+            var cor = corrs.First();
 
             Assert.AreEqual((uint)0, cor.Rid);
-            Assert.AreEqual("605FB3DC-05E7-CF08-A6D5-38AEF2E76216", cor.GUID);
+            Assert.AreEqual("{605FB3DC-05E7-CF08-A6D5-38AEF2E76216}", cor.GUID);
             Assert.AreEqual((ushort)14, cor.PaymentIncomeSpan);
             Assert.AreEqual((ushort)15, cor.PaymentExpenseSpan);
             Assert.AreEqual("Юридицеское лицо", cor.Name);

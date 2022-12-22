@@ -1,9 +1,8 @@
-﻿using SH5ApiClient.Data;
-
-namespace SH5ApiClient.Models.DTO
+﻿namespace SH5ApiClient.Models.DTO
 {
-    [OriginalName("107")]
-    public class Сorrespondent : DataExecutable
+    /// <summary>Корреспондент SH</summary>
+    [OriginalName("105")]
+    public sealed class СorrespondentOld
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]
@@ -45,16 +44,15 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("34")]
         public Dictionary<string, string> Attributes34 { set; get; } = new();
 
-        /// <summary>Атрибуты типа 35</summary>
-        [OriginalName("35")]
-        public Dictionary<string, string> Attributes35 { set; get; } = new();
+        [OriginalName("114")]
+        public KPP? KPP { set; get; }
 
-        /// <summary>Атрибуты типа 36</summary>
-        [OriginalName("36")]
-        public Dictionary<string, string> Attributes36 { set; get; } = new();
+        /// <summary>Cрок оплаты приходов</summary>
+        [OriginalName("11")]
+        public ushort? PaymentIncomeSpan { set; get; }
 
-        /// <summary>Rid</summary>
-        [OriginalName("37")]
-        public uint? AttrsMask { set; get; }
+        /// <summary>Cрок оплаты расходов</summary>
+        [OriginalName("12")]
+        public ushort? PaymentExpenseSpan { set; get; }
     }
 }
