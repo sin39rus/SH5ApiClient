@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Data;
 using SH5ApiClient.Models;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,7 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseMGroupsTests()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\MGroups.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            ExecOperationContent content = answear.GetAnswearContent("205");
-            var result = MeasureGroup.GetMGroupsFromSHAnswear(content);
+            var result = Options.ApiClient.LoadMeasureGroupsAsync().Result;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count(), 4);

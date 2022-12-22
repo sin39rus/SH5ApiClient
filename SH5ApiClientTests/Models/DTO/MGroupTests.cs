@@ -16,9 +16,7 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseMGroupTests()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\MGroup.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            var result = MeasureGroup.Parse(answear.GetAnswearContent("205").GetValues()[0]);
+            var result = Options.ApiClient.GetMeasureGroupAsync(1).Result;
 
             Assert.IsNotNull(result);
 

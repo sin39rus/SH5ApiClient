@@ -155,16 +155,19 @@ namespace SH5ApiClient
         {
             MGroupsRequest request = new(_connectionParam);
             string jsonAnswear = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            ExecOperationContent content = answear.GetAnswearContent("205");
-            return MeasureGroup.GetMGroupsFromSHAnswear(content);
+            return DataExecutable.Parse<MeasureGroups>(jsonAnswear);
+        }
+        public async Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null)
+        {
+            MUnitsRequest request = new(_connectionParam, groupRid);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<MeasureUnits>(jsonAnswear);
         }
         public async Task<MeasureGroup?> GetMeasureGroupAsync(uint rid)
         {
             MGroupRequest request = new(_connectionParam, rid);
             string jsonAnswear = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return MeasureGroup.Parse(answear.GetAnswearContent("205").GetValues()[0]);
+            return DataExecutable.Parse<MeasureGroup>(jsonAnswear);
         }
         public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
         {
@@ -235,12 +238,5 @@ namespace SH5ApiClient
             return GoodsItem.ParseGoods(answear);
         }
 
-        public async Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null)
-        {
-            MUnitsRequest request = new(_connectionParam, groupRid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return MeasureUnit.ParseMUnits(answear.GetAnswearContent("206"));
-        }
     }
 }

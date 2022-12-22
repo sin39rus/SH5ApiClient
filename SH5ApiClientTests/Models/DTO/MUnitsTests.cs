@@ -1,8 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SH5ApiClient.Core.ServerOperations;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace SH5ApiClient.Models.DTO.Tests
 {
@@ -12,9 +9,7 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseMUnitsTests()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\MUnits.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            var result = MeasureUnit.ParseMUnits(answear.GetAnswearContent("206"));
+            var result = Options.ApiClient.LoadMeasureUnitsAsync().Result;
 
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count(), 16);
@@ -27,7 +22,7 @@ namespace SH5ApiClient.Models.DTO.Tests
             var item1 = result.ElementAt(0);
             Assert.IsNotNull(item1);
             Assert.AreEqual(item1.Rid, (uint)16);
-            Assert.AreEqual(item1.GUID, "582A0A8F-BDA2-5212-2CF7-CF8D7CF063EB");
+            Assert.AreEqual(item1.GUID, "{582A0A8F-BDA2-5212-2CF7-CF8D7CF063EB}");
             Assert.AreEqual(item1.BaseRatio, 1.0m);
             Assert.IsNotNull(item1.MeasureGroup);
             Assert.AreEqual(item1.MeasureGroup.Rid, (uint)3);

@@ -161,7 +161,7 @@ namespace SH5ApiClient.Data
                 {
                     data = value is DBNull ? null : Convert.ToString(value);
                 }
-                else if (property.PropertyType == typeof(bool))
+                else if (property.PropertyType == typeof(bool) || property.PropertyType == typeof(bool?))
                 {
                     data = Convert.ToBoolean(value);
                 }

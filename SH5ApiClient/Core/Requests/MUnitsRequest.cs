@@ -2,7 +2,7 @@
 
 namespace SH5ApiClient.Core.Requests
 {
-    internal class MUnitsRequest : RequestBase
+    public class MUnitsRequest : RequestBase
     {
         //Имя процедуры
         private const string procName = "MUnits";
