@@ -1,18 +1,16 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Data;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Сличительная ведомость излишки/недостачи</summary>
-    public class GDoc8Diffs
+    public class GDoc8Diffs : DataExecutable
     {
+        /// <summary>Заголовок накладной</summary>
+        [OriginalName("111")]
+        public GDocHeader? Header { get; set; }
+
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
-        public IEnumerable<GDocItem?>? Content { get; set; }
-        public static GDoc8Diffs? Parse(ExecOperation answear)
-        {
-            ExecOperationContent content = answear.GetAnswearContent("112");
-            return new GDoc8Diffs
-            {
-                Content = content.GetValues().Select(t => GDocItem.Parse(t))
-            };
-        }
+        public List<GDocItem?>? Content { get; set; }
     }
 }

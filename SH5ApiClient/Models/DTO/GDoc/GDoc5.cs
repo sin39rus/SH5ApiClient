@@ -12,15 +12,5 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
         public List<GDocItem?>? Content { get; set; }
-        public static GDoc5? Parse(ExecOperation answear)
-        {
-            ExecOperationContent header = answear.GetAnswearContent("111");
-            ExecOperationContent content = answear.GetAnswearContent("112");
-            return new GDoc5
-            {
-                Header = GDocHeader.Parse(header.GetValues()[0]),
-                Content = content.GetValues().Select(t => GDocItem.Parse(t)).ToList()
-            };
-        }
     }
 }

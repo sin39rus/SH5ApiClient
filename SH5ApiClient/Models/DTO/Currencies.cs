@@ -7,7 +7,7 @@ namespace SH5ApiClient.Models.DTO
     public class Currencies : DataExecutable, IEnumerable<Currency>
     {
         [OriginalName("100")]
-        public List<Currency> CurrencyCollection { get; set; } = new List<Currency>();
+        private List<Currency> CurrencyCollection { get; set; } = new List<Currency>();
 
         public IEnumerator<Currency> GetEnumerator() =>
             CurrencyCollection.GetEnumerator();

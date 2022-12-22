@@ -70,6 +70,10 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("112")]
         public GDocItem? GDocItem { set; get; }
 
+        /// <summary>Тип подразделения</summary>
+        [OriginalName("8")]
+        public DepatmenType? DepatmenType { get; set; }
+
         /// <summary>Счет-фактура</summary>
         [OriginalName("117")]
         public Invoice? Invoice { set; get; }

@@ -4,7 +4,7 @@ namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Подразделение</summary>
     [OriginalName("106")]
-    public class Depart
+    public class Depart : DataExecutable
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]
@@ -13,6 +13,10 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>GUID</summary>
         [OriginalName("4")]
         public string? Guid { set; get; }
+
+        /// <summary>если не равно 0,то означает, что подразделение имеет общие с пользователем группы</summary>
+        [OriginalName("31")]
+        public short GeneralGroup { set; get; }
 
         /// <summary>Атрибуты типа 34</summary>
         [OriginalName("34")]
@@ -25,6 +29,14 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Тип подразделения</summary>
         [OriginalName("8")]
         public DepatmenType? DepatmenType { get; set; }
+
+        /// <summary>битовая маска групп подразделения</summary>
+        [OriginalName("32")]
+        public long? GroupBitmask { set; get; }
+
+        /// <summary>GDocTypeMask</summary>
+        [OriginalName("111")]
+        public GDocHeader? GDocHeader { set; get; }
 
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
@@ -40,40 +52,10 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Список обособленных подразделений</summary>
         [OriginalName("114")]
-        public IEnumerable<KPP> KPPs { get; set; } = Array.Empty<KPP>();
+        public List<KPP> KPPs { get; set; }
 
         /// <summary>Список обособленных подразделений</summary>
         [OriginalName("115")]
-        public IEnumerable<AloLicInfo> AloLicInfos { get; set; } = Array.Empty<AloLicInfo>();
-
-        //ToDo Не описаны 3 поля "31" "111\\8" "32"
-
-
-        public static IEnumerable<Depart> GetDepartsFromSHAnswear(ExecOperationContent answear)
-        {
-            foreach (Dictionary<string, string>? value in answear.GetValues())
-            {
-                var depart = Parse(value);
-                if (depart is not null)
-                    yield return depart;
-            }
-        }
-
-        public static Depart? Parse(Dictionary<string, string> value)
-        {
-            if (!value.Any())
-                return null;
-            return new Depart
-            {
-                Rid = uint.TryParse(value["1"], out uint rid) ? rid : null,
-                Name = value.GetValueOrDefault("3"),
-                Guid = value.GetValueOrDefault("4")?.TrimStart('{').TrimEnd('}'),
-                Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\"), g => g.Value),
-                Attributes34 = value.Where(t => t.Key.StartsWith("34\\")).ToDictionary(t => t.Key.TrimStart("34\\"), g => g.Value),
-                DepatmenType = Enum.TryParse(typeof(DepatmenType), value.GetValueOrDefault("8"), out object? depatmenType) ? (DepatmenType?)depatmenType : null,
-                LegalEntity = LegalEntity.Parse(value.Where(t => t.Key.StartsWith("102\\")).ToDictionary(t => t.Key.TrimStart("102\\"), g => g.Value)),
-                Company = Company.Parse(value.Where(t => t.Key.StartsWith("103\\")).ToDictionary(t => t.Key.TrimStart("103\\"), g => g.Value))
-            };
-        }
+        public List<AloLicInfo> AloLicInfos { get; set; }
     }
 }
