@@ -15,8 +15,7 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseGDoc4Test()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc4.json", Encoding.UTF8);
-            var gDoc4 = DataExecutable.Parse<GDoc4>(jsonAnswear);
+            var gDoc4 = Options.ApiClient.GetGDoc4Async(4, "{5488EA00-2DED-F0B5-A8AD-5D5047DF5F82}").Result;
             Assert.IsNotNull(gDoc4);
             Assert.IsNotNull(gDoc4.Header);
             Assert.IsNotNull(gDoc4.Content);

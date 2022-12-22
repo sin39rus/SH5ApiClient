@@ -12,9 +12,8 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseGDoc8DiffsTest()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\GDoc8Diffs.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            var gDoc8Diffs = GDoc8Diffs.Parse(answear);
+            var gDoc8Diffs = Options.ApiClient.GetGDoc8DiffsAsync(114381, "24081730-6AA9-E77C-4C76-AD930C119F3F").Result;
+
             Assert.IsNotNull(gDoc8Diffs);
             Assert.IsNotNull(gDoc8Diffs.Content);
 

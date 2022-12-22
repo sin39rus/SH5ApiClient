@@ -15,8 +15,8 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseGDoc5Test()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc5.json", Encoding.UTF8);
-            var gDoc5 = DataExecutable.Parse<GDoc5>(jsonAnswear);
+            
+            var gDoc5 = Options.ApiClient.GetGDoc5Async(58883, "5427A28F-A71B-0139-621B-0DAF87FAD4BD").Result;
             Assert.IsNotNull(gDoc5);
             Assert.IsNotNull(gDoc5.Header);
             Assert.IsNotNull(gDoc5.Content);

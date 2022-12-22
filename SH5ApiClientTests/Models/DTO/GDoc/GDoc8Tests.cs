@@ -14,16 +14,14 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseGDoc8Test()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Gdoc8.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            var gDoc8 = GDoc8.Parse(answear);
+            var gDoc8 = Options.ApiClient.GetGDoc8Async(58884, "24081730-6AA9-E77C-4C76-AD930C119F3F").Result;
             Assert.IsNotNull(gDoc8);
             Assert.IsNotNull(gDoc8.Header);
             Assert.IsNotNull(gDoc8.Content);
 
             var header = gDoc8.Header;
             Assert.AreEqual(header.Rid, (uint?)58884);
-            Assert.AreEqual(header.GUID, "24081730-6AA9-E77C-4C76-AD930C119F3F");
+            Assert.AreEqual(header.GUID, "{24081730-6AA9-E77C-4C76-AD930C119F3F}");
             Assert.AreEqual(header.TTNOptions, TTNOptions.Active | TTNOptions.ActivatedByCntr0);
             Assert.AreEqual(header.DateStamp, new DateTime(2022, 09, 23));
             Assert.IsNotNull(header.BuhOperation);

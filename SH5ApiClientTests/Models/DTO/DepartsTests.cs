@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Data;
 using SH5ApiClient.Models.Enums;
 using System.IO;
 using System.Linq;
@@ -13,10 +14,7 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseDepartsTest()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Departs.json", Encoding.UTF8);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            ExecOperationContent content = answear.GetAnswearContent("106");
-            var departs = Depart.GetDepartsFromSHAnswear(content);
+            var departs = Options.ApiClient.LoadDepartsAsync().Result;
 
             Assert.AreEqual(2, departs.Count());
 
@@ -28,7 +26,7 @@ namespace SH5ApiClient.Models.DTO.Tests
 
 
             Assert.AreEqual((uint)8388608, dep1.Rid);
-            Assert.AreEqual("31ADB89D-1C0F-B3E3-6DA0-F4535DCED25E", dep1.Guid);
+            Assert.AreEqual("{31ADB89D-1C0F-B3E3-6DA0-F4535DCED25E}", dep1.Guid);
             Assert.AreEqual("Склад 2", dep1.Name);
             Assert.AreEqual(DepatmenType.Warehouse, dep1.DepatmenType);
             Assert.IsNotNull(dep1.LegalEntity);
@@ -41,7 +39,7 @@ namespace SH5ApiClient.Models.DTO.Tests
 
 
             Assert.AreEqual((uint)4194304, dep2.Rid);
-            Assert.AreEqual("4B506473-BBED-0168-3416-8AE60ACEEE3F", dep2.Guid);
+            Assert.AreEqual("{4B506473-BBED-0168-3416-8AE60ACEEE3F}", dep2.Guid);
             Assert.AreEqual("Склад 1", dep2.Name);
             Assert.AreEqual(DepatmenType.Warehouse | DepatmenType.Trade | DepatmenType.Production, dep2.DepatmenType);
             Assert.IsNotNull(dep2.LegalEntity);

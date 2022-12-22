@@ -17,9 +17,8 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseCurrenciesTests()
         {
-            string jsonAnswear = File.ReadAllText(@"..\..\..\Models\DataForTests\Currencies.json", Encoding.UTF8);
+            var result = Options.ApiClient.LoadCurrenciesAsync().Result;
 
-            var result = DataExecutable.Parse<Currencies>(jsonAnswear);
             Assert.IsNotNull(result);
             Assert.AreEqual(result.Count(), 2);
 
