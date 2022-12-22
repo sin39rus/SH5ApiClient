@@ -3,9 +3,9 @@ using System.Text;
 
 namespace SH5ApiClient.Infrastructure.Helpers
 {
-    public static class WebClient
+    public class WebClient : IWebClient
     {
-        public static Task<string> WebGetAsync(string url)
+        public Task<string> WebGetAsync(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException($"\"{nameof(url)}\" не может быть пустым или содержать только пробел.", nameof(url));
@@ -27,13 +27,13 @@ namespace SH5ApiClient.Infrastructure.Helpers
                 throw new TaskCanceledException($"Запрос был отменен, так как истекло время ожидания {client.Timeout.Seconds} секунды.");
             }
         }
-        public static Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam)
+        public Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam)
         {
 
             string url = $"http://{connectionParam.Address}:{connectionParam.Port}/api/sh5exec";
             return WebPostInternalAsync(url, request);
         }
-        public static Task<string> WebPostAsync(RequestBase request)
+        public Task<string> WebPostAsync(RequestBase request)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));

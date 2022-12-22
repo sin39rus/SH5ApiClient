@@ -5,9 +5,11 @@ namespace SH5ApiClient
     public class ApiClient : IApiClient
     {
         private readonly ConnectionParamSH5 _connectionParam;
-        public ApiClient(ConnectionParamSH5 connectionParamSH5)
+        private readonly IWebClient _webClient;
+        public ApiClient(ConnectionParamSH5 connectionParamSH5, IWebClient? webClient = null)
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
+            _webClient = webClient ?? new WebClient();
         }
         public async Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices)
         {
@@ -20,7 +22,7 @@ namespace SH5ApiClient
                     TTNTypeForRequest = ttnTypeForRequest,
                     GDocsRequestFilter = gDocsRequestFilter
                 };
-                string jsonAnswear = await WebClient.WebPostAsync(request);
+                string jsonAnswear = await _webClient.WebPostAsync(request);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("111");
                 return GDocHeader.GetGDocsFromSHAnswear(content)
@@ -36,10 +38,8 @@ namespace SH5ApiClient
             try
             {
                 DepartsRequest departsRequest = new(_connectionParam);
-                string jsonAnswear = await WebClient.WebPostAsync(departsRequest);
-                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-                ExecOperationContent content = answear.GetAnswearContent("106");
-                return Depart.GetDepartsFromSHAnswear(content);
+                string jsonAnswear = await _webClient.WebPostAsync(departsRequest);
+                return DataExecutable.Parse<Departs>(jsonAnswear);
             }
             catch (Exception ex)
             {
@@ -51,15 +51,8 @@ namespace SH5ApiClient
             try
             {
                 DepartRequest departRequest = new(_connectionParam, rid, guid);
-                string jsonAnswear = await WebClient.WebPostAsync(departRequest);
-                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-                ExecOperationContent content = answear.GetAnswearContent("106");
-                var dep = Depart.Parse(content.GetValues()[0]);
-                if (dep != null)
-                {
-                    dep.KPPs = KPP.GetKPPsFromSHAnswear(answear.GetAnswearContent("114"));
-                    dep.AloLicInfos = AloLicInfo.GetAloLicInfosFromSHAnswear(answear.GetAnswearContent("115"));
-                }
+                string jsonAnswear = await _webClient.WebPostAsync(departRequest);
+                var dep = DataExecutable.Parse<Depart>(jsonAnswear);
                 return dep;
             }
             catch (Exception ex)
@@ -72,7 +65,7 @@ namespace SH5ApiClient
             try
             {
                 CorrsRequest corrsRequest = new(_connectionParam);
-                string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
+                string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("107");
                 return Сorrespondent.GetСorrespondentsFromSHAnswear(content);
@@ -85,7 +78,7 @@ namespace SH5ApiClient
         public async Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames)
         {
             AbleRequest ableRequest = new(_connectionParam, procedureNames);
-            string jsonAnswear = await WebClient.WebPostAsync(ableRequest);
+            string jsonAnswear = await _webClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
         public async Task<IEnumerable<Сorrespondent>> LoadInternalCorrespondentsAsync()
@@ -93,7 +86,7 @@ namespace SH5ApiClient
             try
             {
                 LEntitiesRequest corrsRequest = new(_connectionParam);
-                string jsonAnswear = await WebClient.WebPostAsync(corrsRequest);
+                string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
                 ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
                 ExecOperationContent content = answear.GetAnswearContent("102");
                 return Сorrespondent.GetСorrespondentsFromSHAnswear(content);
@@ -106,7 +99,7 @@ namespace SH5ApiClient
         public async Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path)
         {
             EnumValuesRequest request = new(_connectionParam, head, path);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             return OperationBase.Parse<EnumOperation>(jsonAnswear).GetValues();
         }
         public Task UpdateCorrespondentAsync(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
@@ -118,7 +111,7 @@ namespace SH5ApiClient
         private async Task UpdateCorrespondentAsyncInternal(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
         {
             CorrRequest request = new(_connectionParam, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             if (bankName is not null)
                 jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_Name", bankName);
             if (bankAccount is not null)
@@ -128,7 +121,7 @@ namespace SH5ApiClient
             if (corAccount is not null)
                 jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_CAcc", corAccount);
             string newRequest = ExecOperation.ConvertToRequest(jsonAnswear, "107", _connectionParam, "UpdCorr");
-            string newRequestResult = await WebClient.WebPostAsync(newRequest, _connectionParam);
+            string newRequestResult = await _webClient.WebPostAsync(newRequest, _connectionParam);
             OperationBase.Parse<ExecOperation>(newRequestResult);
         }
         public async Task<Сorrespondent?> CreateNewCorrespondentAsync(string name, string inn, string? bankAccount, string? bik, string? bankName, string? corAccount, CorrType corrType, CorrTypeEx corrTypeEx)
@@ -142,26 +135,26 @@ namespace SH5ApiClient
                 BankName = bankName,
                 CorAccount = corAccount
             };
-            string result = await WebClient.WebPostAsync(corr);
+            string result = await _webClient.WebPostAsync(corr);
             var answear = OperationBase.Parse<ExecOperation>(result);
             return Сorrespondent.Parse(answear.GetAnswearContent("107").GetValues()[0]);
 
         }
         public async Task<InfoOperation> GetSHServerInfoAsync()
         {
-            string answear = await WebClient.WebPostAsync(new SHInfoRequest(_connectionParam));
+            string answear = await _webClient.WebPostAsync(new SHInfoRequest(_connectionParam));
             return OperationBase.Parse<InfoOperation>(answear);
         }
         public async Task<IEnumerable<Currency>> LoadCurrenciesAsync()
         {
             CurrenciesRequest request = new(_connectionParam);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             return DataExecutable.Parse<Currencies>(jsonAnswear);
         }
         public async Task<IEnumerable<MeasureGroup>> LoadMeasureGroupsAsync()
         {
             MGroupsRequest request = new(_connectionParam);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             ExecOperationContent content = answear.GetAnswearContent("205");
             return MeasureGroup.GetMGroupsFromSHAnswear(content);
@@ -169,70 +162,75 @@ namespace SH5ApiClient
         public async Task<MeasureGroup?> GetMeasureGroupAsync(uint rid)
         {
             MGroupRequest request = new(_connectionParam, rid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return MeasureGroup.Parse(answear.GetAnswearContent("205").GetValues()[0]);
         }
         public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc0.Parse(answear);
         }
         public async Task<GDoc4?> GetGDoc4Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.SalesInvoice, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GDoc4.Parse(answear);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc4>(jsonAnswear);
         }
         public async Task<GDoc5?> GetGDoc5Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.ReturnSupplier, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GDoc5.Parse(answear);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc5>(jsonAnswear);
         }
         public async Task<GDoc8?> GetGDoc8Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.CollationStatement, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GDoc8.Parse(answear);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc8>(jsonAnswear);
         }
         public async Task<GDoc8Diffs?> GetGDoc8DiffsAsync(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.CollationStatementDiffs, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GDoc8Diffs.Parse(answear);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc8Diffs>(jsonAnswear);
         }
         public async Task<GDoc10?> GetGDoc10Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.ActProcessing, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GDoc10.Parse(answear);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc10>(jsonAnswear);
         }
         public async Task<GDoc11?> GetGDoc11Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.InternalMovement, rid, guid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GDoc11.Parse(answear);
         }
         public async Task<IEnumerable<GGroup>> LoadGGroupsAsync()
         {
             GGroupsRequest request = new(_connectionParam);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GGroup.ParseGGroups(answear);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            var groups = DataExecutable.Parse<GGroups>(jsonAnswear);
+
+            foreach (GGroup group in groups)
+            {
+                if (group?.Parent?.Rid != null)
+                    group.Parent = groups.Single(t => t.Rid == group.Parent.Rid);
+                else
+                    group.Parent = null;
+            }
+
+            return groups;
+
         }
         public async Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroupAsync(uint groupRid)
         {
             GoodsRequest request = new(_connectionParam, groupRid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return GoodsItem.ParseGoods(answear);
         }
@@ -240,7 +238,7 @@ namespace SH5ApiClient
         public async Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null)
         {
             MUnitsRequest request = new(_connectionParam, groupRid);
-            string jsonAnswear = await WebClient.WebPostAsync(request);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
             return MeasureUnit.ParseMUnits(answear.GetAnswearContent("206"));
         }
