@@ -8,18 +8,22 @@ namespace SH5ApiClient.Data
 
         public static T Parse<T>(string data) where T : DataExecutable
         {
-            T rootInstance = (T)Activator.CreateInstance(typeof(T))
+            T rootInstance = (T?)Activator.CreateInstance(typeof(T))
                 ?? throw new ApiClientException($"Не удалось создать экземпляр класса {nameof(T)}");
             rootInstance.DataSet = DataSet.ParseFromJson(data);
 
             foreach (System.Data.DataTable dataTable in rootInstance.DataSet.Tables)
             {
-                PropertyInfo property = typeof(T).GetProperties()
-                    .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == dataTable.TableName)
-                    ?? throw new ApiClientException($"У объекта {typeof(T).Name} отсутствует свойство с атрибутом {dataTable.TableName}.");
-                var tableInstance = Activator.CreateInstance(property.PropertyType)
-                    ?? throw new ApiClientException($"Не удалось создать экземпляр класса {property.PropertyType.Name}");
-                property.SetValue(rootInstance, tableInstance);
+                object tableInstance = rootInstance;
+
+                PropertyInfo property = typeof(T).GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                    .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == dataTable.TableName);
+                if (property is not null)
+                {
+                    tableInstance = Activator.CreateInstance(property.PropertyType)
+                        ?? throw new ApiClientException($"Не удалось создать экземпляр класса {property.PropertyType.Name}");
+                    property.SetValue(rootInstance, tableInstance);
+                }
 
                 foreach (System.Data.DataRow dataRow in dataTable.Rows)
                 {
@@ -157,6 +161,10 @@ namespace SH5ApiClient.Data
                 {
                     data = value is DBNull ? null : Convert.ToString(value);
                 }
+                else if (property.PropertyType == typeof(bool))
+                {
+                    data = Convert.ToBoolean(value);
+                }
                 else if (property.PropertyType == typeof(DateTime))
                 {
                     data = Convert.ToDateTime(value);
@@ -177,9 +185,17 @@ namespace SH5ApiClient.Data
                 {
                     data = Enum.Parse(typeof(TTNType), value?.ToString()) ?? null;
                 }
+                else if (property.PropertyType == typeof(DepatmenType?) || property.PropertyType == typeof(DepatmenType))
+                {
+                    data = Enum.Parse(typeof(DepatmenType), value?.ToString()) ?? null;
+                }
+                else if (property.PropertyType == typeof(GoodsItemFlags?) || property.PropertyType == typeof(GoodsItemFlags))
+                {
+                    data = Enum.Parse(typeof(GoodsItemFlags), value?.ToString()) ?? null;
+                }
                 else
                 {
-                    throw new ApiClientException($"Тип свойства {property.DeclaringType.Name} не определен.");
+                    throw new ApiClientException($"Тип свойства {property.Name} не определен.");
                 }
                 property.SetValue(instance, data);
             }
