@@ -30,7 +30,7 @@
 
         /// <summary>Загрузка справочника внутренних корреспондентов
         /// </summary>
-        Task<IEnumerable<InnerСorrespondent>> LoadInternalCorrespondentsAsync();
+        Task<IEnumerable<InternalСorrespondent>> LoadInternalCorrespondentsAsync();
 
         /// <summary>Обновление банковских реквизитов у корреспондента</summary>
         /// <param name="guid">Guid обновляемого корреспондента</param>

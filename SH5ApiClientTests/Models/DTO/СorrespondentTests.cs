@@ -58,7 +58,7 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseInternalCorrespondentsTest()
         {
-            var corrs = (InnerСorrespondents)Options.ApiClient.LoadInternalCorrespondentsAsync().Result;
+            var corrs = (InternalСorrespondents)Options.ApiClient.LoadInternalCorrespondentsAsync().Result;
 
             Assert.AreEqual(1, corrs.Count());
             

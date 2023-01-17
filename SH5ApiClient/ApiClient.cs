@@ -72,11 +72,11 @@ namespace SH5ApiClient
             string jsonAnswear = await _webClient.WebPostAsync(ableRequest);
             return OperationBase.Parse<AbleOperation>(jsonAnswear);
         }
-        public async Task<IEnumerable<InnerСorrespondent>> LoadInternalCorrespondentsAsync()
+        public async Task<IEnumerable<InternalСorrespondent>> LoadInternalCorrespondentsAsync()
         {
             LEntitiesRequest corrsRequest = new(_connectionParam);
             string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
-            return DataExecutable.Parse<InnerСorrespondents>(jsonAnswear);
+            return DataExecutable.Parse<InternalСorrespondents>(jsonAnswear);
         }
         public async Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path)
         {

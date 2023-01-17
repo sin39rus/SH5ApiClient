@@ -5,7 +5,7 @@ namespace SH5ApiClient.Models.DTO
     /// <summary>Собственный корреспондент</summary>
     
     [OriginalName("102")]
-    public class InnerСorrespondent : DataExecutable
+    public class InternalСorrespondent : DataExecutable
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]

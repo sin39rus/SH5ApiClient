@@ -144,5 +144,6 @@ namespace SH5ApiClient.Models.DTO
                 LastUpdater = User.Parse(value.Where(t => t.Key.StartsWith("109#1\\")).ToDictionary(t => t.Key.TrimStart("109#1\\"), g => g.Value))
             };
         }
+
     }
 }
