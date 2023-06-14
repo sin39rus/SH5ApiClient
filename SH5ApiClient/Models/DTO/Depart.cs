@@ -32,7 +32,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>битовая маска групп подразделения</summary>
         [OriginalName("32")]
-        public long? GroupBitmask { set; get; }
+        public string? GroupBitmask { set; get; }
 
         /// <summary>GDocTypeMask</summary>
         [OriginalName("111")]

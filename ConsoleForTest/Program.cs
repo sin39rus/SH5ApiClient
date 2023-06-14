@@ -12,13 +12,15 @@ namespace ConsoleForTest
         static void Main()
         {
             ////var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
-            ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9797);
+            ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9798);
             //ConnectionParamSH5 param = new("Admin", "776417", "127.0.0.1", 9797);
-            IApiClient client =  new ApiClient(param);
-            var ff = client.LoadGDocsAsync(new DateTime(2022, 12, 01), DateTime.Now).Result.ToList();
+            IApiClient client = new ApiClient(param);
 
-            string jsonAnswear = File.ReadAllText(@"..\..\..\..\SH5ApiClientTests\Models\DataForTests\Gdoc4.json", Encoding.UTF8);
-            var result = DataExecutable.Parse<GDoc4>(jsonAnswear);
+            //client.LoadGDocsAsync(from, to, SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice, SH5ApiClient.Models.Enums.GDocsRequestFilter.ShowActiveInvoices | SH5ApiClient.Models.Enums.GDocsRequestFilter.CalculateSums)
+            var ff = client.LoadGDocsAsync(new DateTime(2023, 06, 01), DateTime.Now, SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice).Result.ToArray();
+
+            //var doc = client.GetGDoc4Async(ff.Rid.GetValueOrDefault(), ff.GUID).Result;
+
         }
     }
 }
