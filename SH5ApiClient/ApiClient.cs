@@ -1,4 +1,5 @@
 ﻿using SH5ApiClient.Data;
+using SH5ApiClient.Models.DTO.GDoc;
 
 namespace SH5ApiClient
 {
@@ -23,10 +24,8 @@ namespace SH5ApiClient
                     GDocsRequestFilter = gDocsRequestFilter
                 };
                 string jsonAnswear = await _webClient.WebPostAsync(request);
-                ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-                ExecOperationContent content = answear.GetAnswearContent("111");
-                return GDocHeader.GetGDocsFromSHAnswear(content)
-                    .Where(t => t.TTNOptions is not null && t.TTNOptions.Value != TTNOptions.Unknown); //При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
+                var data = DataExecutable.Parse<GDocs>(jsonAnswear);
+                return data.Where(t => t.TTNOptions is not null && t.TTNOptions.Value != TTNOptions.Unknown); //При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
             }
             catch (Exception ex)
             {

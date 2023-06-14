@@ -51,6 +51,7 @@ namespace SH5ApiClient.Data
                                     (currentInstance as System.Collections.IDictionary).Add(caption, dictValue);
                                     continue;
                                 }
+                                var fdsfGroup = currentInstance.GetType().GetProperties();
                                 PropertyInfo rowProperty = currentInstance.GetType().GetProperties()
                                     .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == caption)
                                     ?? throw new ApiClientException($"У объекта {currentInstance.GetType().Name} отсутствует свойство с атрибутом {caption}.");
@@ -80,7 +81,8 @@ namespace SH5ApiClient.Data
             }
             return rootInstance;
         }
-
+        public virtual string ToJson() =>
+            throw new ApiClientNotImplementedException("Метод преобразования в Json не реализован.");
         private static bool IsObject(string[] array, int i)
         {
             return i < array.Length - 1;
