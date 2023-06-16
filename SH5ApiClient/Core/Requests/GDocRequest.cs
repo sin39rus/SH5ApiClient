@@ -8,10 +8,10 @@ namespace SH5ApiClient.Core.Requests
         private readonly string _guid;
         public GDocRequest(ConnectionParamSH5 connectionParam, TTNType ttnType, uint rid, string guid) : base(connectionParam)
         {
-            if (!Guid.TryParse(guid, out Guid _))
+            if (!Guid.TryParse(guid, out Guid _newGuid))
                 throw new ArgumentException("Не корректное значение параметра guid");
             _rid = rid;
-            _guid = $"{{{guid}}}";
+            _guid = $"{{{_newGuid}}}";
             ProcName = ttnType switch
             {
                 TTNType.PurchaseInvoice => "GDoc0",
