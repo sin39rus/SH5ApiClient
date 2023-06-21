@@ -162,6 +162,12 @@ namespace SH5ApiClient
             string jsonAnswear = await _webClient.WebPostAsync(request);
             return DataExecutable.Parse<GDoc4>(jsonAnswear);
         }
+        public async Task<GDoc4?> UpdateGDoc4(GDoc4 doc)
+        {
+            UpdGDoc4Request request = new UpdGDoc4Request(_connectionParam, doc);
+            string jsonAnswear = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc4>(jsonAnswear);
+        }
         public async Task<GDoc5?> GetGDoc5Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.ReturnSupplier, rid, guid);

@@ -133,6 +133,7 @@
         /// <param name="guid">GUID накладной</param>
         /// <returns>Внутреннее перемещение</returns>
         Task<GDoc11?> GetGDoc11Async(uint rid, string guid);
+        Task<GDoc4?> UpdateGDoc4(GDoc4 doc);
         #endregion
     }
 }

@@ -1,11 +1,12 @@
-﻿using System.Reflection;
+﻿using Newtonsoft.Json.Linq;
+using System.Data;
+using System.Reflection;
 
 namespace SH5ApiClient.Data
 {
     public abstract class DataExecutable
     {
         protected DataSet DataSet { private set; get; } = new DataSet();
-
         public static T Parse<T>(string data) where T : DataExecutable
         {
             T rootInstance = (T?)Activator.CreateInstance(typeof(T))
@@ -81,8 +82,63 @@ namespace SH5ApiClient.Data
             }
             return rootInstance;
         }
-        public virtual string ToJson() =>
-            throw new ApiClientNotImplementedException("Метод преобразования в Json не реализован.");
+
+        /// <summary>Изменить данные в таблице SH</summary>
+        /// <param name="dataTableName">Имя таблицы</param>
+        /// <param name="rowIdNameColumn">Ключевая колонка строки</param>
+        /// <param name="rowId">Ключ строки</param>
+        /// <param name="valueNameColumn">Наименование колонки данных</param>
+        /// <param name="value">Новое значение</param>
+        /// <exception cref="ApiClientArgumentException"></exception>
+        public void ChangeValue(string dataTableName, string rowIdNameColumn, object rowId, string valueNameColumn, object value)
+        {
+            DataTable dataTable = DataSet.Tables[dataTableName] ?? throw new ApiClientArgumentException($"Таблица с именем: \"{dataTableName}\" не найдена.", nameof(dataTableName));
+            DataColumn columnRowId = dataTable.Columns[rowIdNameColumn] ?? throw new ApiClientArgumentException($"Колонка идентификатора строки с именем: \"{rowIdNameColumn}\" не найдена.", nameof(rowIdNameColumn));
+            DataColumn valueColumn = dataTable.Columns[valueNameColumn] ?? throw new ApiClientArgumentException($"Колонка данных с именем: \"{valueNameColumn}\" не найдена.", nameof(valueNameColumn));
+            DataRow row = dataTable.Rows.Cast<DataRow>().SingleOrDefault(t => t[columnRowId].ToString() == rowId.ToString()) ?? throw new ApiClientArgumentException($"Строка с инентификатором: \"{rowId}\" в колонке \"{rowIdNameColumn}\" не найдена.", nameof(rowId)); ;
+
+            row.BeginEdit();
+            row[valueColumn] = value;
+            row.AcceptChanges();
+        }
+        public virtual JArray ToJson()
+        {
+            JArray tables = new JArray();
+            foreach (DataTable table in DataSet.Tables)
+            {
+                JProperty head = new JProperty("head", table.TableName);
+                JProperty recCount = new JProperty("recCount", table.Rows.Count);
+                JArray originals = new JArray();
+                JArray fields = new JArray();
+                JArray values = new JArray();
+                JArray statuses = new JArray(Enumerable.Range(0, table.Rows.Count).Select(t => "Modify"));
+
+                foreach (DataColumn column in table.Columns)
+                {
+                    originals.Add(column.Caption);
+                    fields.Add(column.ColumnName);
+
+                    JArray rowArray = new JArray();
+                    foreach (DataRow row in table.Rows)
+                    {
+                        object? value = row[column] is DBNull ? null : row[column];
+                        rowArray.Add(value);
+                    }
+                    values.Add(rowArray);
+                }
+
+                tables.Add(
+                    new JObject(
+                        head,
+                        recCount,
+                        new JProperty("original", originals),
+                        new JProperty("fields", fields),
+                        new JProperty("values", values),
+                        new JProperty("status", statuses)
+                        ));
+            }
+            return tables;
+        }
         private static bool IsObject(string[] array, int i)
         {
             return i < array.Length - 1;
