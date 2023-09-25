@@ -56,5 +56,9 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Rid</summary>
         [OriginalName("37")]
         public uint? AttrsMask { set; get; }
+
+        /// <summary>Подразделение</summary>
+        [OriginalName("106")]
+        public Depart? Depart { set; get; }
     }
 }

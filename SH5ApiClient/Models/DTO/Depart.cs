@@ -57,5 +57,8 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Список обособленных подразделений</summary>
         [OriginalName("115")]
         public List<AloLicInfo> AloLicInfos { get; set; }
+
+        [OriginalName("9")]
+        public uint? Rate { get; set; }
     }
 }

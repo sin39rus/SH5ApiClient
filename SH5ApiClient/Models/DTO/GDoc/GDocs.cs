@@ -39,6 +39,10 @@ namespace SH5ApiClient.Models.DTO.GDoc
 
             [OriginalName("107#1")]
             public Сorrespondent? Сorrespondent2 { set; get; }
+
+            /// <summary>Создатель</summary>
+            [OriginalName("109")]
+            public User? Creator { set; get; }
         }
 
         [OriginalName("111")]
