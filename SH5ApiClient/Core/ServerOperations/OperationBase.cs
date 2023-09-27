@@ -14,7 +14,11 @@ namespace SH5ApiClient.Core.ServerOperations
         internal void CheckError()
         {
             if (ErrorCode != 0)
+            {
+                if (ErrMessage == "Ошибка процедуры библиотеки сервера 81.")
+                    throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage} (Возможно документ в SH заблокирован для редактирования.)");
                 throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage}");
+            }
         }
         /// <summary>Метод выполняемый после операции разбора.</summary>
         internal abstract void AfterParse();
