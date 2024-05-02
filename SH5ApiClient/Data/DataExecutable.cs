@@ -106,6 +106,8 @@ namespace SH5ApiClient.Data
             JArray tables = new JArray();
             foreach (DataTable table in DataSet.Tables)
             {
+                if (table.Rows.Count == 0)
+                    continue;
                 JProperty head = new JProperty("head", table.TableName);
                 JProperty recCount = new JProperty("recCount", table.Rows.Count);
                 JArray originals = new JArray();
