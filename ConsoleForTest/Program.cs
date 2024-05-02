@@ -19,7 +19,7 @@ namespace ConsoleForTest
             //client.LoadGDocsAsync(from, to, SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice, SH5ApiClient.Models.Enums.GDocsRequestFilter.ShowActiveInvoices | SH5ApiClient.Models.Enums.GDocsRequestFilter.CalculateSums)
             var ff = client.LoadGDocsAsync(new DateTime(2024, 05, 30), new DateTime(2024, 05, 30), SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice).Result.ToArray().Single(t=>t.Name == "1065");
             var shInvoice = client.GetGDoc4Async(ff.Rid.GetValueOrDefault(), ff.GUID).Result;
-
+         
         }
     }
 }

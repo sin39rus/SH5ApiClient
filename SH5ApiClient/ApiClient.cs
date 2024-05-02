@@ -23,8 +23,8 @@ namespace SH5ApiClient
                     TTNTypeForRequest = ttnTypeForRequest,
                     GDocsRequestFilter = gDocsRequestFilter
                 };
-                string jsonAnswear = await _webClient.WebPostAsync(request);
-                var data = DataExecutable.Parse<GDocs>(jsonAnswear);
+                string jsonAnswer = await _webClient.WebPostAsync(request);
+                var data = DataExecutable.Parse<GDocs>(jsonAnswer);
                 return data.Where(t => t.TTNOptions is not null && t.TTNOptions.Value != TTNOptions.Unknown); //При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
             }
             catch (Exception ex)
@@ -37,8 +37,8 @@ namespace SH5ApiClient
             try
             {
                 DepartsRequest departsRequest = new(_connectionParam);
-                string jsonAnswear = await _webClient.WebPostAsync(departsRequest);
-                return DataExecutable.Parse<Departs>(jsonAnswear);
+                string jsonAnswer = await _webClient.WebPostAsync(departsRequest);
+                return DataExecutable.Parse<Departs>(jsonAnswer);
             }
             catch (Exception ex)
             {
@@ -50,8 +50,8 @@ namespace SH5ApiClient
             try
             {
                 DepartRequest departRequest = new(_connectionParam, rid, guid);
-                string jsonAnswear = await _webClient.WebPostAsync(departRequest);
-                var dep = DataExecutable.Parse<Depart>(jsonAnswear);
+                string jsonAnswer = await _webClient.WebPostAsync(departRequest);
+                var dep = DataExecutable.Parse<Depart>(jsonAnswer);
                 return dep;
             }
             catch (Exception ex)
@@ -62,26 +62,26 @@ namespace SH5ApiClient
         public async Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync()
         {
             CorrsRequest corrsRequest = new(_connectionParam);
-            string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
-            return DataExecutable.Parse<Сorrespondents>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(corrsRequest);
+            return DataExecutable.Parse<Сorrespondents>(jsonAnswer);
         }
         public async Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames)
         {
             AbleRequest ableRequest = new(_connectionParam, procedureNames);
-            string jsonAnswear = await _webClient.WebPostAsync(ableRequest);
-            return OperationBase.Parse<AbleOperation>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(ableRequest);
+            return OperationBase.Parse<AbleOperation>(jsonAnswer);
         }
         public async Task<IEnumerable<InternalСorrespondent>> LoadInternalCorrespondentsAsync()
         {
             LEntitiesRequest corrsRequest = new(_connectionParam);
-            string jsonAnswear = await _webClient.WebPostAsync(corrsRequest);
-            return DataExecutable.Parse<InternalСorrespondents>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(corrsRequest);
+            return DataExecutable.Parse<InternalСorrespondents>(jsonAnswer);
         }
         public async Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path)
         {
             EnumValuesRequest request = new(_connectionParam, head, path);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return OperationBase.Parse<EnumOperation>(jsonAnswear).GetValues();
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return OperationBase.Parse<EnumOperation>(jsonAnswer).GetValues();
         }
         public Task UpdateCorrespondentAsync(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
         {
@@ -92,16 +92,16 @@ namespace SH5ApiClient
         private async Task UpdateCorrespondentAsyncInternal(string guid, string? bankName, string? bankAccount, string? bik, string? corAccount)
         {
             CorrRequest request = new(_connectionParam, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
             if (bankName is not null)
-                jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_Name", bankName);
+                jsonAnswer = ExecOperation.ChangeValue(jsonAnswer, "107", "34\\Bank_Name", bankName);
             if (bankAccount is not null)
-                jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_PAcc", bankAccount);
+                jsonAnswer = ExecOperation.ChangeValue(jsonAnswer, "107", "34\\Bank_PAcc", bankAccount);
             if (bik is not null)
-                jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_BIK", bik);
+                jsonAnswer = ExecOperation.ChangeValue(jsonAnswer, "107", "34\\Bank_BIK", bik);
             if (corAccount is not null)
-                jsonAnswear = ExecOperation.ChangeValue(jsonAnswear, "107", "34\\Bank_CAcc", corAccount);
-            string newRequest = ExecOperation.ConvertToRequest(jsonAnswear, "107", _connectionParam, "UpdCorr");
+                jsonAnswer = ExecOperation.ChangeValue(jsonAnswer, "107", "34\\Bank_CAcc", corAccount);
+            string newRequest = ExecOperation.ConvertToRequest(jsonAnswer, "107", _connectionParam, "UpdCorr");
             string newRequestResult = await _webClient.WebPostAsync(newRequest, _connectionParam);
             OperationBase.Parse<ExecOperation>(newRequestResult);
         }
@@ -128,82 +128,82 @@ namespace SH5ApiClient
         public async Task<IEnumerable<Currency>> LoadCurrenciesAsync()
         {
             CurrenciesRequest request = new(_connectionParam);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<Currencies>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<Currencies>(jsonAnswer);
         }
         public async Task<IEnumerable<MeasureGroup>> LoadMeasureGroupsAsync()
         {
             MGroupsRequest request = new(_connectionParam);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<MeasureGroups>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<MeasureGroups>(jsonAnswer);
         }
         public async Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null)
         {
             MUnitsRequest request = new(_connectionParam, groupRid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<MeasureUnits>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<MeasureUnits>(jsonAnswer);
         }
         public async Task<MeasureGroup?> GetMeasureGroupAsync(uint rid)
         {
             MGroupRequest request = new(_connectionParam, rid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<MeasureGroup>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<MeasureGroup>(jsonAnswer);
         }
         public async Task<GDoc0?> GetGDoc0Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
-            return GDoc0.Parse(answear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GDoc0.Parse(answer);
         }
         public async Task<GDoc4?> GetGDoc4Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.SalesInvoice, rid, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<GDoc4>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc4>(jsonAnswer);
         }
         public async Task<GDoc4?> UpdateGDoc4(GDoc4 doc)
         {
             UpdGDoc4Request request = new UpdGDoc4Request(_connectionParam, doc);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<GDoc4>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc4>(jsonAnswer);
         }
         public async Task<GDoc5?> GetGDoc5Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.ReturnSupplier, rid, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<GDoc5>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc5>(jsonAnswer);
         }
         public async Task<GDoc8?> GetGDoc8Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.CollationStatement, rid, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<GDoc8>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc8>(jsonAnswer);
         }
         public async Task<GDoc8Diffs?> GetGDoc8DiffsAsync(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.CollationStatementDiffs, rid, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<GDoc8Diffs>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc8Diffs>(jsonAnswer);
         }
         public async Task<GDoc10?> GetGDoc10Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.ActProcessing, rid, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            return DataExecutable.Parse<GDoc10>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            return DataExecutable.Parse<GDoc10>(jsonAnswer);
         }
         public async Task<GDoc11?> GetGDoc11Async(uint rid, string guid)
         {
             GDocRequest request = new(_connectionParam, TTNType.InternalMovement, rid, guid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return GDoc11.Parse(answear);
         }
         public async Task<IEnumerable<GGroup>> LoadGGroupsAsync()
         {
             GGroupsRequest request = new(_connectionParam);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            var groups = DataExecutable.Parse<GGroups>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            var groups = DataExecutable.Parse<GGroups>(jsonAnswer);
 
             foreach (GGroup group in groups)
             {
@@ -219,8 +219,8 @@ namespace SH5ApiClient
         public async Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroupAsync(uint groupRid)
         {
             GoodsRequest request = new(_connectionParam, groupRid);
-            string jsonAnswear = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswear);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return GoodsItem.ParseGoods(answear);
         }
 
