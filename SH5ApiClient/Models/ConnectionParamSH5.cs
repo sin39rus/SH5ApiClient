@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Models
+﻿using System;
+
+namespace SH5ApiClient.Models
 {
     /// <summary>
     /// Параметры подключения к API SH5

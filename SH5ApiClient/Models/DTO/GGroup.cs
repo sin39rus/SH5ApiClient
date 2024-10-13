@@ -1,4 +1,8 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Models.Enums;
+using System.Collections.Generic;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Товарная группа</summary>
     [OriginalName("209")]
@@ -10,15 +14,15 @@
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>GUID</summary>
         [OriginalName("4")]
-        public string? GUID { set; get; }
+        public string GUID { set; get; }
 
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
-        public Dictionary<string, string> Attributes6 { set; get; } = new();
+        public Dictionary<string, string> Attributes6 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Флаги</summary>
         [OriginalName("42")]
@@ -26,6 +30,6 @@
 
         /// <summary>Группа предок</summary>
         [OriginalName("209#1")]
-        public GGroup? Parent { set; get; }
+        public GGroup Parent { set; get; }
     }
 }

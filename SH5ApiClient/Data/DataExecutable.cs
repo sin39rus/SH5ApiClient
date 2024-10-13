@@ -1,5 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Exceptions;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models.Enums;
+using System;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 
 namespace SH5ApiClient.Data
@@ -9,7 +15,7 @@ namespace SH5ApiClient.Data
         protected DataSet DataSet { private set; get; } = new DataSet();
         public static T Parse<T>(string data) where T : DataExecutable
         {
-            T rootInstance = (T?)Activator.CreateInstance(typeof(T))
+            T rootInstance = (T)Activator.CreateInstance(typeof(T))
                 ?? throw new ApiClientException($"Не удалось создать экземпляр класса {nameof(T)}");
             rootInstance.DataSet = DataSet.ParseFromJson(data);
 
@@ -19,7 +25,7 @@ namespace SH5ApiClient.Data
 
                 PropertyInfo property = typeof(T).GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
                     .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == dataTable.TableName);
-                if (property is not null)
+                if (property != null)
                 {
                     tableInstance = Activator.CreateInstance(property.PropertyType)
                         ?? throw new ApiClientException($"Не удалось создать экземпляр класса {property.PropertyType.Name}");
@@ -45,10 +51,10 @@ namespace SH5ApiClient.Data
                             string[] array = column.Caption.Split('\\');
                             for (int i = 0; i < array.Length; i++)
                             {
-                                string? caption = array[i];
+                                string caption = array[i];
                                 if (currentInstance.IsDictionary())
                                 {
-                                    string? dictValue = value is DBNull ? null : Convert.ToString(value);
+                                    string dictValue = value is DBNull ? null : Convert.ToString(value);
                                     (currentInstance as System.Collections.IDictionary).Add(caption, dictValue);
                                     continue;
                                 }
@@ -123,7 +129,7 @@ namespace SH5ApiClient.Data
                     JArray rowArray = new JArray();
                     foreach (DataRow row in table.Rows)
                     {
-                        object? value = row[column] is DBNull ? null : row[column];
+                        object value = row[column] is DBNull ? null : row[column];
                         rowArray.Add(value);
                     }
                     values.Add(rowArray);
@@ -145,12 +151,12 @@ namespace SH5ApiClient.Data
         {
             return i < array.Length - 1;
         }
-        private static void SetPropertyValue(object instance, PropertyInfo property, object? value)
+        private static void SetPropertyValue(object instance, PropertyInfo property, object value)
         {
             if (instance is null) throw new ArgumentNullException(nameof(instance));
             if (property is null) throw new ArgumentNullException(nameof(property));
 
-            object? data;
+            object data;
             try
             {
                 if (value is null || value is DBNull || property.PropertyType == typeof(DBNull))
@@ -159,7 +165,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(ulong?))
                 {
-                    data = value is DBNull ? null : Convert.ToUInt64(value);
+                    data = value is DBNull ? null : (ulong?)Convert.ToUInt64(value);
                 }
                 else if (property.PropertyType == typeof(ulong))
                 {
@@ -167,7 +173,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(long?))
                 {
-                    data = value is DBNull ? null : Convert.ToInt64(value);
+                    data = value is DBNull ? null : (long?)Convert.ToInt64(value);
                 }
                 else if (property.PropertyType == typeof(long))
                 {
@@ -175,7 +181,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(uint?))
                 {
-                    data = value is DBNull ? null : Convert.ToUInt32(value);
+                    data = value is DBNull ? null : (uint?)Convert.ToUInt32(value);
                 }
                 else if (property.PropertyType == typeof(uint))
                 {
@@ -183,7 +189,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(int?))
                 {
-                    data = value is DBNull ? null : Convert.ToInt32(value);
+                    data = value is DBNull ? null : (int?)Convert.ToInt32(value);
                 }
                 else if (property.PropertyType == typeof(int))
                 {
@@ -191,7 +197,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(ushort?))
                 {
-                    data = value is DBNull ? null : Convert.ToUInt16(value);
+                    data = value is DBNull ? null : (ushort?)Convert.ToUInt16(value);
                 }
                 else if (property.PropertyType == typeof(ushort))
                 {
@@ -199,7 +205,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(byte?))
                 {
-                    data = value is DBNull ? null : Convert.ToByte(value);
+                    data = value is DBNull ? null : (byte?)Convert.ToByte(value);
                 }
                 else if (property.PropertyType == typeof(byte))
                 {
@@ -207,7 +213,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(short?))
                 {
-                    data = value is DBNull ? null : Convert.ToInt16(value);
+                    data = value is DBNull ? null : (short?)Convert.ToInt16(value);
                 }
                 else if (property.PropertyType == typeof(short))
                 {
@@ -215,7 +221,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(decimal?) || property.PropertyType == typeof(decimal))
                 {
-                    data = value is DBNull ? null : Convert.ToDecimal(value);
+                    data = value is DBNull ? null : (decimal?)Convert.ToDecimal(value);
                 }
                 else if (property.PropertyType == typeof(string))
                 {
@@ -231,7 +237,7 @@ namespace SH5ApiClient.Data
                 }
                 else if (property.PropertyType == typeof(DateTime?))
                 {
-                    data = value is DBNull ? null : Convert.ToDateTime(value);
+                    data = value is DBNull ? null : (DateTime?)Convert.ToDateTime(value);
                 }
                 else if (property.PropertyType == typeof(TTNOptions?) || property.PropertyType == typeof(TTNOptions))
                 {

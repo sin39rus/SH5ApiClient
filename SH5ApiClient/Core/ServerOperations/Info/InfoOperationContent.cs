@@ -11,16 +11,16 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Идентификатор
         /// </summary>
         [JsonProperty("Ident")]
-        public string? Ident { get; set; }
+        public string Ident { get; set; }
         /// <summary>
         /// Размер
         /// </summary>
         [JsonProperty("Size")]
-        public string? Size { get; set; }
+        public string Size { get; set; }
         /// <summary>
         /// Версия
         /// </summary>
         [JsonProperty("Version")]
-        public string? Version { get; set; }
+        public string Version { get; set; }
     }
 }

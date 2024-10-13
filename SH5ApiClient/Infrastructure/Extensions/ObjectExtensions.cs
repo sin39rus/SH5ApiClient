@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using SH5ApiClient.Infrastructure.Attributes;
+using System;
+using System.Reflection;
 
 namespace SH5ApiClient.Infrastructure.Extensions
 {

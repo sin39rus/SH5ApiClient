@@ -1,5 +1,8 @@
 ﻿using SH5ApiClient.Data;
 using System.Collections;
+using System.Collections.Generic;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -7,13 +10,13 @@ namespace SH5ApiClient.Models.DTO
     public class Departs : DataExecutable, IEnumerable<Depart>
     {
         [OriginalName("108")]
-        private Ignore? Ignore1 { set; get; }
+        private Ignore Ignore1 { set; get; }
         
         [OriginalName("106")]
         private List<Depart> DepartCollection { set; get; } = new List<Depart>();
 
         [OriginalName("106#1")]
-        private Ignore? Ignore2 { set; get; }
+        private Ignore Ignore2 { set; get; }
         public IEnumerator<Depart> GetEnumerator() =>
             DepartCollection.GetEnumerator();
 

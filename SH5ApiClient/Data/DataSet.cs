@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Extensions;
+using System.Linq;
 
 namespace SH5ApiClient.Data
 {
@@ -34,11 +37,11 @@ namespace SH5ApiClient.Data
         public static DataSet ParseFromJson(string data)
         {
             ExecOperation answear = OperationBase.Parse<ExecOperation>(data);
-            DataSet dataSet = new();
+            DataSet dataSet = new DataSet();
 
             foreach (var shTable in answear.Content)
             {
-                System.Data.DataTable dataTable = new(shTable.Head);
+                System.Data.DataTable dataTable = new System.Data.DataTable(shTable.Head);
                 dataSet.Tables.Add(dataTable);
 
                 CreateColumns(shTable, dataTable);
@@ -71,7 +74,7 @@ namespace SH5ApiClient.Data
             {
                 for (int rowIndex = 0; rowIndex < dataTable.Rows.Count; rowIndex++)
                 {
-                    object? value = shTable.Values[columnIndex][rowIndex];
+                    object value = shTable.Values[columnIndex][rowIndex];
                     dataTable.Rows[rowIndex][columnIndex] = value;
                 }
             }

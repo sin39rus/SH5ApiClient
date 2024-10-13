@@ -1,4 +1,8 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models.Enums;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Единица измерения для синонима</summary>
     [OriginalName("244")]
@@ -6,6 +10,6 @@
     {
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? FullName { set; get; }
+        public string FullName { set; get; }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SH5ApiClient.Core.ServerOperations
 {
@@ -6,19 +9,19 @@ namespace SH5ApiClient.Core.ServerOperations
     internal sealed class StructOperation : OperationBase
     {
         //Словарь заголовков данных
-        private Dictionary<string, int> _headersDict = new();
+        private Dictionary<string, int> _headersDict = new Dictionary<string, int>();
 
         [JsonProperty("Version")]
-        public string? Version { get; private set; }
+        public string Version { get; private set; }
 
         [JsonProperty("UserName")]
-        public string? UserName { get; private set; }
+        public string UserName { get; private set; }
 
         [JsonProperty("actionName")]
-        public string? ActionName { get; private set; }
+        public string ActionName { get; private set; }
 
         [JsonProperty("actionType")]
-        public string? ActionType { get; private set; }
+        public string ActionType { get; private set; }
 
         [JsonProperty("shTable")]
         public StructOperationContent[] Content { get; private set; } = Array.Empty<StructOperationContent>();
@@ -26,7 +29,9 @@ namespace SH5ApiClient.Core.ServerOperations
         public override string Uri => "sh5struct";
         internal override void AfterParse()
         {
-            _headersDict = new(Content.Select((t, count) => new KeyValuePair<string, int>(t.Head, count)));
+            _headersDict = Content
+                .Select((t, count) => new { Key = t.Head, Value = count })
+                .ToDictionary(t => t.Key, t => t.Value);
 
         }
         /// <summary>

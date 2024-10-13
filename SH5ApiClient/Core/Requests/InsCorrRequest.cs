@@ -1,4 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models;
+using SH5ApiClient.Models.Enums;
+using System;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -43,11 +49,15 @@ namespace SH5ApiClient.Core.Requests
             get => corrType; set
             {
                 corrType = value;
-                CorrType3 = corrType switch
+                switch(corrType)
                 {
-                    CorrType.OutsideCorrespondent => Models.Enums.CorrType3.NotDefined,
-                    _ => null,
-                };
+                    case(CorrType.OutsideCorrespondent):
+                        CorrType3 = Models.Enums.CorrType3.NotDefined;
+                        break;
+                    default:
+                        CorrType3 = null;
+                        break;
+                }
             }
         }
         /// <summary>
@@ -64,32 +74,32 @@ namespace SH5ApiClient.Core.Requests
         /// ПлательщикБанк1
         /// </summary>
         [OriginalName("34\\Bank_Name")]
-        public string? BankName { set; get; }
+        public string BankName { set; get; }
         /// <summary>
         /// ПлательщикБИК
         /// </summary>
         [OriginalName("34\\Bank_BIK")]
-        public string? BIK { set; get; }
+        public string BIK { set; get; }
         /// <summary>
         /// ПлательщикКорсчет
         /// </summary>
         [OriginalName("34\\Bank_CAcc")]
-        public string? CorAccount { set; get; }
+        public string CorAccount { set; get; }
         /// <summary>
         /// ПлательщикСчет
         /// </summary>
         [OriginalName("34\\Bank_PAcc")]
-        public string? BankAccount { set; get; }
+        public string BankAccount { set; get; }
 
         public override OperationBase Operation => new ExecOperation();
 
         public override string CreateJsonRequest()
         {
-            JArray input = new();
+            JArray input = new JArray();
 
-            JObject obj107 = new();
-            JArray original107 = new();
-            JArray values107 = new();
+            JObject obj107 = new JObject();
+            JArray original107 = new JArray();
+            JArray values107 = new JArray();
 
 
             original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(Name)));
@@ -100,27 +110,27 @@ namespace SH5ApiClient.Core.Requests
             values107.Add(new JArray(CorrType));
             original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(CorrTypeEx)));
             values107.Add(new JArray(CorrTypeEx));
-            if (CorrType3 is not null)
+            if (CorrType3 != null)
             {
                 original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(CorrType3)));
                 values107.Add(new JArray(CorrType3));
             }
-            if (BankName is not null)
+            if (BankName != null)
             {
                 original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(BankName)));
                 values107.Add(new JArray(BankName));
             }
-            if (BIK is not null)
+            if (BIK != null)
             {
                 original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(BIK)));
                 values107.Add(new JArray(BIK));
             }
-            if (CorAccount is not null)
+            if (CorAccount != null)
             {
                 original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(CorAccount)));
                 values107.Add(new JArray(CorAccount));
             }
-            if (BankAccount is not null)
+            if (BankAccount != null)
             {
                 original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(BankAccount)));
                 values107.Add(new JArray(BankAccount));
@@ -131,7 +141,7 @@ namespace SH5ApiClient.Core.Requests
             obj107.Add(new JProperty("values", new JArray(values107)));
             input.Add(obj107);
 
-            JObject main = new(
+            JObject main = new JObject(
                 new JProperty("UserName", UserName),
                 new JProperty("Password", Password),
                 new JProperty("procName", ProcName),

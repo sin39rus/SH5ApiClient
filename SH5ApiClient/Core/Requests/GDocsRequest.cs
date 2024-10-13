@@ -1,4 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models;
+using SH5ApiClient.Models.Enums;
+using System;
+using System.Linq;
 using System.Reflection;
 
 namespace SH5ApiClient.Core.Requests
@@ -30,8 +37,8 @@ namespace SH5ApiClient.Core.Requests
 
         public override string CreateJsonRequest()
         {
-            JArray original108 = new();
-            JArray values108 = new();
+            JArray original108 = new JArray();
+            JArray values108 = new JArray();
 
 
             var properties = GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
@@ -47,14 +54,14 @@ namespace SH5ApiClient.Core.Requests
                 }
             }
 
-            JObject root = new(
+            JObject root = new JObject(
                 new JProperty(this.GetOriginalNameAttributeFromProperty(nameof(UserName)), UserName),
                 new JProperty(this.GetOriginalNameAttributeFromProperty(nameof(Password)), Password),
                 new JProperty(this.GetOriginalNameAttributeFromProperty(nameof(ProcName)), ProcName));
 
             if (original108.Count > 0)
             {
-                JArray input = new()
+                JArray input = new JArray()
                 {
                     new JObject(
                         new JProperty("head", "108"),

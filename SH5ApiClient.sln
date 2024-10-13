@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsForTest", "WinForms
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ForTest", "ForTest", "{75C07294-5D85-49B6-A29A-D7C6A13B8A9A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06142513-6015-45B7-B194-FDC341868784}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleForTestFrameWork", "ConsoleForTestFrameWork\ConsoleForTestFrameWork.csproj", "{1264A11E-FA84-4BCF-9BDF-BF86FE1B40B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{E33AD737-163E-4109-B570-5E479EB243F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33AD737-163E-4109-B570-5E479EB243F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33AD737-163E-4109-B570-5E479EB243F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1264A11E-FA84-4BCF-9BDF-BF86FE1B40B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1264A11E-FA84-4BCF-9BDF-BF86FE1B40B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1264A11E-FA84-4BCF-9BDF-BF86FE1B40B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1264A11E-FA84-4BCF-9BDF-BF86FE1B40B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +50,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CD91E1FC-8FA5-4CE9-92DB-4C75BE45378B} = {75C07294-5D85-49B6-A29A-D7C6A13B8A9A}
 		{E33AD737-163E-4109-B570-5E479EB243F1} = {75C07294-5D85-49B6-A29A-D7C6A13B8A9A}
+		{06142513-6015-45B7-B194-FDC341868784} = {75C07294-5D85-49B6-A29A-D7C6A13B8A9A}
+		{1264A11E-FA84-4BCF-9BDF-BF86FE1B40B2} = {75C07294-5D85-49B6-A29A-D7C6A13B8A9A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9954C239-CF6D-4E22-BB6D-429D820009FF}

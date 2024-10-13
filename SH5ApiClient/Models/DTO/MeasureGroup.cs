@@ -1,4 +1,6 @@
 ﻿using SH5ApiClient.Data;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Models.DTO;
 
 namespace SH5ApiClient.Models
 {
@@ -12,10 +14,10 @@ namespace SH5ApiClient.Models
 
         /// <summary>Наименование группы</summary>
         [OriginalName("3")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>Базовая единица измерения</summary>
         [OriginalName("206")]
-        public MeasureUnit? BaseMeasureUnit { set; get; }
+        public MeasureUnit BaseMeasureUnit { set; get; }
     }
 }

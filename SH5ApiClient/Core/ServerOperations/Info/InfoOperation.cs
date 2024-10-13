@@ -8,7 +8,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Версия API
         /// </summary>
         [JsonProperty("Version")]
-        public string? ApiVersion { get; set; }
+        public string ApiVersion { get; set; }
         /// <summary>
         /// Не разобрался, в тестовом было значение 1
         /// </summary>
@@ -18,7 +18,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Адрес
         /// </summary>
         [JsonProperty("Host")]
-        public string? Host { get; set; }
+        public string Host { get; set; }
         /// <summary>
         /// Порт
         /// </summary>
@@ -28,7 +28,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Строка подключения, пример: "(tcp/ip) 192.168.200.4:7777"
         /// </summary>
         [JsonProperty("LinkDisp")]
-        public string? LinkDisp { get; set; }
+        public string LinkDisp { get; set; }
         /// <summary>
         /// Таймаут
         /// </summary>
@@ -38,12 +38,12 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Имя пользователя
         /// </summary>
         [JsonProperty("UserName")]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
         /// <summary>
         /// Информация о базе данных
         /// </summary>
         [JsonProperty("DB")]
-        public InfoOperationContent? DBInfo { get; set; }
+        public InfoOperationContent DBInfo { get; set; }
 
         public override string Uri => "sh5info";
 

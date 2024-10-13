@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Infrastructure.Attributes
+﻿using System;
+
+namespace SH5ApiClient.Infrastructure.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Enum, AllowMultiple = false)]
     internal sealed class OriginalNameAttribute : Attribute

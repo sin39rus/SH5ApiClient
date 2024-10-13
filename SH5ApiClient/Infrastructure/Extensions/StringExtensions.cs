@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 
 namespace SH5ApiClient.Infrastructure.Extensions
 {
@@ -34,7 +36,11 @@ namespace SH5ApiClient.Infrastructure.Extensions
             string result = target;
             while (result.StartsWith(trimString))
             {
+#if NET6_0_OR_GREATER
                 result = result[trimString.Length..];
+#else
+                result = result.Substring(trimString.Length);
+#endif
             }
 
             return result;
@@ -46,9 +52,12 @@ namespace SH5ApiClient.Infrastructure.Extensions
             string result = target;
             while (result.EndsWith(trimString))
             {
+#if NET6_0_OR_GREATER
                 result = result[..^trimString.Length];
+#else
+                result = result.Substring(0, result.Length - trimString.Length);
+#endif
             }
-
             return result;
         }
     }

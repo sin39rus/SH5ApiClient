@@ -1,4 +1,7 @@
-﻿namespace SH5ApiClient.Models.Enums
+﻿using SH5ApiClient.Infrastructure.Attributes;
+using System;
+
+namespace SH5ApiClient.Models.Enums
 {
     /// <summary>Флаг товара</summary>
     [OriginalName("42")]

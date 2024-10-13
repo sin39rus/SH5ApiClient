@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SH5ApiClient.Infrastructure.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;

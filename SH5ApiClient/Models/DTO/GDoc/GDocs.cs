@@ -1,5 +1,14 @@
 ﻿using SH5ApiClient.Data;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Exceptions;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models;
+using SH5ApiClient.Models.DTO;
+using SH5ApiClient.Models.Enums;
 
 namespace SH5ApiClient.Models.DTO.GDoc
 {
@@ -9,7 +18,7 @@ namespace SH5ApiClient.Models.DTO.GDoc
         private List<GDocHeader> GDocsCollection { set; get; } = new List<GDocHeader>();
 
         [OriginalName("108")]
-        public Ignore? Ignore1 { set; get; }
+        public Ignore Ignore1 { set; get; }
 
         public IEnumerator<GDocHeader> GetEnumerator() =>
             GDocsCollection.GetEnumerator();
@@ -29,20 +38,20 @@ namespace SH5ApiClient.Models.DTO.GDoc
             public uint Flags { set; get; }
 
             [OriginalName("111")]
-            public Ignore2? Ignore2 { set; get; }
+            public Ignore2 Ignore2 { set; get; }
 
             [OriginalName("100")]
-            public Currency? Currency { set; get; }
+            public Currency Currency { set; get; }
 
             [OriginalName("107")]
-            public Сorrespondent? Сorrespondent { set; get; } 
+            public Сorrespondent Сorrespondent { set; get; } 
 
             [OriginalName("107#1")]
-            public Сorrespondent? Сorrespondent2 { set; get; }
+            public Сorrespondent Сorrespondent2 { set; get; }
 
             /// <summary>Создатель</summary>
             [OriginalName("109")]
-            public User? Creator { set; get; }
+            public User Creator { set; get; }
         }
 
         [OriginalName("111")]

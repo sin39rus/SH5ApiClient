@@ -1,4 +1,7 @@
-﻿namespace SH5ApiClient.Models
+﻿using SH5ApiClient.Models.Enums;
+using System;
+
+namespace SH5ApiClient.Models
 {
     /// <summary>
     /// Используемый атрибут

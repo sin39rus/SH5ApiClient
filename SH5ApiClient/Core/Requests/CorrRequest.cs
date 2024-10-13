@@ -1,5 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models;
+using System;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -12,7 +16,7 @@ namespace SH5ApiClient.Core.Requests
 
         public CorrRequest(ConnectionParamSH5 connectionParamSH5, string guid) : base("Corr", connectionParamSH5)
         {
-            if(System.Guid.TryParse(guid, out Guid value))
+            if (System.Guid.TryParse(guid, out Guid value))
             {
                 Guid = $"{{{value.ToString().ToUpperInvariant()}}}";
             }
@@ -24,12 +28,12 @@ namespace SH5ApiClient.Core.Requests
 
         public override string CreateJsonRequest()
         {
-            JArray input = new();
+            JArray input = new JArray();
 
-            JObject obj107 = new();
-            JArray original107 = new();
-            JArray values107 = new();
-            
+            JObject obj107 = new JObject();
+            JArray original107 = new JArray();
+            JArray values107 = new JArray();
+
             original107.Add(this.GetOriginalNameAttributeFromProperty(nameof(Guid)));
             values107.Add(new JArray(Guid));
 
@@ -38,7 +42,7 @@ namespace SH5ApiClient.Core.Requests
             obj107.Add(new JProperty("values", new JArray(values107)));
             input.Add(obj107);
 
-            JObject main = new(
+            JObject main = new JObject(
                 new JProperty("UserName", UserName),
                 new JProperty("Password", Password),
                 new JProperty("procName", ProcName),

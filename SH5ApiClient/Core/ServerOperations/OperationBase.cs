@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using SH5ApiClient.Infrastructure.Exceptions;
+using System;
 
 namespace SH5ApiClient.Core.ServerOperations
 {
@@ -10,7 +12,7 @@ namespace SH5ApiClient.Core.ServerOperations
         public int ErrorCode { get; set; }
 
         [JsonProperty("errMessage")]
-        public string? ErrMessage { get; set; }
+        public string ErrMessage { get; set; }
         internal void CheckError()
         {
             if (ErrorCode != 0)
@@ -32,7 +34,7 @@ namespace SH5ApiClient.Core.ServerOperations
         {
             if (string.IsNullOrWhiteSpace(jsonText))
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            T? answear = JsonConvert.DeserializeObject<T>(jsonText);
+            T answear = JsonConvert.DeserializeObject<T>(jsonText);
             if (answear == null)
                 throw new ArgumentException("Ошибка разбора ответа SH.");
             answear.CheckError();

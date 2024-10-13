@@ -1,4 +1,10 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Договор</summary>
     [OriginalName("172")]
@@ -18,7 +24,7 @@
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>Date</summary>
         [OriginalName("31")]
@@ -33,19 +39,19 @@
         public ushort? PDow { set; get; }
 
 
-        public static Contract? Parse(Dictionary<string, string> value)
+        public static Contract Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
             return new Contract
             {
-                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
-                Type = ushort.TryParse(value.GetValueOrDefault("5"), out ushort type) ? type : null,
-                Options = ushort.TryParse(value.GetValueOrDefault("33"), out ushort options) ? options : null,
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
+                Type = ushort.TryParse(value.GetValueOrDefault("5"), out ushort type) ? (ushort?)type : null,
+                Options = ushort.TryParse(value.GetValueOrDefault("33"), out ushort options) ? (ushort?)options : null,
                 Name = value.GetValueOrDefault("3"),
-                Date = DateTime.TryParse(value.GetValueOrDefault("31"), out DateTime date) ? date : null,
-                PLimit = ushort.TryParse(value.GetValueOrDefault("51"), out ushort pLimit) ? pLimit : null,
-                PDow = ushort.TryParse(value.GetValueOrDefault("52"), out ushort pDow) ? pDow : null,
+                Date = DateTime.TryParse(value.GetValueOrDefault("31"), out DateTime date) ? (DateTime?)date : null,
+                PLimit = ushort.TryParse(value.GetValueOrDefault("51"), out ushort pLimit) ? (ushort?)pLimit : null,
+                PDow = ushort.TryParse(value.GetValueOrDefault("52"), out ushort pDow) ? (ushort?)pDow : null,
             };
         }
     }

@@ -1,5 +1,10 @@
-﻿using System.Net;
+﻿using SH5ApiClient.Core.Requests;
+using SH5ApiClient.Models;
+using System;
+using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SH5ApiClient.Infrastructure.Helpers
 {
@@ -13,7 +18,7 @@ namespace SH5ApiClient.Infrastructure.Helpers
         }
         private static async Task<string> WebGetInternalAsync(string url)
         {
-            HttpClient client = new();
+            HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(3);
             try
             {
@@ -44,7 +49,7 @@ namespace SH5ApiClient.Infrastructure.Helpers
         }
         private static async Task<string> WebPostInternalAsync(string url, string request)
         {
-            HttpClient client = new(new HttpClientHandler()
+            HttpClient client = new HttpClient(new HttpClientHandler()
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             });

@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace SH5ApiClient.Core.ServerOperations
@@ -10,7 +13,7 @@ namespace SH5ApiClient.Core.ServerOperations
     public sealed class ExecOperationContent
     {
         //Данные блока
-        private Dictionary<string, string?>[] _values = Array.Empty<Dictionary<string, string?>>();
+        private Dictionary<string, string>[] _values = Array.Empty<Dictionary<string, string>>();
 
         /// <summary>
         /// Заголовок данных
@@ -46,7 +49,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// Получить данные запроса
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, string?>[] GetValues()
+        public Dictionary<string, string>[] GetValues()
         {
             return _values;
         }
@@ -72,7 +75,7 @@ namespace SH5ApiClient.Core.ServerOperations
         internal void OnDeserializedMethod(StreamingContext context)
         {
             if (RecCount == -1)
-                RecCount = Original.Length;
+                RecCount = Values[0].Length;
             TransformValues();
         }
 
@@ -81,10 +84,10 @@ namespace SH5ApiClient.Core.ServerOperations
         /// </summary>
         private void TransformValues()
         {
-            _values = new Dictionary<string, string?>[RecCount];
+            _values = new Dictionary<string, string>[RecCount];
             for (int x = 0; x < RecCount; x++)
             {
-                _values[x] = new Dictionary<string, string?>();
+                _values[x] = new Dictionary<string, string>();
                 for (int y = 0; y < Original.Length; y++)
                     _values[x].Add(Original[y], Values[y][x]?.ToString());
             }

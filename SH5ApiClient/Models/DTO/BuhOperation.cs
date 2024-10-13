@@ -1,4 +1,9 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System.Collections.Generic;
+using System.Linq;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Бух. операция</summary>
     [OriginalName("179")]
@@ -10,15 +15,15 @@
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
-        public static BuhOperation? Parse(Dictionary<string, string> value)
+        public static BuhOperation Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
             return new BuhOperation
             {
-                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
                 Name = value.GetValueOrDefault("3")
             };
         }

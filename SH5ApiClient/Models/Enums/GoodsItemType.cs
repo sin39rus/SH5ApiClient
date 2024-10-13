@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Models.Enums
+﻿using SH5ApiClient.Infrastructure.Attributes;
+
+namespace SH5ApiClient.Models.Enums
 {
     /// <summary>Тип товара</summary>
     [OriginalName("25")]

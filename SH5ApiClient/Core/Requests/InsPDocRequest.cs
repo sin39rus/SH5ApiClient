@@ -1,4 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models;
+using SH5ApiClient.Models.DTO;
+using SH5ApiClient.Models.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -56,26 +65,26 @@ namespace SH5ApiClient.Core.Requests
         /// Счет поступления денег
         /// </summary>
         [OriginalName("6\\BankAccount")]
-        public string? BankAccount { set; get; }
+        public string BankAccount { set; get; }
         /// <summary>
         /// Номер и дата платежа
         /// </summary>
         [OriginalName("6\\NumberAndDatePayment")]
-        public string? NumberAndDatePayment { set; get; }
+        public string NumberAndDatePayment { set; get; }
         /// <summary>
         /// Номер и дата платежа
         /// </summary>
         [OriginalName("6\\Comment")]
-        public string? Comment { set; get; }
+        public string Comment { set; get; }
         /// <summary>
-        /// Дата импортирвания
+        /// Дата импортирования
         /// </summary>
         [OriginalName("6\\ImportDate")]
         public DateTime ImportDate { set; get; }
         /// <summary>
         /// Информация об оплате
         /// </summary>
-        public List<PaymentInfo> Payments { set; get; } = new();
+        public List<PaymentInfo> Payments { set; get; } = new List<PaymentInfo>();
         public override OperationBase Operation => new ExecOperation();
         public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, СorrespondentOld correspondent, InternalСorrespondent internalСorrespondent) : base(connectionParam)
         {
@@ -86,21 +95,27 @@ namespace SH5ApiClient.Core.Requests
             InternalСorrespondent = internalСorrespondent ?? throw new ArgumentNullException(nameof(internalСorrespondent));
             ImportDate = DateTime.Now;
 
-            ProcName = docType switch
+            switch (docType)
             {
-                PGocType.Incoming => "InsPDoc0",
-                PGocType.Outgoing => "InsPDoc1",
-                PGocType.Inside => throw new NotImplementedException("Создание внутренних платежных документов не реализованно."),
-                _ => throw new NotImplementedException($"Не изместный тип документа \"{docType}\"."),
-            };
+                case PGocType.Incoming:
+                    ProcName = "InsPDoc0";
+                    break;
+                case PGocType.Outgoing:
+                    ProcName = "InsPDoc1";
+                    break;
+                case PGocType.Inside:
+                    throw new NotImplementedException("Создание внутренних платежных документов не реализовано.");
+                default:
+                    throw new NotImplementedException($"Не известный тип документа \"{docType}\".");
+            }
         }
         public override string CreateJsonRequest()
         {
-            JArray input = new();
+            JArray input = new JArray();
 
-            JObject obj119 = new();
-            JArray original119 = new();
-            JArray values119 = new();
+            JObject obj119 = new JObject();
+            JArray original119 = new JArray();
+            JArray values119 = new JArray();
 
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Id)));
             values119.Add(new JArray(Id));
@@ -117,25 +132,25 @@ namespace SH5ApiClient.Core.Requests
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Сorrespondent)));
             values119.Add(new JArray(Сorrespondent.Rid));
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(InternalСorrespondent)));
-            values119.Add(new JArray(InternalСorrespondent.Rid));            
+            values119.Add(new JArray(InternalСorrespondent.Rid));
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(ImportDate)));
             values119.Add(new JArray(ImportDate));
-            if(Payment_Place is not null)
+            if (Payment_Place != null)
             {
                 original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Payment_Place)));
                 values119.Add(new JArray(Payment_Place));
             }
-            if (BankAccount is not null)
+            if (BankAccount != null)
             {
                 original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(BankAccount)));
                 values119.Add(new JArray(BankAccount));
             }
-            if (NumberAndDatePayment is not null)
+            if (NumberAndDatePayment != null)
             {
                 original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(NumberAndDatePayment)));
                 values119.Add(new JArray(NumberAndDatePayment));
             }
-            if(Comment is not null)
+            if (Comment != null)
             {
                 original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Comment)));
                 values119.Add(new JArray(Comment));
@@ -148,9 +163,9 @@ namespace SH5ApiClient.Core.Requests
 
             if (Payments.Count > 0)
             {
-                JObject obj194 = new();
-                JArray original194 = new();
-                JArray values194 = new();
+                JObject obj194 = new JObject();
+                JArray original194 = new JArray();
+                JArray values194 = new JArray();
 
                 original194.Add(Payments[0].GetOriginalNameAttributeFromProperty(nameof(PaymentInfo.VATRate)));
                 values194.Add(new JArray(Payments.Select(t => t.VATRate)));
@@ -168,7 +183,7 @@ namespace SH5ApiClient.Core.Requests
                 input.Add(obj194);
             }
 
-            JObject main = new(
+            JObject main = new JObject(
                 new JProperty("UserName", UserName),
                 new JProperty("Password", Password),
                 new JProperty("procName", ProcName),

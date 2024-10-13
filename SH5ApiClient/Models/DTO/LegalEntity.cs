@@ -1,4 +1,9 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System.Collections.Generic;
+using System.Linq;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+
+namespace SH5ApiClient.Models.DTO
 {
     [OriginalName("102")]
     public class LegalEntity
@@ -9,19 +14,19 @@
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>ИНН</summary>
         [OriginalName("2")]
-        public string? INN { set; get; }
+        public string INN { set; get; }
 
-        public static LegalEntity? Parse(Dictionary<string, string> value)
+        public static LegalEntity Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
             return new LegalEntity
             {
-                Rid = uint.TryParse(value["1"], out uint rid) ? rid : null,
+                Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
                 INN = value.GetValueOrDefault("2"),
                 Name = value.GetValueOrDefault("3")
             };

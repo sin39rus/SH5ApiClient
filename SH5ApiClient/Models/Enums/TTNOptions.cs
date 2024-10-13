@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Models.Enums
+﻿using System;
+
+namespace SH5ApiClient.Models.Enums
 {
     /// <summary>Опции накладных</summary>
     [Flags]

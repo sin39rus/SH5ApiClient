@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Infrastructure.Exceptions
+﻿using System;
+
+namespace SH5ApiClient.Infrastructure.Exceptions
 {
     public class ServerOperationsException : Exception
     {
@@ -6,11 +8,11 @@
         {
         }
 
-        public ServerOperationsException(string? message) : base(message)
+        public ServerOperationsException(string message) : base(message)
         {
         }
 
-        public ServerOperationsException(string? message, Exception? innerException) : base(message, innerException)
+        public ServerOperationsException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

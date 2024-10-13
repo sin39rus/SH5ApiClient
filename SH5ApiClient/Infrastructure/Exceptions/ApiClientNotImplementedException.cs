@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace SH5ApiClient.Infrastructure.Exceptions
 {
@@ -9,11 +10,11 @@ namespace SH5ApiClient.Infrastructure.Exceptions
         {
         }
 
-        public ApiClientNotImplementedException(string? message) : base(message)
+        public ApiClientNotImplementedException(string message) : base(message)
         {
         }
 
-        public ApiClientNotImplementedException(string? message, Exception? inner) : base(message, inner)
+        public ApiClientNotImplementedException(string message, Exception inner) : base(message, inner)
         {
         }
 

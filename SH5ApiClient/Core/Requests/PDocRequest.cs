@@ -1,4 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Exceptions;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models;
+using SH5ApiClient.Models.DTO;
+using SH5ApiClient.Models.Enums;
+using System;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -13,13 +21,21 @@ namespace SH5ApiClient.Core.Requests
                 throw new ArgumentException("Не корректное значение параметра guid");
             _rid = rid;
             _guid = $"{{{guid}}}";
-            ProcName = docType switch
+            switch(docType)
             {
-                PGocType.Incoming => "PDoc0",
-                PGocType.Outgoing => "PDoc1",
-                PGocType.Inside => "PDoc2",
-                _ => throw new NotImplementedException($"Не известный тип платежного документа \"{docType}\"."),
-            };
+                case PGocType.Incoming:
+                    ProcName = "PDoc0";
+                    break;
+                case PGocType.Outgoing:
+                    ProcName = "PDoc1";
+                    break;
+                case PGocType.Inside:
+                    ProcName = "PDoc2";
+                    break;
+                default: 
+                    throw new NotImplementedException($"Не известный тип платежного документа \"{docType}\".");
+
+            }
         }
 
         public override string CreateJsonRequest()

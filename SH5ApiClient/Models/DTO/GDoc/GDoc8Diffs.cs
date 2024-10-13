@@ -1,4 +1,6 @@
 ﻿using SH5ApiClient.Data;
+using SH5ApiClient.Infrastructure.Attributes;
+using System.Collections.Generic;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -7,10 +9,10 @@ namespace SH5ApiClient.Models.DTO
     {
         /// <summary>Заголовок накладной</summary>
         [OriginalName("111")]
-        public GDocHeader? Header { get; set; }
+        public GDocHeader Header { get; set; }
 
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
-        public List<GDocItem?>? Content { get; set; }
+        public List<GDocItem> Content { get; set; }
     }
 }

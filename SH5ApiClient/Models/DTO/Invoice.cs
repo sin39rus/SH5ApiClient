@@ -1,4 +1,10 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Счет-фактура</summary>
     [OriginalName("117")]
@@ -14,23 +20,23 @@
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>Date</summary>
         [OriginalName("31")]
         public DateTime? Date { set; get; }
 
 
-        public static Invoice? Parse(Dictionary<string, string> value)
+        public static Invoice Parse(Dictionary<string, string> value)
         {
-            if(!value.Any())
+            if (!value.Any())
                 return null;
             return new Invoice
             {
-                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
-                Type = uint.TryParse(value.GetValueOrDefault("5"), out uint type) ? type : null,
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
+                Type = uint.TryParse(value.GetValueOrDefault("5"), out uint type) ? (uint?)type : null,
                 Name = value.GetValueOrDefault("3"),
-                Date = DateTime.TryParse(value.GetValueOrDefault("31"), out DateTime date) ? date : null
+                Date = DateTime.TryParse(value.GetValueOrDefault("31"), out DateTime date) ? (DateTime?)date : null
             };
         }
     }

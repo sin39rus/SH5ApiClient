@@ -1,4 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Models;
+using SH5ApiClient.Models.Enums;
+using System;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -12,22 +16,37 @@ namespace SH5ApiClient.Core.Requests
                 throw new ArgumentException("Не корректное значение параметра guid");
             _rid = rid;
             _guid = $"{{{_newGuid}}}";
-            ProcName = ttnType switch
-            {
-                TTNType.PurchaseInvoice => "GDoc0",
-                TTNType.ReturnRecipient => "GDoc1",
-                TTNType.SalesInvoice => "GDoc4",
-                TTNType.InternalMovement => "GDoc11",
-                TTNType.ActProcessing => "GDoc10",
-                TTNType.ReturnSupplier => "GDoc5",
-                TTNType.CollationStatement => "GDoc8",
-                TTNType.CollationStatementDiffs => "GDoc8Diffs",
-                TTNType.Compdection => "GDoc12",
-                TTNType.Decomposition => "GDoc13",
-                _ => throw new NotImplementedException($"Не известный тип накладной \"{ttnType}\".")
-            };
+            ProcName = GetProcName(ttnType);
+            
         }
-
+        public static string GetProcName(TTNType ttnType)
+        {
+            switch (ttnType)
+            {
+                case TTNType.PurchaseInvoice:
+                    return "GDoc0";
+                case TTNType.ReturnRecipient:
+                    return "GDoc1";
+                case TTNType.SalesInvoice:
+                    return "GDoc4";
+                case TTNType.InternalMovement:
+                    return "GDoc11";
+                case TTNType.ActProcessing:
+                    return "GDoc10";
+                case TTNType.ReturnSupplier:
+                    return "GDoc5";
+                case TTNType.CollationStatement:
+                    return "GDoc8";
+                case TTNType.CollationStatementDiffs:
+                    return "GDoc8Diffs";
+                case TTNType.Compdection:
+                    return "GDoc12";
+                case TTNType.Decomposition:
+                    return "GDoc13";
+                default:
+                    throw new NotImplementedException($"Не известный тип накладной \"{ttnType}\".");
+            }
+        }
         public override OperationBase Operation => new ExecOperation();
 
         public override string CreateJsonRequest()

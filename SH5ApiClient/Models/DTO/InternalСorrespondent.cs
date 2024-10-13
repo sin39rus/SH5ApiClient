@@ -1,4 +1,7 @@
 ﻿using SH5ApiClient.Data;
+using System.Collections.Generic;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -13,7 +16,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>GUID</summary>
         [OriginalName("4")]
-        public string? GUID { set; get; }
+        public string GUID { set; get; }
 
         /// <summary>Cрок оплаты приходов</summary>
         [OriginalName("11")]
@@ -25,15 +28,15 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>ИНН</summary>
         [OriginalName("2")]
-        public string? INN { set; get; }
+        public string INN { set; get; }
 
         /// <summary>Атрибуты типа 7</summary>
         [OriginalName("7")]
-        public Dictionary<string, string> Attributes7 { set; get; } = new();
+        public Dictionary<string, string> Attributes7 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>MaxCount</summary>
         [OriginalName("239")]

@@ -1,4 +1,6 @@
-﻿namespace SH5ApiClient.Models
+﻿using SH5ApiClient.Infrastructure.Attributes;
+
+namespace SH5ApiClient.Models
 {
     /// <summary>
     /// Информация об оплате
@@ -15,7 +17,7 @@
         /// Ставка НДС в процентах 18% - 1800, 10% - 1000
         /// </summary>
         [OriginalName("212\\9")]
-        public int VATRate { init; get; } = 0;
+        public int VATRate { set; get; } = 0;
         /// <summary>
         /// Сумма без НДС
         /// </summary>
@@ -25,11 +27,11 @@
         /// НДС
         /// </summary>
         [OriginalName("51")]
-        public decimal VATVolume { init; get; } = 0;
+        public decimal VATVolume { set; get; } = 0;
         /// <summary>
         /// НСП
         /// </summary>
         [OriginalName("52")]
-        public decimal NSP { init; get; } = 0;
+        public decimal NSP { set; get; } = 0;
     }
 }

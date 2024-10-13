@@ -1,4 +1,10 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Пользователь</summary>
     [OriginalName("109")]
@@ -10,7 +16,7 @@
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>Date</summary>
         [OriginalName("7")]
@@ -20,16 +26,16 @@
         [OriginalName("8")]
         public uint? Time { set; get; } //ToDo переделать в TimeSpan
 
-        public static User? Parse(Dictionary<string, string> value)
+        public static User Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
             return new User
             {
-                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
-                Time = uint.TryParse(value.GetValueOrDefault("8"), out uint time) ? time : null,
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
+                Time = uint.TryParse(value.GetValueOrDefault("8"), out uint time) ? (uint?)time : null,
                 Name = value.GetValueOrDefault("3"),
-                Date = DateTime.TryParse(value.GetValueOrDefault("7"), out DateTime date) ? date : null
+                Date = DateTime.TryParse(value.GetValueOrDefault("7"), out DateTime date) ? (DateTime?)date: null
             };
         }
     }

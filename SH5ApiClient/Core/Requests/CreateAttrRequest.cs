@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Models;
+using SH5ApiClient.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

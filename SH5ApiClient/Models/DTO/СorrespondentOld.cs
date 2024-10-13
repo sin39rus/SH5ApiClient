@@ -1,4 +1,8 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Models.Enums;
+using System.Collections.Generic;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Корреспондент SH</summary>
     [OriginalName("105")]
@@ -10,15 +14,15 @@
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>ИНН</summary>
         [OriginalName("2")]
-        public string? INN { set; get; }
+        public string INN { set; get; }
 
         /// <summary>GUID</summary>
         [OriginalName("4")]
-        public string? GUID { set; get; }
+        public string GUID { set; get; }
 
         /// <summary>Тип1</summary>
         [OriginalName("5")]
@@ -34,18 +38,18 @@
 
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
-        public Dictionary<string, string> Attributes6 { set; get; } = new();
+        public Dictionary<string, string> Attributes6 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Атрибуты типа 7</summary>
         [OriginalName("7")]
-        public Dictionary<string, string> Attributes7 { set; get; } = new();
+        public Dictionary<string, string> Attributes7 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Атрибуты типа 34</summary>
         [OriginalName("34")]
-        public Dictionary<string, string> Attributes34 { set; get; } = new();
+        public Dictionary<string, string> Attributes34 { set; get; } = new Dictionary<string, string>();
 
         [OriginalName("114")]
-        public KPP? KPP { set; get; }
+        public KPP KPP { set; get; }
 
         /// <summary>Cрок оплаты приходов</summary>
         [OriginalName("11")]

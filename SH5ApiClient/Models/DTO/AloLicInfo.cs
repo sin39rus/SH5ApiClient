@@ -1,4 +1,11 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Алкогольные лицензии</summary>
     [OriginalName("115")]
@@ -18,34 +25,34 @@
 
         /// <summary>Номер лицензии</summary>
         [OriginalName("3")]
-        public string? LicNum { set; get; }
+        public string LicNum { set; get; }
 
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
-        public Dictionary<string, string> Attributes6 { set; get; } = new();
+        public Dictionary<string, string> Attributes6 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>KPP</summary>
         [OriginalName("114")]
-        public KPP? KPP { set; get; }
+        public KPP KPP { set; get; }
         public static IEnumerable<AloLicInfo> GetAloLicInfosFromSHAnswear(ExecOperationContent answear)
         {
-            foreach (Dictionary<string, string>? value in answear.GetValues())
+            foreach (Dictionary<string, string> value in answear.GetValues())
             {
                 var info = Parse(value);
-                if (info is not null)
+                if (info != null)
                     yield return info;
             }
         }
-        public static AloLicInfo? Parse(Dictionary<string, string> value)
+        public static AloLicInfo Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
             return new AloLicInfo
             {
-                Rid = uint.TryParse(value["1"], out uint rid) ? rid : null,
-                From = DateTime.TryParse(value["31"], out DateTime from) ? from : null,
-                To = DateTime.TryParse(value["32"], out DateTime to) ? to : null,
-                LicNum = value.GetValueOrDefault("3"),
+                Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
+                From = DateTime.TryParse(value["31"], out DateTime from) ? (DateTime?)from : null,
+                To = DateTime.TryParse(value["32"], out DateTime to) ? (DateTime?)to : null,
+                LicNum = value.ContainsValue("3") ? value["3"] : null,
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\"), g => g.Value),
                 //KPP = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value))
             };

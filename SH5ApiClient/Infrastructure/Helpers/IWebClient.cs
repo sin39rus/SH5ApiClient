@@ -1,4 +1,8 @@
 ﻿
+using SH5ApiClient.Core.Requests;
+using SH5ApiClient.Models;
+using System.Threading.Tasks;
+
 namespace SH5ApiClient.Infrastructure.Helpers
 {
     public interface IWebClient

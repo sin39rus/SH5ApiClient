@@ -1,5 +1,8 @@
 ﻿using SH5ApiClient.Data;
 using System.Collections;
+using System.Collections.Generic;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
 
 namespace SH5ApiClient.Models.DTO
 {

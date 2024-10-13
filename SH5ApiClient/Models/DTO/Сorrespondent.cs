@@ -1,4 +1,8 @@
 ﻿using SH5ApiClient.Data;
+using System.Collections.Generic;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models.Enums;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -11,15 +15,15 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>ИНН</summary>
         [OriginalName("2")]
-        public string? INN { set; get; }
+        public string INN { set; get; }
 
         /// <summary>GUID</summary>
         [OriginalName("4")]
-        public string? GUID { set; get; }
+        public string GUID { set; get; }
 
         /// <summary>Тип1</summary>
         [OriginalName("5")]
@@ -35,23 +39,23 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
-        public Dictionary<string, string> Attributes6 { set; get; } = new();
+        public Dictionary<string, string> Attributes6 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Атрибуты типа 7</summary>
         [OriginalName("7")]
-        public Dictionary<string, string> Attributes7 { set; get; } = new();
+        public Dictionary<string, string> Attributes7 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Атрибуты типа 34</summary>
         [OriginalName("34")]
-        public Dictionary<string, string> Attributes34 { set; get; } = new();
+        public Dictionary<string, string> Attributes34 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Атрибуты типа 35</summary>
         [OriginalName("35")]
-        public Dictionary<string, string> Attributes35 { set; get; } = new();
+        public Dictionary<string, string> Attributes35 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Атрибуты типа 36</summary>
         [OriginalName("36")]
-        public Dictionary<string, string> Attributes36 { set; get; } = new();
+        public Dictionary<string, string> Attributes36 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Rid</summary>
         [OriginalName("37")]
@@ -59,6 +63,6 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Подразделение</summary>
         [OriginalName("106")]
-        public Depart? Depart { set; get; }
+        public Depart Depart { set; get; }
     }
 }

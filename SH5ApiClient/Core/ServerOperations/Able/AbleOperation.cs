@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SH5ApiClient.Core.ServerOperations
 {
@@ -6,10 +9,10 @@ namespace SH5ApiClient.Core.ServerOperations
     public sealed class AbleOperation : OperationBase
     {
         [JsonProperty("Version")]
-        public string? Version { get; private set; }
+        public string Version { get; private set; }
 
         [JsonProperty("UserName")]
-        public string? UserName { get; private set; }
+        public string UserName { get; private set; }
 
         [JsonProperty("procList")]
         public IEnumerable<string> ProcList { get; private set; } = Array.Empty<string>();

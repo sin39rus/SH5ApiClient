@@ -1,4 +1,12 @@
-﻿namespace SH5ApiClient.Models.DTO
+﻿using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Товар</summary>
     [OriginalName("210")]
@@ -10,7 +18,7 @@
 
         /// <summary>Guid</summary>
         [OriginalName("4")]
-        public string? GUID { set; get; }
+        public string GUID { set; get; }
 
         /// <summary>Флаги</summary>
         [OriginalName("42")]
@@ -50,27 +58,27 @@
 
         /// <summary>Товарная группа </summary>
         [OriginalName("209")]
-        public GGroup? GGroup { set; get; }
+        public GGroup GGroup { set; get; }
 
         /// <summary>Name</summary>
         [OriginalName("3")]
-        public string? Name { set; get; }
+        public string Name { set; get; }
 
         /// <summary>Ед.изм для отчетов</summary>
         [OriginalName("206#1")]
-        public MeasureUnit? ReportMeasureUnit { set; get; }
+        public MeasureUnit ReportMeasureUnit { set; get; }
 
         /// <summary>Ед.изм. для заявок</summary>
         [OriginalName("206#2")]
-        public MeasureUnit? RequestMeasureUnit { set; get; }
+        public MeasureUnit RequestMeasureUnit { set; get; }
 
         /// <summary>Ед.изм. для автодокументов</summary>
         [OriginalName("206#3")]
-        public MeasureUnit? AutodocumentsMeasureUnit { set; get; }
+        public MeasureUnit AutodocumentsMeasureUnit { set; get; }
 
         /// <summary>Ед.изм. для комплекта</summary>
         [OriginalName("206#4")]
-        public MeasureUnit? KitMeasureUnit { set; get; }
+        public MeasureUnit KitMeasureUnit { set; get; }
 
         /// <summary>Индикатор срока хранения (дней)</summary>
         [OriginalName("67")]
@@ -113,11 +121,11 @@
 
         /// <summary>Закупка НДС</summary>
         [OriginalName("212")]
-        public NDSInfo? PurchaseNDS { set; get; }
+        public NDSInfo PurchaseNDS { set; get; }
 
         /// <summary>Закупка НСП</summary>
         [OriginalName("213")]
-        public NSPInfo? PurchaseNSP { set; get; }
+        public NSPInfo PurchaseNSP { set; get; }
 
         /// <summary>Продажа (цена без налогов)</summary>
         [OriginalName("56")]
@@ -129,11 +137,11 @@
 
         /// <summary>Продажа НДС</summary>
         [OriginalName("212#1")]
-        public NDSInfo? SaleNDS { set; get; }
+        public NDSInfo SaleNDS { set; get; }
 
         /// <summary>Продажа НСП</summary>
         [OriginalName("213#1")]
-        public NSPInfo? SaleNSP { set; get; }
+        public NSPInfo SaleNSP { set; get; }
 
         /// <summary>Код товара в rkeeper</summary>
         [OriginalName("241")]
@@ -145,55 +153,55 @@
 
         /// <summary>Маршрут Контрагент</summary>
         [OriginalName("105")]
-        public СorrespondentOld? RouteСorrespondent { set; get; }
+        public СorrespondentOld RouteСorrespondent { set; get; }
         //ToDo Object106 не разобрался
 
 
         /// <summary>Атрибуты типа 6</summary>
         [OriginalName("6")]
-        public Dictionary<string, string> Attributes6 { set; get; } = new();
+        public Dictionary<string, string> Attributes6 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Атрибуты типа 7</summary>
         [OriginalName("7")]
-        public Dictionary<string, string> Attributes7 { set; get; } = new();
+        public Dictionary<string, string> Attributes7 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Вид алк.продукции</summary>
         [OriginalName("201")]
-        public AlcoholProductType? AlcoholProductType { get; set; }
+        public AlcoholProductType AlcoholProductType { get; set; }
 
         /// <summary>Производитель</summary>
         [OriginalName("114")]
-        public KPP? Producer { set; get; }
+        public KPP Producer { set; get; }
 
         /// <summary>Единица измерения</summary>
         [OriginalName("206")]
-        public MeasureUnit? MeasureUnit { get; set; }
+        public MeasureUnit MeasureUnit { get; set; }
 
         /// <summary>Синоним товара</summary>
         [OriginalName("255")]
-        public ProductSynonym? ProductSynonym { set; get; }
+        public ProductSynonym ProductSynonym { set; get; }
 
         /// <summary>Комплект</summary>
         [OriginalName("215")]
-        public DishComposition? DishComposition { set; get; }
+        public DishComposition DishComposition { set; get; }
 
-        public static GoodsItem? Parse(Dictionary<string, string> value)
+        public static GoodsItem Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
             return new GoodsItem
             {
-                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? rid : null,
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
                 GUID = value.GetValueOrDefault("4")?.TrimStart('{').TrimEnd('}'),
-                Flags = Enum.TryParse(typeof(GoodsItemFlags), value.GetValueOrDefault("42"), out object? flags) ? (GoodsItemFlags?)flags : null,
-                ExpirationDateForCertified = uint.TryParse(value.GetValueOrDefault("59"), out uint expirationDate) ? expirationDate : null,
-                AdditionalParameters = uint.TryParse(value.GetValueOrDefault("26"), out uint additionalParameters) ? additionalParameters : null,
-                Type = Enum.TryParse(typeof(GoodsItemType), value.GetValueOrDefault("25"), out object? type) ? (GoodsItemType?)type : null,
-                PercentageErrorInInventory = decimal.TryParse(value.GetValueOrDefault("52"), out decimal percentageErrorInInventory) ? percentageErrorInInventory : null,
-                ProcessingPercentage1 = decimal.TryParse(value.GetValueOrDefault("50"), out decimal processingPercentage1) ? processingPercentage1 : null,
-                ProcessingPercentage2 = decimal.TryParse(value.GetValueOrDefault("51"), out decimal processingPercentage2) ? processingPercentage2 : null,
-                MinimumStock = decimal.TryParse(value.GetValueOrDefault("77"), out decimal minimumStock) ? minimumStock : null,
-                MaximumStock = decimal.TryParse(value.GetValueOrDefault("78"), out decimal maximumStock) ? maximumStock : null,
+                Flags = Enum.TryParse<GoodsItemFlags>(value.GetValueOrDefault("42"), out GoodsItemFlags flags) ? (GoodsItemFlags?)flags : null,
+                ExpirationDateForCertified = uint.TryParse(value.GetValueOrDefault("59"), out uint expirationDate) ? (uint?)expirationDate : null,
+                AdditionalParameters = uint.TryParse(value.GetValueOrDefault("26"), out uint additionalParameters) ? (uint?)additionalParameters : null,
+                Type = Enum.TryParse<GoodsItemType>(value.GetValueOrDefault("25"), out GoodsItemType type) ? (GoodsItemType?)type : null,
+                PercentageErrorInInventory = decimal.TryParse(value.GetValueOrDefault("52"), out decimal percentageErrorInInventory) ? (decimal?)percentageErrorInInventory : null,
+                ProcessingPercentage1 = decimal.TryParse(value.GetValueOrDefault("50"), out decimal processingPercentage1) ? (decimal?)processingPercentage1 : null,
+                ProcessingPercentage2 = decimal.TryParse(value.GetValueOrDefault("51"), out decimal processingPercentage2) ? (decimal?)processingPercentage2 : null,
+                MinimumStock = decimal.TryParse(value.GetValueOrDefault("77"), out decimal minimumStock) ? (decimal?)minimumStock : null,
+                MaximumStock = decimal.TryParse(value.GetValueOrDefault("78"), out decimal maximumStock) ? (decimal?)maximumStock : null,
                 Name = value.GetValueOrDefault("3"),
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\".ToCharArray()), g => g.Value),
                 Attributes7 = value.Where(t => t.Key.StartsWith("7\\")).ToDictionary(t => t.Key.TrimStart("7\\".ToCharArray()), g => g.Value),
@@ -221,9 +229,9 @@
                 SaleNDS = NDSInfo.Parse(value.Where(t => t.Key.StartsWith("212#1\\")).ToDictionary(t => t.Key.TrimStart("212#1\\"), g => g.Value)),
                 SaleNSP = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213#1\\")).ToDictionary(t => t.Key.TrimStart("213#1\\"), g => g.Value)),
 
-                RouteTTNType = Enum.TryParse(typeof(TTNType), value.GetValueOrDefault("24"), out object? routeTTNType) ? (TTNType?)routeTTNType : null,
+                RouteTTNType = Enum.TryParse<TTNType>(value.GetValueOrDefault("24"), out TTNType routeTTNType) ? (TTNType?)routeTTNType : null,
                 //RouteСorrespondent = СorrespondentOld.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value)),
-                RKeeperCode = uint.TryParse(value.GetValueOrDefault("241"), out uint rKeeperCode) ? rKeeperCode : null,
+                RKeeperCode = uint.TryParse(value.GetValueOrDefault("241"), out uint rKeeperCode) ? (uint?)rKeeperCode : null,
 
                 //Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
                 ProductSynonym = ProductSynonym.Parse(value.Where(t => t.Key.StartsWith("255\\")).ToDictionary(t => t.Key.TrimStart("255\\"), g => g.Value)),
