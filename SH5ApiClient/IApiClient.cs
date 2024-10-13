@@ -62,7 +62,7 @@ namespace SH5ApiClient
         Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroupAsync(uint groupRid); //ToDo реализовать расчет себестоимости, для этого надо запросить подразделение и дату https://docs.rkeeper.ru/sh5/api/protsedury-servera/slovari/tovary/goods-spisok-tovarov-v-gruppe
 
         /// <summary>Запрос полного списка товаров</summary>
-        Task<IEnumerable<GoodsItem>> GetGoodsTreeAsync();
+        Task<IEnumerable<GoodsItem>> LoadGoodsTreeAsync();
 
         /// <summary>Загрузка списка подразделений</summary>
         /// <returns>Список подразделений</returns>
