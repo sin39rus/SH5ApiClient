@@ -1,6 +1,8 @@
 ﻿using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Models.Enums;
+using SH5ApiClient.Infrastructure.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -31,5 +33,17 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Группа предок</summary>
         [OriginalName("209#1")]
         public GGroup Parent { set; get; }
+
+        internal static GGroup Parse(Dictionary<string, string> value)
+        {
+            if (!value.Any())
+                return null;
+            return new GGroup
+            {
+                Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
+                Name = value.GetValueOrDefault("3"),
+                GUID = value.GetValueOrDefault("4")
+            };
+        }
     }
 }

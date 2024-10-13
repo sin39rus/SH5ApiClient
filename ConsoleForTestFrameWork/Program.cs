@@ -17,9 +17,7 @@ namespace ConsoleForTestFrameWork
                 ConnectionParamSH5 connectionParam = new ConnectionParamSH5("Admin", "776417", "office.ctsassar.ru", 17772);
                 SH5ApiClient.ApiClient _client = new SH5ApiClient.ApiClient(connectionParam);
 
-                var departs = _client.LoadDepartsAsync().Result;
-                var Correspondents = _client.LoadCorrespondentsAsync().Result;
-                var groups2 = _client.GetGoodsTreeAsync().Result;
+                var groups2 = _client.LoadGoodsTreeAsync().Result;
 
 
 

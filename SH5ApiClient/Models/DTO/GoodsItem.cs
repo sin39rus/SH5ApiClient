@@ -210,7 +210,7 @@ namespace SH5ApiClient.Models.DTO
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\".ToCharArray()), g => g.Value),
                 Attributes7 = value.Where(t => t.Key.StartsWith("7\\")).ToDictionary(t => t.Key.TrimStart("7\\".ToCharArray()), g => g.Value),
                 AlcoholProductType = AlcoholProductType.Parse(value.Where(t => t.Key.StartsWith("201\\")).ToDictionary(t => t.Key.TrimStart("201\\"), g => g.Value)),
-                //GGroup = GGroup.Parse(value.Where(t => t.Key.StartsWith("209\\")).ToDictionary(t => t.Key.TrimStart("209\\"), g => g.Value)),
+                GGroup = GGroup.Parse(value.Where(t => t.Key.StartsWith("209\\")).ToDictionary(t => t.Key.TrimStart("209\\"), g => g.Value)),
 
                 MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
                 ReportMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#1\\")).ToDictionary(t => t.Key.TrimStart("206#1\\"), g => g.Value)),
