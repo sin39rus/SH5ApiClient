@@ -234,6 +234,19 @@ namespace SH5ApiClient
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return GoodsItem.ParseGoods(answear);
         }
-
+        public async Task<IEnumerable<MeasureUnit>> GetGoodsMUnitsAsync(uint goodRid)
+        {
+            GoodsMUnitsRequest request = new GoodsMUnitsRequest(_connectionParam, goodRid);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return DataExecutable.Parse<MeasureUnits>(jsonAnswer);
+        }
+        public async Task<IEnumerable<GoodsItem>> GetGoodsTreeAsync()
+        {
+            GoodsTreeRequest request = new GoodsTreeRequest(_connectionParam);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GoodsItem.ParseGoods(answear);
+        }
     }
 }

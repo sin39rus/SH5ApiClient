@@ -173,6 +173,10 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("114")]
         public KPP Producer { set; get; }
 
+        /// <summary>Контрагент</summary>
+        [OriginalName("107")]
+        public СorrespondentOld Сorrespondent { set; get; }
+
         /// <summary>Единица измерения</summary>
         [OriginalName("206")]
         public MeasureUnit MeasureUnit { get; set; }

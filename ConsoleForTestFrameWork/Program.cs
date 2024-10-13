@@ -1,6 +1,9 @@
 ﻿
 
 using SH5ApiClient.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleForTestFrameWork
 {
@@ -12,23 +15,32 @@ namespace ConsoleForTestFrameWork
             {
 
                 ConnectionParamSH5 connectionParam = new ConnectionParamSH5("Admin", "776417", "office.ctsassar.ru", 17772);
-                SH5ApiClient.ApiClient client = new SH5ApiClient.ApiClient(connectionParam);
-                var groups = client.LoadGGroupsAsync().Result;
-                foreach (var group in groups)
-                {
-                    var ggg = client.LoadGoodsFromGGroupAsync((uint)group.Rid).Result;
-                }
+                SH5ApiClient.ApiClient _client = new SH5ApiClient.ApiClient(connectionParam);
+
+                var departs = _client.LoadDepartsAsync().Result;
+                var Correspondents = _client.LoadCorrespondentsAsync().Result;
+                var groups2 = _client.GetGoodsTreeAsync().Result;
+
+
+
+                //var groups = _client.LoadGGroupsAsync().Result;
+                //var measureUnits = _client.LoadMeasureUnitsAsync().Result;
+                //Console.WriteLine($"Groups count: {groups.Count()}");
+                //foreach (var group in groups)
+                //{
+                //    var goods = _client.LoadGoodsFromGGroupAsync(group.Rid.GetValueOrDefault()).Result;
+                //    Console.WriteLine($"Goods count: {goods.Count()}");
+                //    foreach (var good in goods)
+                //    {
+                //        var ggg = _client.GetGoodsMUnitsAsync(good.Rid.GetValueOrDefault()).Result;
+                //        Console.WriteLine(good.Name);
+                //    }
+                //}
             }
             catch (System.Exception ex)
             {
 
             }
         }
-    }
-
-    internal enum TTNType
-    {
-        None = 0,
-        First = 1,
     }
 }

@@ -7,6 +7,9 @@ namespace SH5ApiClient.Models.DTO
 {
     internal class MeasureUnits : DataExecutable, IEnumerable<MeasureUnit>
     {
+        [OriginalName("210")]
+        private GoodsItem GoodsItem { set; get; }
+
         [OriginalName("205")]
         public MeasureGroup Group { get; set; }
 
