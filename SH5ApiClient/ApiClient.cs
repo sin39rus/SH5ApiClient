@@ -241,7 +241,7 @@ namespace SH5ApiClient
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return DataExecutable.Parse<MeasureUnits>(jsonAnswer);
         }
-        public async Task<IEnumerable<GoodsItem>> GetGoodsTreeAsync()
+        public async Task<IEnumerable<GoodsItem>> LoadGoodsTreeAsync()
         {
             GoodsTreeRequest request = new GoodsTreeRequest(_connectionParam);
             string jsonAnswer = await _webClient.WebPostAsync(request);
