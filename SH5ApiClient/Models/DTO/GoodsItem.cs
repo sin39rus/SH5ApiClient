@@ -208,11 +208,11 @@ namespace SH5ApiClient.Models.DTO
                 AlcoholProductType = AlcoholProductType.Parse(value.Where(t => t.Key.StartsWith("201\\")).ToDictionary(t => t.Key.TrimStart("201\\"), g => g.Value)),
                 //GGroup = GGroup.Parse(value.Where(t => t.Key.StartsWith("209\\")).ToDictionary(t => t.Key.TrimStart("209\\"), g => g.Value)),
 
-                //MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
-                //ReportMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#1\\")).ToDictionary(t => t.Key.TrimStart("206#1\\"), g => g.Value)),
-                //RequestMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#2\\")).ToDictionary(t => t.Key.TrimStart("206#2\\"), g => g.Value)),
-                //AutodocumentsMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#3\\")).ToDictionary(t => t.Key.TrimStart("206#3\\"), g => g.Value)),
-                //KitMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#4\\")).ToDictionary(t => t.Key.TrimStart("206#4\\"), g => g.Value)),
+                MeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206\\")).ToDictionary(t => t.Key.TrimStart("206\\"), g => g.Value)),
+                ReportMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#1\\")).ToDictionary(t => t.Key.TrimStart("206#1\\"), g => g.Value)),
+                RequestMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#2\\")).ToDictionary(t => t.Key.TrimStart("206#2\\"), g => g.Value)),
+                AutodocumentsMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#3\\")).ToDictionary(t => t.Key.TrimStart("206#3\\"), g => g.Value)),
+                KitMeasureUnit = MeasureUnit.Parse(value.Where(t => t.Key.StartsWith("206#4\\")).ToDictionary(t => t.Key.TrimStart("206#4\\"), g => g.Value)),
 
                 EnergyBaseUnitCalorie = decimal.TryParse(value.GetValueOrDefault("67"), out decimal energyBaseUnitCalorie) ? energyBaseUnitCalorie : 0,
                 EnergyProteins = decimal.TryParse(value.GetValueOrDefault("20"), out decimal energyProteins) ? energyProteins : 0,

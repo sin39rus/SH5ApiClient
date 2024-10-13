@@ -13,7 +13,11 @@ namespace ConsoleForTestFrameWork
 
                 ConnectionParamSH5 connectionParam = new ConnectionParamSH5("Admin", "776417", "office.ctsassar.ru", 17772);
                 SH5ApiClient.ApiClient client = new SH5ApiClient.ApiClient(connectionParam);
-                var fff = client.LoadDepartsAsync().Result;
+                var groups = client.LoadGGroupsAsync().Result;
+                foreach (var group in groups)
+                {
+                    var ggg = client.LoadGoodsFromGGroupAsync((uint)group.Rid).Result;
+                }
             }
             catch (System.Exception ex)
             {

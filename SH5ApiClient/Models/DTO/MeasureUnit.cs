@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
 
@@ -40,5 +42,16 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Flags</summary>
         [OriginalName("42")]
         public byte? Flags { set; get; } //ToDo: Типизированный объект, найти описание
+
+        internal static MeasureUnit Parse(Dictionary<string, string> value)
+        {
+                if (!value.Any())
+                    return null;
+                return new MeasureUnit
+                {
+                    Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
+                    Name = value.GetValueOrDefault("3")
+                };
+        }
     }
 }
