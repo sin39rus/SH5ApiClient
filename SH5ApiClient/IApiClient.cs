@@ -61,6 +61,9 @@ namespace SH5ApiClient
         /// <returns>Список товаров в группе</returns>
         Task<IEnumerable<GoodsItem>> LoadGoodsFromGGroupAsync(uint groupRid); //ToDo реализовать расчет себестоимости, для этого надо запросить подразделение и дату https://docs.rkeeper.ru/sh5/api/protsedury-servera/slovari/tovary/goods-spisok-tovarov-v-gruppe
 
+        /// <summary>Запрос полного списка товаров</summary>
+        Task<IEnumerable<GoodsItem>> GetGoodsTreeAsync();
+
         /// <summary>Загрузка списка подразделений</summary>
         /// <returns>Список подразделений</returns>
         Task<IEnumerable<Depart>> LoadDepartsAsync();
@@ -74,6 +77,8 @@ namespace SH5ApiClient
         /// <summary>Загрузка списка валют</summary>
         /// <returns>Список валют</returns>
         Task<IEnumerable<Currency>> LoadCurrenciesAsync();
+
+
 
         #region Единицы измерения
         /// <summary>Запрос списка групп единиц измерения</summary>
@@ -89,6 +94,11 @@ namespace SH5ApiClient
         /// <param name="groupRid">RID группы единиц измерения, по умолчанию по всем группам</param>
         /// <returns>Список единиц измерения в группе</returns>
         Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null);
+
+        /// <summary>Запрос списка единиц измерения товара</summary>
+        /// <param name="goodRid">Идентификатор товара</param>
+        /// <returns></returns>
+        Task<IEnumerable<MeasureUnit>> GetGoodsMUnitsAsync(uint goodRid);
         #endregion
 
         #region Работа с документами GDoc
