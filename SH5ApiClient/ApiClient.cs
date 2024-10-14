@@ -248,5 +248,16 @@ namespace SH5ApiClient
             ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return GoodsItem.ParseGoods(answear);
         }
+        public async Task CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits)
+        {
+            var units = await LoadMeasureUnitsAsync();
+            //units.SingleOrDefault(t=>t.Rid == )
+            var litr = units.Where(t => t.Attributes7.ContainsKey("OKEI")).FirstOrDefault(t => t.Attributes7["OKEI"] == "112");
+            if (litr == null)
+                throw new Exception("Не найдена единица измерения с кодом ОКЕИ 112");
+            InsGoodRequest request = new InsGoodRequest(_connectionParam, name, litr);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
+        }
     }
 }

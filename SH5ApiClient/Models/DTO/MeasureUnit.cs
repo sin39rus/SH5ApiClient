@@ -49,13 +49,13 @@ namespace SH5ApiClient.Models.DTO
 
         internal static MeasureUnit Parse(Dictionary<string, string> value)
         {
-                if (!value.Any())
-                    return null;
-                return new MeasureUnit
-                {
-                    Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
-                    Name = value.GetValueOrDefault("3")
-                };
+            if (!value.Any())
+                return null;
+            return new MeasureUnit
+            {
+                Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
+                Name = value.GetValueOrDefault("3")
+            };
         }
 
         [OriginalName("255")]
@@ -101,5 +101,22 @@ namespace SH5ApiClient.Models.DTO
                 public string INN { set; get; }
             }
         }
+    }
+    /// <summary>
+    /// Типы единиц измерения товаров
+    /// </summary>
+    [Flags]
+    public enum MeasureUnitType
+    {
+        /// <summary>Базовая ед.изм</summary>
+        Base = 1,
+        /// <summary>Для отчетов</summary>
+        Report = 2,
+        /// <summary>Для заявок</summary>
+        Request = 4,
+        /// <summary>Для авто документов</summary>
+        AutoDocuments = 8,
+        /// <summary>Для калькуляций</summary>
+        Calculations = 16,
     }
 }
