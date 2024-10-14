@@ -27,6 +27,10 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("205")]
         public MeasureGroup MeasureGroup { set; get; }
 
+        /// <summary>Типы единиц измерения товаров</summary>
+        [OriginalName("8")]
+        public MeasureUnitType MeasureUnitType { set; get; }
+
         /// <summary>GUID</summary>
         [OriginalName("4")]
         public string GUID { set; get; }

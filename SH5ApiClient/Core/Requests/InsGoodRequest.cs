@@ -6,6 +6,7 @@ using SH5ApiClient.Models;
 using SH5ApiClient.Models.DTO;
 using SH5ApiClient.Models.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -13,10 +14,10 @@ namespace SH5ApiClient.Core.Requests
     {
         //Имя процедуры
         private const string procName = "InsGood";
-        public InsGoodRequest(ConnectionParamSH5 connectionParam, string name, MeasureUnit measureUnit) : base(procName, connectionParam)
+        public InsGoodRequest(ConnectionParamSH5 connectionParam, string name, IEnumerable<MeasureUnit> measureUnits) : base(procName, connectionParam)
         {
             Name = name;
-            MeasureUnit = measureUnit;
+            MeasureUnits = measureUnits;
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace SH5ApiClient.Core.Requests
         public string Name { set; get; }
 
         /// <summary>Единица измерения</summary>
-        public MeasureUnit MeasureUnit { set; get; }
+        public IEnumerable<MeasureUnit> MeasureUnits { set; get; }
 
         /// <summary>Тип товара</summary>
         [OriginalName("25")]
@@ -80,24 +81,31 @@ namespace SH5ApiClient.Core.Requests
 
             JObject obj211 = new JObject();
             JArray original211 = new JArray();
-            JArray values211 = new JArray();
-
             original211.Add("206\\1");
-            values211.Add(new JArray(MeasureUnit.Rid));
-            original211.Add("206\\3");
-            values211.Add(new JArray("Литры"));
-
             original211.Add("8");
-            values211.Add(new JArray(MeasureUnitType.Base | MeasureUnitType.Report | MeasureUnitType.Request | MeasureUnitType.AutoDocuments | MeasureUnitType.Calculations));
             original211.Add("41");
-            values211.Add(new JArray(1));
             original211.Add("10");
-            values211.Add(new JArray(1));
 
+            JArray values211 = new JArray();
+            var rids = new JArray();
+            var measureUnitType = new JArray();
+            var baseRatio = new JArray();
+            var weight = new JArray();
+            foreach (var measureUnit in MeasureUnits)
+            {
+                rids.Add(measureUnit.Rid);
+                measureUnitType.Add(measureUnit.MeasureUnitType);
+                baseRatio.Add(measureUnit.BaseRatio);
+                weight.Add(measureUnit.BaseRatio);
+            }
+            values211.Add(new JArray(rids));
+            values211.Add(new JArray(measureUnitType));
+            values211.Add(new JArray(baseRatio));
+            values211.Add(new JArray(weight));
 
-            obj211.Add(new JProperty("head", "211#1"));
             obj211.Add(new JProperty("original", original211));
             obj211.Add(new JProperty("values", new JArray(values211)));
+            obj211.Add(new JProperty("head", "211#1"));
 
             input.Add(obj210);
             input.Add(obj211);

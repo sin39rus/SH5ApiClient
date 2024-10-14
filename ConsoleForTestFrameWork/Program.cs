@@ -17,7 +17,6 @@ namespace ConsoleForTestFrameWork
                 ConnectionParamSH5 connectionParam = new ConnectionParamSH5("Admin", "776417", "office.ctsassar.ru", 17772);
                 SH5ApiClient.ApiClient _client = new SH5ApiClient.ApiClient(connectionParam);
 
-                var groups2 = _client.InsGoodRequest().Result;
 
 
 

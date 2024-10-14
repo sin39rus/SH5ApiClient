@@ -133,8 +133,8 @@ namespace SH5ApiClient
         }
         public async Task<InfoOperation> GetSHServerInfoAsync()
         {
-            string answear = await _webClient.WebPostAsync(new SHInfoRequest(_connectionParam));
-            return OperationBase.Parse<InfoOperation>(answear);
+            string answer = await _webClient.WebPostAsync(new SHInfoRequest(_connectionParam));
+            return OperationBase.Parse<InfoOperation>(answer);
         }
         public async Task<IEnumerable<Currency>> LoadCurrenciesAsync()
         {
@@ -207,8 +207,8 @@ namespace SH5ApiClient
         {
             GDocRequest request = new GDocRequest(_connectionParam, TTNType.InternalMovement, rid, guid);
             string jsonAnswer = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return GDoc11.Parse(answear);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GDoc11.Parse(answer);
         }
         public async Task<IEnumerable<GGroup>> LoadGGroupsAsync()
         {
@@ -231,33 +231,35 @@ namespace SH5ApiClient
         {
             GoodsRequest request = new GoodsRequest(_connectionParam, groupRid);
             string jsonAnswer = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return GoodsItem.ParseGoods(answear);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GoodsItem.ParseGoods(answer);
         }
         public async Task<IEnumerable<MeasureUnit>> GetGoodsMUnitsAsync(uint goodRid)
         {
             GoodsMUnitsRequest request = new GoodsMUnitsRequest(_connectionParam, goodRid);
             string jsonAnswer = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return DataExecutable.Parse<MeasureUnits>(jsonAnswer);
         }
         public async Task<IEnumerable<GoodsItem>> LoadGoodsTreeAsync()
         {
             GoodsTreeRequest request = new GoodsTreeRequest(_connectionParam);
             string jsonAnswer = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return GoodsItem.ParseGoods(answear);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GoodsItem.ParseGoods(answer);
         }
-        public async Task CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits)
+        public async Task<GoodsItem> CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits)
         {
-            var units = await LoadMeasureUnitsAsync();
-            //units.SingleOrDefault(t=>t.Rid == )
-            var litr = units.Where(t => t.Attributes7.ContainsKey("OKEI")).FirstOrDefault(t => t.Attributes7["OKEI"] == "112");
-            if (litr == null)
-                throw new Exception("Не найдена единица измерения с кодом ОКЕИ 112");
-            InsGoodRequest request = new InsGoodRequest(_connectionParam, name, litr);
+            InsGoodRequest request = new InsGoodRequest(_connectionParam, name, measureUnits);
             string jsonAnswer = await _webClient.WebPostAsync(request);
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GoodsItem.Parse(answer.GetAnswearContent("210").GetValues()[0]);
+        }
+        public async Task CreateMeasureUnitAsync(string name, decimal ration, uint groupRid)
+        {
+            InsMUnitRequest request = new InsMUnitRequest(_connectionParam, name, ration, groupRid);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
         }
     }
 }
