@@ -255,11 +255,12 @@ namespace SH5ApiClient
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return GoodsItem.Parse(answer.GetAnswearContent("210").GetValues()[0]);
         }
-        public async Task CreateMeasureUnitAsync(string name, decimal ration, uint groupRid)
+        public async Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid)
         {
             InsMUnitRequest request = new InsMUnitRequest(_connectionParam, name, ration, groupRid);
             string jsonAnswer = await _webClient.WebPostAsync(request);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return MeasureUnit.Parse(answer.GetAnswearContent("206").GetValues()[0]);
         }
     }
 }

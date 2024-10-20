@@ -58,7 +58,8 @@ namespace SH5ApiClient.Models.DTO
             return new MeasureUnit
             {
                 Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
-                Name = value.GetValueOrDefault("3")
+                Name = value.GetValueOrDefault("3"),
+                BaseRatio = decimal.TryParse(value.GetValueOrDefault("41"), out decimal baseRatio) ? (decimal?)baseRatio : null,
             };
         }
 

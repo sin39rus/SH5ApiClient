@@ -152,6 +152,8 @@ namespace SH5ApiClient
         /// <returns>Внутреннее перемещение</returns>
         Task<GDoc11> GetGDoc11Async(uint rid, string guid);
         Task<GDoc4> UpdateGDoc4(GDoc4 doc);
+        Task<GoodsItem> CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits);
+        Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid);
         #endregion
     }
 }

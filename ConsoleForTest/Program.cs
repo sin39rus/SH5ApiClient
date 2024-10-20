@@ -20,32 +20,33 @@ namespace ConsoleForTest
             var measureUnits = FindVolumeMeasureUnitsGroupeAsync(client).Result;
             var items = measureUnits.Item1;
             var groupId = measureUnits.Item2;
-            client.CreateMeasureUnitAsync("Бут 1,5л", 1.5m, groupId).Wait();
 
-            MeasureUnit? measureUnit = NewMethod(client);
+            MeasureUnit literMeasureUnit = items.Single(t => t.Attributes7["OKEI"] == "112");
+
+
+            decimal bottleVolume = 0.3m;
+            decimal bottleRatio = Math.Round(bottleVolume * literMeasureUnit.BaseRatio ?? 1, 6);
+
+            MeasureUnit? bottleMeasureUnit = items.FirstOrDefault(t => t.BaseRatio == bottleRatio);
+
+            if (bottleMeasureUnit == null)
+                bottleMeasureUnit = client.CreateMeasureUnitAsync($"Бут {bottleVolume}л", bottleRatio, groupId).Result;
+
             client.CreateGoodAsync("Тестовый товар", new List<MeasureUnit>
             {
                 new MeasureUnit
                 {
-                    Rid = measureUnit.Rid,
+                    Rid = literMeasureUnit.Rid,
                     MeasureUnitType = MeasureUnitType.Base | MeasureUnitType.Report | MeasureUnitType.Request | MeasureUnitType.AutoDocuments | MeasureUnitType.Calculations,
-                    BaseRatio = 1,
+                    BaseRatio = literMeasureUnit.BaseRatio,
                 },
                 new MeasureUnit
                 {
-                    Rid = 3,
-                    BaseRatio = 0.5m
-                },
+                    Rid =bottleMeasureUnit.Rid,
+                    BaseRatio = bottleMeasureUnit.BaseRatio,
+                }
             }).Wait();
         }
-
-        private static MeasureUnit? NewMethod(ApiClient client)
-        {
-            var measureUnits = client.LoadMeasureUnitsAsync().Result;
-            var measureUnit = measureUnits.Where(t => t.Attributes7.ContainsKey("OKEI")).SingleOrDefault(t => t.Attributes7["OKEI"] == "112");
-            return measureUnit;
-        }
-
         private static async Task<Tuple<IEnumerable<MeasureUnit>, uint>> FindVolumeMeasureUnitsGroupeAsync(ApiClient client)
         {
             var measureUnits = await client.LoadMeasureUnitsAsync();
@@ -57,7 +58,7 @@ namespace ConsoleForTest
                 throw new Exception("Сразу несколько единиц измерения содержат код ОКЕИ 112. Только одна единица измерения может содержать код ОКЕИ 112.");
 
             var groupRid = measureUnit.First().MeasureGroup.Rid;
-            var measureUnitsInGroup = measureUnits.Where(t=>t.MeasureGroup.Rid == groupRid);
+            var measureUnitsInGroup = measureUnits.Where(t => t.MeasureGroup.Rid == groupRid);
             return Tuple.Create(measureUnitsInGroup, groupRid.GetValueOrDefault());
         }
     }
