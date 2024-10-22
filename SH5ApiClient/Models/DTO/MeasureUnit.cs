@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
 
@@ -61,6 +62,19 @@ namespace SH5ApiClient.Models.DTO
                 Name = value.GetValueOrDefault("3"),
                 BaseRatio = decimal.TryParse(value.GetValueOrDefault("41"), out decimal baseRatio) ? (decimal?)baseRatio : null,
             };
+        }
+        internal static IEnumerable<MeasureUnit> ParseUnits(Dictionary<string, string>[] values)
+        {
+            foreach (var value in values)
+            {
+                yield return new MeasureUnit
+                {
+                    Rid = uint.TryParse(value["206\\1"], out uint rid) ? (uint?)rid : null,
+                    Name = value.GetValueOrDefault("206\\3"),
+                    BaseRatio = decimal.TryParse(value.GetValueOrDefault("41"), out decimal baseRatio) ? (decimal?)baseRatio : null,
+                    MeasureUnitType = (MeasureUnitType)Enum.Parse(typeof(MeasureUnitType), value["8"])
+                };
+            }
         }
 
         [OriginalName("255")]

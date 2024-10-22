@@ -77,7 +77,11 @@ namespace SH5ApiClient
         /// <summary>Загрузка списка валют</summary>
         /// <returns>Список валют</returns>
         Task<IEnumerable<Currency>> LoadCurrenciesAsync();
-
+        /// <summary>Создание товара</summary>
+        /// <param name="name">Наименование товара</param>
+        /// <param name="measureUnits">Список единиц измерения</param>
+        /// <returns>Товар</returns>
+        Task<GoodsItem> CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits);
 
 
         #region Единицы измерения
@@ -99,6 +103,13 @@ namespace SH5ApiClient
         /// <param name="goodRid">Идентификатор товара</param>
         /// <returns></returns>
         Task<IEnumerable<MeasureUnit>> GetGoodsMUnitsAsync(uint goodRid);
+
+        /// <summary>Создать единицу измерения</summary>
+        /// <param name="name">Наименование единицы измерения</param>
+        /// <param name="ration">Коэффициент к базовой единицы измерения</param>
+        /// <param name="groupRid">RID группы единиц измерения</param>
+        /// <returns>Единица измерения</returns>
+        Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid);
         #endregion
 
         #region Работа с документами GDoc
@@ -152,8 +163,6 @@ namespace SH5ApiClient
         /// <returns>Внутреннее перемещение</returns>
         Task<GDoc11> GetGDoc11Async(uint rid, string guid);
         Task<GDoc4> UpdateGDoc4(GDoc4 doc);
-        Task<GoodsItem> CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits);
-        Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid);
         #endregion
     }
 }

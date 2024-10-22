@@ -262,5 +262,16 @@ namespace SH5ApiClient
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return MeasureUnit.Parse(answer.GetAnswearContent("206").GetValues()[0]);
         }
+
+        public async Task<GoodsItem> GetGoodsItemAsync(uint goodsItemRid)
+        {
+            GoodsItemRequest request = new GoodsItemRequest(_connectionParam, goodsItemRid);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            var units =  MeasureUnit.ParseUnits(answer.GetAnswearContent("211#1").GetValues());
+            var item = GoodsItem.Parse(answer.GetAnswearContent("210").GetValues()[0]);
+            item.MeasureUnits = units;
+            return item;
+        }
     }
 }

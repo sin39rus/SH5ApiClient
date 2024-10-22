@@ -188,7 +188,7 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Комплект</summary>
         [OriginalName("215")]
         public DishComposition DishComposition { set; get; }
-
+        public IEnumerable<MeasureUnit> MeasureUnits { get; set; }
         public static GoodsItem Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
