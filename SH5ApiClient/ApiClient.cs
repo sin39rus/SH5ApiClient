@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static SH5ApiClient.Core.Requests.InsGDoc0Request;
 
 namespace SH5ApiClient
 {
@@ -268,10 +269,17 @@ namespace SH5ApiClient
             GoodsItemRequest request = new GoodsItemRequest(_connectionParam, goodsItemRid);
             string jsonAnswer = await _webClient.WebPostAsync(request);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            var units =  MeasureUnit.ParseUnits(answer.GetAnswearContent("211#1").GetValues());
+            var units = MeasureUnit.ParseUnits(answer.GetAnswearContent("211#1").GetValues());
             var item = GoodsItem.Parse(answer.GetAnswearContent("210").GetValues()[0]);
             item.MeasureUnits = units;
             return item;
+        }
+        public async Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, IEnumerable<GDoc0Item> items)
+        {
+            InsGDoc0Request request = new InsGDoc0Request(_connectionParam, timeStamp, number, supplierRid, consigneeRid, items);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return answer.GetAnswearContent("111").GetValues()[0]["3"];
         }
     }
 }

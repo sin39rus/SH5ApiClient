@@ -17,7 +17,7 @@ namespace SH5ApiClient.Core.Requests
     public class InsPDocRequest : RequestBase
     {
         /// <summary>
-        /// Не определенный обязательный атрибут
+        /// Не определенный обязательный атрибут ToDo GDocOptions переделать
         /// </summary>
         [OriginalName("33")]
         public int Id { private set; get; } = 1;
@@ -27,12 +27,12 @@ namespace SH5ApiClient.Core.Requests
         [OriginalName("31")]
         public DateTime DocumentDate { private set; get; }
         /// <summary>
-        /// Не определенный обязательный атрибут
+        /// Курс валюты (единица базовой)
         /// </summary>
         [OriginalName("34")]
         public int Indefinite1 { private set; get; } = 1;
         /// <summary>
-        /// Не определенный обязательный атрибут
+        /// к единице валюты накладной)
         /// </summary>
         [OriginalName("35")]
         public int Indefinite2 { private set; get; } = 1;

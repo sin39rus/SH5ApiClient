@@ -164,5 +164,16 @@ namespace SH5ApiClient
         Task<GDoc11> GetGDoc11Async(uint rid, string guid);
         Task<GDoc4> UpdateGDoc4(GDoc4 doc);
         #endregion
+
+        /// <summary>
+        /// Создание приходной накладной
+        /// </summary>
+        /// <param name="timeStamp">Дата</param>
+        /// <param name="number">Номер</param>
+        /// <param name="supplierRid">RID Поставщика</param>
+        /// <param name="consigneeRid">RID Склада</param>
+        /// <param name="items">Содержимое накладной</param>
+        /// <returns>Номер созданной накладной</returns>
+        Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, IEnumerable<GDoc0Item> items);
     }
 }

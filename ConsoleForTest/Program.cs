@@ -16,36 +16,12 @@ namespace ConsoleForTest
             ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9798);
             //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
-
-            var measureUnits = FindVolumeMeasureUnitsGroupeAsync(client).Result;
-            var items = measureUnits.Item1;
-            var groupId = measureUnits.Item2;
-
-            MeasureUnit literMeasureUnit = items.Single(t => t.Attributes7["OKEI"] == "112");
-
-
-            decimal bottleVolume = 0.3m;
-            decimal bottleRatio = Math.Round(bottleVolume * literMeasureUnit.BaseRatio ?? 1, 6);
-
-            MeasureUnit? bottleMeasureUnit = items.FirstOrDefault(t => t.BaseRatio == bottleRatio);
-
-            if (bottleMeasureUnit == null)
-                bottleMeasureUnit = client.CreateMeasureUnitAsync($"Бут {bottleVolume}л", bottleRatio, groupId).Result;
-
-            client.CreateGoodAsync("Тестовый товар", new List<MeasureUnit>
+            var gg = client.LoadDepartsAsync().Result;
+            client.CreateIncomingTTNAsync(DateTime.Now, "asdf123", 0, gg.First().Rid.GetValueOrDefault(), new List<GDoc0Item>
             {
-                new MeasureUnit
-                {
-                    Rid = literMeasureUnit.Rid,
-                    MeasureUnitType = MeasureUnitType.Base | MeasureUnitType.Report | MeasureUnitType.Request | MeasureUnitType.AutoDocuments | MeasureUnitType.Calculations,
-                    BaseRatio = literMeasureUnit.BaseRatio,
-                },
-                new MeasureUnit
-                {
-                    Rid =bottleMeasureUnit.Rid,
-                    BaseRatio = bottleMeasureUnit.BaseRatio,
-                }
+                new GDoc0Item(1,10,10,4)
             }).Wait();
+
         }
         private static async Task<Tuple<IEnumerable<MeasureUnit>, uint>> FindVolumeMeasureUnitsGroupeAsync(ApiClient client)
         {
