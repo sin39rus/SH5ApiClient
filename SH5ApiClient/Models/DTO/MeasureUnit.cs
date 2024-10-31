@@ -40,17 +40,17 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("7")]
         public Dictionary<string, string> Attributes7 { set; get; } = new Dictionary<string, string>();
 
-        /// <summary>Flags</summary>
+        /// <summary>Признак базовой единицы</summary>
         [OriginalName("10")]
-        public bool? IsBase { set; get; }
+        public bool IsBase { set; get; }
 
         /// <summary>Flags</summary>
         [OriginalName("255")]
         public Ignore Ignore2 { set; get; }
 
-        /// <summary>Flags</summary>
+        /// <summary>Тип единицы измерения</summary>
         [OriginalName("42")]
-        public uint? Flags { set; get; } //ToDo: Типизированный объект, найти описание
+        public MeasureUnitTypeName MeasureUnitTypeName { set; get; }
 
         internal static MeasureUnit Parse(Dictionary<string, string> value)
         {
@@ -59,6 +59,7 @@ namespace SH5ApiClient.Models.DTO
             return new MeasureUnit
             {
                 Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
+                IsBase = bool.TryParse(value["10"], out bool IsBase),
                 Name = value.GetValueOrDefault("3"),
                 BaseRatio = decimal.TryParse(value.GetValueOrDefault("41"), out decimal baseRatio) ? (decimal?)baseRatio : null,
             };
@@ -137,5 +138,18 @@ namespace SH5ApiClient.Models.DTO
         AutoDocuments = 8,
         /// <summary>Для калькуляций</summary>
         Calculations = 16,
+    }
+
+    [Flags]
+    public enum MeasureUnitTypeName
+    {
+        /// <summary>Любая единица измерения</summary>
+        None = 0,
+        /// <summary>Гр</summary>
+        Gramm = 1,
+        /// <summary>Порция</summary>
+        Portion = 2,
+        /// <summary>Литр</summary>
+        Liter = 4,
     }
 }

@@ -2,6 +2,7 @@
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Exceptions;
 using SH5ApiClient.Infrastructure.Extensions;
+using SH5ApiClient.Models.DTO;
 using SH5ApiClient.Models.Enums;
 using System;
 using System.Data;
@@ -266,6 +267,10 @@ namespace SH5ApiClient.Data
                 else if (property.PropertyType == typeof(CorrTypeEx?) || property.PropertyType == typeof(CorrTypeEx))
                 {
                     data = Enum.Parse(typeof(CorrTypeEx), value?.ToString()) ?? null;
+                }                
+                else if (property.PropertyType == typeof(MeasureUnitTypeName?) || property.PropertyType == typeof(MeasureUnitTypeName))
+                {
+                    data = Enum.Parse(typeof(MeasureUnitTypeName), value?.ToString()) ?? null;
                 }
                 else
                 {
