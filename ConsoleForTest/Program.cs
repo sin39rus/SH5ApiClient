@@ -16,11 +16,7 @@ namespace ConsoleForTest
             ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9798);
             //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
-            var gg = client.LoadDepartsAsync().Result;
-            client.CreateIncomingTTNAsync(DateTime.Now, "asdf123", 0, gg.First().Rid.GetValueOrDefault(), new List<GDoc0Item>
-            {
-                new GDoc0Item(1,10,10,4)
-            }).Wait();
+            var gg = client.CreateGoodAsync("sdfasfd", new List<MeasureUnit>() { new MeasureUnit() { Rid = 55 } }).Result;
 
         }
         private static async Task<Tuple<IEnumerable<MeasureUnit>, uint>> FindVolumeMeasureUnitsGroupeAsync(ApiClient client)
