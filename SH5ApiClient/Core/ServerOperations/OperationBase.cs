@@ -19,6 +19,8 @@ namespace SH5ApiClient.Core.ServerOperations
             {
                 if (ErrMessage == "Ошибка процедуры библиотеки сервера 81.")
                     throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage} (Возможно документ в SH заблокирован для редактирования.)");
+                if(ErrorCode == 1007)
+                    throw new ServerOperationsException($"У товара не найдена единица измерения литр.");
                 throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage}");
             }
         }

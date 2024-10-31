@@ -50,7 +50,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Flags</summary>
         [OriginalName("42")]
-        public uint? Flags { set; get; } //ToDo: Типизированный объект, найти описание
+        public uint? Flags { set; get; } //ToDo: Типизированный объект, найти описание, разобрались, приводит к ошибке при вызове GetGoodsMUnitsAsync, там содержится такое же поле 42
 
         internal static MeasureUnit Parse(Dictionary<string, string> value)
         {
