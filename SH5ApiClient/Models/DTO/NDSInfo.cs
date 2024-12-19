@@ -1,4 +1,5 @@
-﻿using SH5ApiClient.Infrastructure.Attributes;
+﻿using SH5ApiClient.Data;
+using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Linq;
 namespace SH5ApiClient.Models.DTO
 {
     [OriginalName("212")]
-    public class NDSInfo
+    public class NDSInfo : DataExecutable
     {
         [OriginalName("9")]
         public uint? Rate { get; set; }

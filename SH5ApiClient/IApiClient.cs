@@ -175,5 +175,9 @@ namespace SH5ApiClient
         /// <param name="items">Содержимое накладной</param>
         /// <returns>Номер созданной накладной</returns>
         Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, IEnumerable<GDoc0Item> items);
+
+        /// <summary>Запрос списка ставок НДС</summary>
+        /// <returns>Ставки НДС</returns>
+        Task<IEnumerable<NDSInfo>> GetNdsListAsync();
     }
 }

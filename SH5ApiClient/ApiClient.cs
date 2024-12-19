@@ -281,5 +281,13 @@ namespace SH5ApiClient
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return answer.GetAnswearContent("111").GetValues()[0]["3"];
         }
+        public async Task<IEnumerable<NDSInfo>> GetNdsListAsync()
+        {
+            Taxes1Request request = new Taxes1Request(_connectionParam);
+            string jsonAnswer = await _webClient.WebPostAsync(request);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return answer.GetAnswearContent("212").Values[0]
+                .Select(t => new NDSInfo() { Rate = Convert.ToUInt32(t) });
+        }
     }
 }

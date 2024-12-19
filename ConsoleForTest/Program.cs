@@ -13,11 +13,26 @@ namespace ConsoleForTest
         static void Main()
         {
             ////var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
-            ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9798);
+            ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9798);
             //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
-            var gg = client.CreateGoodAsync("sdfasfd", new List<MeasureUnit>() { new MeasureUnit() { Rid = 55 } }).Result;
+            var nds = client.GetNdsListAsync().Result;
+            var ggc = nds.ToList();
+            try
+            {
+                var gg = client.CreateIncomingTTNAsync(DateTime.Now, "12345", 0, 8388609, new List<GDoc0Item>
+                {
+                    new GDoc0Item(68,1,416.67M,5)
+                    {
+                         VatSum = 83.33M,
+                         NdsRateValue = nds.Any(t=>t.Rate ==  700) ? (uint)700 : throw new Exception("Ставка НДС 700 не найдена в SH.")
+                    }
+                }).Result;
+            }
+            catch (Exception ex)
+            {
 
+            }
         }
         private static async Task<Tuple<IEnumerable<MeasureUnit>, uint>> FindVolumeMeasureUnitsGroupeAsync(ApiClient client)
         {
