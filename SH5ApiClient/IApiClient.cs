@@ -172,9 +172,10 @@ namespace SH5ApiClient
         /// <param name="number">Номер</param>
         /// <param name="supplierRid">RID Поставщика</param>
         /// <param name="consigneeRid">RID Склада</param>
+        /// <param name="comment">Примечание</param>
         /// <param name="items">Содержимое накладной</param>
         /// <returns>Номер созданной накладной</returns>
-        Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, IEnumerable<GDoc0Item> items);
+        Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items);
 
         /// <summary>Запрос списка ставок НДС</summary>
         /// <returns>Ставки НДС</returns>

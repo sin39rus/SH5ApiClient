@@ -21,12 +21,12 @@ namespace ConsoleForTest
             var ggc = nds.ToList();
             try
             {
-                var gg = client.CreateIncomingTTNAsync(DateTime.Now, "12345", 0, 8388609, new List<GDoc0Item>
+                var gg = client.CreateIncomingTTNAsync(DateTime.Now, "12345", 0, 8388609, "comment", new List<GDoc0Item>
                 {
                     new GDoc0Item(68,1,416.67M,5)
                     {
                          VatSum = 83.33M,
-                         NdsRateValue = nds.Any(t=>t.Rate ==  700) ? (uint)700 : throw new Exception("Ставка НДС 700 не найдена в SH.")
+                         NdsRateValue = nds.Any(t=>t.Rate ==  700) ? (uint)700 : throw new Exception("Ставка НДС 700 не найдена в SH."),
                     }
                 }).Result;
             }

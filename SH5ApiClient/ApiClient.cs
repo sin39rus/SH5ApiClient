@@ -274,9 +274,9 @@ namespace SH5ApiClient
             item.MeasureUnits = units;
             return item;
         }
-        public async Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, IEnumerable<GDoc0Item> items)
+        public async Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items)
         {
-            InsGDoc0Request request = new InsGDoc0Request(_connectionParam, timeStamp, number, supplierRid, consigneeRid, items);
+            InsGDoc0Request request = new InsGDoc0Request(_connectionParam, timeStamp, number, supplierRid, consigneeRid, comment, items);
             string jsonAnswer = await _webClient.WebPostAsync(request);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return answer.GetAnswearContent("111").GetValues()[0]["3"];
