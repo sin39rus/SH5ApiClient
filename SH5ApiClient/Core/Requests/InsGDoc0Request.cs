@@ -47,6 +47,9 @@ namespace SH5ApiClient.Core.Requests
         [OriginalName("105#1\\1")]
         public uint ConsigneeRid { get; private set; }
 
+        [OriginalName("6\\TTN_number")]
+        public string ExtNumber { get; private set; }
+
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
         public IEnumerable<GDoc0Item> Items { get; private set; }
@@ -54,7 +57,7 @@ namespace SH5ApiClient.Core.Requests
         public InsGDoc0Request(ConnectionParamSH5 connectionParamSH5, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, IEnumerable<GDoc0Item> items) : base("InsGDoc0", connectionParamSH5)
         {
             TimeStamp = timeStamp;
-            Number = number;
+            ExtNumber = number;
             SupplierRid = supplierRid;
             ConsigneeRid = consigneeRid;
             Items = items;
@@ -70,8 +73,8 @@ namespace SH5ApiClient.Core.Requests
             JArray original111 = new JArray();
             JArray values111 = new JArray();
 
-            original111.Add(this.GetOriginalNameAttributeFromProperty(nameof(Number)));
-            values111.Add(new JArray(Number));
+            original111.Add(this.GetOriginalNameAttributeFromProperty(nameof(ExtNumber)));
+            values111.Add(new JArray(ExtNumber));
 
             original111.Add(this.GetOriginalNameAttributeFromProperty(nameof(Options)));
             values111.Add(new JArray(Options));

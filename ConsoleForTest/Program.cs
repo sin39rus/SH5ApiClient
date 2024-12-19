@@ -16,6 +16,7 @@ namespace ConsoleForTest
             ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9798);
             //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
+            var fff = client.LoadGDocsAsync(new DateTime(2024,12,18), new DateTime(2024, 12, 19), SH5ApiClient.Models.Enums.TTNTypeForRequest.PurchaseInvoice, SH5ApiClient.Models.Enums.GDocsRequestFilter.ShowInactiveInvoices).Result;
             var nds = client.GetNdsListAsync().Result;
             var ggc = nds.ToList();
             try
