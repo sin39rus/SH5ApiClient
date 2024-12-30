@@ -21,17 +21,10 @@ namespace SH5ApiClient.Infrastructure.Helpers
         {
             HttpClient client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(3);
-            try
-            {
-                HttpResponseMessage response = await client.GetAsync(url, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
-            }
-            catch (TaskCanceledException)
-            {
-                throw new TaskCanceledException($"Запрос был отменен, так как истекло время ожидания {client.Timeout.Seconds} секунды.");
-            }
+            HttpResponseMessage response = await client.GetAsync(url, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
         }
         public Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam, CancellationToken cancellationToken)
         {
@@ -50,15 +43,26 @@ namespace SH5ApiClient.Infrastructure.Helpers
         }
         private static async Task<string> WebPostInternalAsync(string url, string request, CancellationToken cancellationToken)
         {
-            HttpClient client = new HttpClient(new HttpClientHandler()
+            try
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            });
-            HttpContent content = new StringContent(request, Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(url, content, cancellationToken);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-            return responseBody;
+                HttpClient client = new HttpClient(new HttpClientHandler()
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                });
+                HttpContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return responseBody;
+            }
+            catch (Exception ex)
+            {
+#if NETFRAMEWORK
+                throw ex?.InnerException?.InnerException ?? ex;
+#else
+                throw;
+#endif
+            }
         }
     }
 }

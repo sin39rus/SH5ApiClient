@@ -23,9 +23,10 @@ namespace WindowsFormsApp1
         {
             try
             {
-                ConnectionParamSH5 param = new ConnectionParamSH5("Admin", "", "127.0.0.1", 9797);
+                ConnectionParamSH5 param = new ConnectionParamSH5("Admin", "", "127.0.0.1", 9798);
                 IApiClient client = new ApiClient(param);
-                await client.LoadCorrespondentsAsync();
+                var rr = await client.LoadCorrespondentsAsync();
+                MessageBox.Show(rr.Count().ToString());
             }
             catch (Exception ex)
             {

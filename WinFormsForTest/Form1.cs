@@ -16,8 +16,10 @@ namespace WinFormsForTest
         {
             try
             {
-                Test test = new Test();
-                var ddd = await test.Get—orrespondents();
+                ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9798);
+                IApiClient client = new ApiClient(param);
+                var rr = await client.LoadCorrespondentsAsync();
+                MessageBox.Show(rr.Count().ToString());
             }
             catch (Exception ex)
             {

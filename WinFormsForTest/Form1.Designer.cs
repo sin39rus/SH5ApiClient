@@ -28,41 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.SuspendLayout();
+            button1 = new Button();
+            progressBar1 = new ProgressBar();
+            SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(397, 184);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Location = new Point(397, 184);
+            button1.Name = "button1";
+            button1.Size = new Size(222, 23);
+            button1.TabIndex = 0;
+            button1.Text = "Core button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(82, 63);
-            this.progressBar1.MarqueeAnimationSpeed = 200;
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(662, 23);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progressBar1.TabIndex = 1;
-            this.progressBar1.Visible = false;
+            progressBar1.Location = new Point(82, 63);
+            progressBar1.MarqueeAnimationSpeed = 200;
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(662, 23);
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.TabIndex = 1;
+            progressBar1.Visible = false;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.button1);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(progressBar1);
+            Controls.Add(button1);
+            Name = "Form1";
+            Text = "Form1";
+            ResumeLayout(false);
         }
 
         #endregion
