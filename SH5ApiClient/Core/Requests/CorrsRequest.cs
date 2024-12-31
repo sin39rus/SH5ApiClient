@@ -8,7 +8,7 @@ namespace SH5ApiClient.Core.Requests
     public class CorrsRequest : RequestBase
     {
         //Имя процедуры
-        private const string procName = "Corrs2";
+        private const string procName = "Corrs";
         public CorrsRequest(ConnectionParamSH5 connectionParam) : base(procName, connectionParam)
         {
 

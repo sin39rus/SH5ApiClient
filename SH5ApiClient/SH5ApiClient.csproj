@@ -14,7 +14,7 @@
     <Product>SH5 WebAPI Client</Product>
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
-    <Version>1.11.2</Version>
+    <Version>1.11.3</Version>
     <DebugType>portable</DebugType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
