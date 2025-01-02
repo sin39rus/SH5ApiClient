@@ -1,12 +1,18 @@
 ﻿using Newtonsoft.Json;
 using SH5ApiClient.Infrastructure.Exceptions;
+using SH5ApiClient.Models;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 namespace SH5ApiClient.Core.ServerOperations
 {
     public abstract class OperationBase
     {
         public abstract string Uri { get; }
+        private const string _errorPattern = @"\d+$";
+        private readonly Dictionary<int, string> _errors = ErrorDictionary.GetErrorDictionary();
 
         [JsonProperty("errorCode")]
         public int ErrorCode { get; set; }
@@ -19,8 +25,11 @@ namespace SH5ApiClient.Core.ServerOperations
             {
                 if (ErrMessage == "Ошибка процедуры библиотеки сервера 81.")
                     throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage} (Возможно документ в SH заблокирован для редактирования.)");
-                if (ErrMessage == "Ошибка процедуры библиотеки сервера 1007.")
-                    throw new ServerOperationsException($"У товара не найдена единица измерения литр.");
+
+                Match match = Regex.Match(ErrMessage, _errorPattern);
+                if (match.Success && int.TryParse(match.Value, out int errorCode) && _errors.ContainsKey(errorCode))
+                    throw new ServerOperationsException($"Запрос в API SH закончился ошибкой ({errorCode}): {_errors[errorCode]}");
+
                 throw new ServerOperationsException($"Запрос в API SH закончился ошибкой: {ErrMessage}");
             }
         }
