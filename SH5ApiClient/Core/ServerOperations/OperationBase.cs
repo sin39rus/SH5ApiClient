@@ -11,8 +11,8 @@ namespace SH5ApiClient.Core.ServerOperations
     public abstract class OperationBase
     {
         public abstract string Uri { get; }
-        private const string _errorPattern = @"\d+$";
-        private readonly Dictionary<int, string> _errors = ErrorDictionary.GetErrorDictionary();
+        private const string _errorPattern = @"\d+(?=\.?$)";
+        private readonly static Dictionary<int, string> _errors = ErrorDictionary.GetErrors();
 
         [JsonProperty("errorCode")]
         public int ErrorCode { get; set; }

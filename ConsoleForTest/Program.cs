@@ -16,17 +16,15 @@ namespace ConsoleForTest
             ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9798);
             //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
-            var fff = client.LoadGDocsAsync(new DateTime(2024,12,18), new DateTime(2024, 12, 19), SH5ApiClient.Models.Enums.TTNTypeForRequest.PurchaseInvoice, SH5ApiClient.Models.Enums.GDocsRequestFilter.ShowInactiveInvoices).Result;
             var nds = client.GetNdsListAsync().Result;
             var ggc = nds.ToList();
             try
             {
-                var gg = client.CreateIncomingTTNAsync(DateTime.Now, "12345", 0, 8388609, "comment", new List<GDoc0Item>
+                var gg = client.CreateIncomingTTNAsync(new DateTime(2024, 01, 01), "12345", 0, 8388609, "comment", new List<GDoc0Item>
                 {
                     new GDoc0Item(68,1,416.67M,5)
                     {
                          VatSum = 83.33M,
-                         NdsRateValue = nds.Any(t=>t.Rate ==  700) ? (uint)700 : throw new Exception("Ставка НДС 700 не найдена в SH."),
                     }
                 }).Result;
             }
@@ -34,6 +32,7 @@ namespace ConsoleForTest
             {
 
             }
+
         }
         private static async Task<Tuple<IEnumerable<MeasureUnit>, uint>> FindVolumeMeasureUnitsGroupeAsync(ApiClient client)
         {
