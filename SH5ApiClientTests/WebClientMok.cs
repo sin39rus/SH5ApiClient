@@ -4,18 +4,22 @@ using SH5ApiClient.Models;
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SH5ApiClientTests
 {
     public class WebClientMok : IWebClient
     {
-        Task<string> IWebClient.WebGetAsync(string url)
+        public Task<string> WebGetAsync(string url, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
-
-        Task<string> IWebClient.WebPostAsync(RequestBase request)
+        public Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<string> WebPostAsync(RequestBase request, CancellationToken cancellationToken)
         {
             switch (request)
             {
@@ -53,11 +57,6 @@ namespace SH5ApiClientTests
                 default:
                     throw new NotImplementedException();
             }
-        }
-
-        Task<string> IWebClient.WebPostAsync(string request, ConnectionParamSH5 connectionParam)
-        {
-            throw new NotImplementedException();
         }
     }
 }

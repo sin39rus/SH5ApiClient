@@ -21,11 +21,11 @@ namespace SH5ApiClient.Data
 
                         new JProperty("original", new JArray(
                             table.Columns.Cast<System.Data.DataColumn>()
-                            .Select(t => t.Caption))),
+                            .Select(t => t.ColumnName))),
 
                         new JProperty("fields", new JArray(
                             table.Columns.Cast<System.Data.DataColumn>()
-                            .Select(t => t.ColumnName))),
+                            .Select(t => t.Caption))),
 
                         new JProperty("values", new JArray(
                             new JArray(
@@ -56,8 +56,8 @@ namespace SH5ApiClient.Data
             {
                 dataTable.Columns.Add(new DataColumn
                 {
-                    ColumnName = shTable.Fields[i],
-                    Caption = shTable.Original[i],
+                    ColumnName = shTable.Original[i],
+                    Caption = shTable.Fields[i],
                     DataType = typeof(object)
                 });
             }

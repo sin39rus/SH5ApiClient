@@ -48,7 +48,7 @@ namespace SH5ApiClient.Data
                         {
                             var value = dataRow[column.ColumnName];
                             object currentInstance = rowInstance;
-                            string[] array = column.Caption.Split('\\');
+                            string[] array = column.ColumnName.Split('\\');
                             for (int i = 0; i < array.Length; i++)
                             {
                                 string caption = array[i];
@@ -58,7 +58,6 @@ namespace SH5ApiClient.Data
                                     (currentInstance as System.Collections.IDictionary).Add(caption, dictValue);
                                     continue;
                                 }
-                                var fdsfGroup = currentInstance.GetType().GetProperties();
                                 PropertyInfo rowProperty = currentInstance.GetType().GetProperties()
                                     .SingleOrDefault(t => t.GetCustomAttribute<OriginalNameAttribute>()?.OriginalName == caption)
                                     ?? throw new ApiClientException($"У объекта {currentInstance.GetType().Name} отсутствует свойство с атрибутом {caption}.");
