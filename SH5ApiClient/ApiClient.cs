@@ -27,6 +27,27 @@ namespace SH5ApiClient
         }
         public Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices) =>
             LoadGDocsAsync(new CancellationToken(), dateFrom, dateTo, ttnTypeForRequest, gDocsRequestFilter);
+        public async Task<DataSet> LoadGDocsRawAsync(CancellationToken cancellationToken, DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices)
+        {
+            try
+            {
+                GDocsRequest request = new GDocsRequest(_connectionParam)
+                {
+                    DateFrom = dateFrom,
+                    DateTo = dateTo,
+                    TTNTypeForRequest = ttnTypeForRequest,
+                    GDocsRequestFilter = gDocsRequestFilter
+                };
+                Console.WriteLine($"{DateTime.Now:mm:ss fffff} Отправляем запрос.");
+                string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
+                Console.WriteLine($"{DateTime.Now:mm:ss fffff} Получен ответ.");
+                return DataSet.ParseFromJson(jsonAnswer);
+            }
+            catch (Exception ex)
+            {
+                throw new ApiClientException("Ошибка загрузки списка накладных. Подробности во внутреннем исключении.", ex);
+            }
+        }
         public async Task<IEnumerable<GDocHeader>> LoadGDocsAsync(CancellationToken cancellationToken, DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices)
         {
             try
