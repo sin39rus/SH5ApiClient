@@ -7,6 +7,7 @@ namespace SH5ApiClient.Data
 {
     public class DataSet : System.Data.DataSet
     {
+        public string RawData { get; private set; }
         public JProperty ToJson()
         {
             JProperty shTable =
@@ -38,7 +39,7 @@ namespace SH5ApiClient.Data
         {
             ExecOperation answer = OperationBase.Parse<ExecOperation>(data);
             DataSet dataSet = new DataSet();
-
+            dataSet.RawData = data;
             foreach (var shTable in answer.Content)
             {
                 DataTable dataTable = new DataTable(shTable.Head);

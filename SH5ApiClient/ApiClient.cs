@@ -38,9 +38,7 @@ namespace SH5ApiClient
                     TTNTypeForRequest = ttnTypeForRequest,
                     GDocsRequestFilter = gDocsRequestFilter
                 };
-                Console.WriteLine($"{DateTime.Now:mm:ss fffff} Отправляем запрос.");
                 string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
-                Console.WriteLine($"{DateTime.Now:mm:ss fffff} Получен ответ.");
                 return DataSet.ParseFromJson(jsonAnswer);
             }
             catch (Exception ex)
@@ -213,6 +211,12 @@ namespace SH5ApiClient
         }
         public Task<GDoc0> GetGDoc0Async(uint rid, string guid) =>
             GetGDoc0Async(rid, guid, new CancellationToken());
+        public async Task<DataSet> GetGDoc0RawAsync(uint rid, string guid, CancellationToken cancellationToken)
+        {
+            GDocRequest request = new GDocRequest(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
+            string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
+            return DataSet.ParseFromJson(jsonAnswer);
+        }
         public async Task<GDoc0> GetGDoc0Async(uint rid, string guid, CancellationToken cancellationToken)
         {
             GDocRequest request = new GDocRequest(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
@@ -222,6 +226,12 @@ namespace SH5ApiClient
         }
         public Task<GDoc4> GetGDoc4Async(uint rid, string guid) =>
             GetGDoc4Async(rid, guid, new CancellationToken());
+        public async Task<DataSet> GetGDoc4RawAsync(uint rid, string guid, CancellationToken cancellationToken)
+        {
+            GDocRequest request = new GDocRequest(_connectionParam, TTNType.SalesInvoice, rid, guid);
+            string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
+            return DataSet.ParseFromJson(jsonAnswer);
+        }
         public async Task<GDoc4> GetGDoc4Async(uint rid, string guid, CancellationToken cancellationToken)
         {
             GDocRequest request = new GDocRequest(_connectionParam, TTNType.SalesInvoice, rid, guid);
