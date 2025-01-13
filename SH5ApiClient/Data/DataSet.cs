@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
-using SH5ApiClient.Infrastructure.Extensions;
+using System.Data;
 using System.Linq;
 
 namespace SH5ApiClient.Data
@@ -36,25 +36,24 @@ namespace SH5ApiClient.Data
         }
         public static DataSet ParseFromJson(string data)
         {
-            ExecOperation answear = OperationBase.Parse<ExecOperation>(data);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(data);
             DataSet dataSet = new DataSet();
 
-            foreach (var shTable in answear.Content)
+            foreach (var shTable in answer.Content)
             {
-                System.Data.DataTable dataTable = new System.Data.DataTable(shTable.Head);
+                DataTable dataTable = new DataTable(shTable.Head);
                 dataSet.Tables.Add(dataTable);
 
                 CreateColumns(shTable, dataTable);
-                CreateRows(shTable, dataTable);
                 FillDataRows(shTable, dataTable);
             }
             return dataSet;
         }
-        private static void CreateColumns(ExecOperationContent shTable, System.Data.DataTable dataTable)
+        private static void CreateColumns(ExecOperationContent shTable, DataTable dataTable)
         {
             for (int i = 0; i < shTable.Fields.Length; i++)
             {
-                dataTable.Columns.Add(new System.Data.DataColumn
+                dataTable.Columns.Add(new DataColumn
                 {
                     ColumnName = shTable.Fields[i],
                     Caption = shTable.Original[i],
@@ -62,25 +61,21 @@ namespace SH5ApiClient.Data
                 });
             }
         }
-        private static void CreateRows(ExecOperationContent shTable, System.Data.DataTable dataTable)
+        private static void FillDataRows(ExecOperationContent shTable, DataTable dataTable)
         {
-            dataTable.Rows.AddRange(Enumerable.Range(0, shTable.Values.First().Length)
-                .Select(t => dataTable.NewRow())
-                .ToArray());
-        }
-        private static void FillDataRows(ExecOperationContent shTable, System.Data.DataTable dataTable)
-        {
-            for (int columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
+            int columnCount = dataTable.Columns.Count;
+            int rowCount = shTable.Values.First().Length;
+
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
             {
-                for (int rowIndex = 0; rowIndex < dataTable.Rows.Count; rowIndex++)
+                var row = dataTable.NewRow();
+                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                 {
                     object value = shTable.Values[columnIndex][rowIndex];
-                    dataTable.Rows[rowIndex][columnIndex] = value;
+                    row[columnIndex] = value;
                 }
+                dataTable.Rows.Add(row);
             }
         }
-
-
-
     }
 }
