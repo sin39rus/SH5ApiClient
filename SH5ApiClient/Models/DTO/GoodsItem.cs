@@ -5,6 +5,7 @@ using SH5ApiClient.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -243,15 +244,19 @@ namespace SH5ApiClient.Models.DTO
             };
         }
 
-        public static IEnumerable<GoodsItem> ParseGoods(ExecOperation answear)
+        public static GoodsItem[] ParseGoods(ExecOperation answear, CancellationToken cancellationToken)
         {
+            List<GoodsItem> goodsItems = new List<GoodsItem>();
             var values = answear.GetAnswearContent("210").GetValues();
             foreach (var value in values)
             {
+                if(cancellationToken.IsCancellationRequested)
+                    throw new OperationCanceledException();
                 var goodsItem = Parse(value);
                 if (goodsItem != null)
-                    yield return goodsItem;
+                    goodsItems.Add(goodsItem);
             }
+            return goodsItems.ToArray();
         }
     }
 }

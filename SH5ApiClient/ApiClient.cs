@@ -103,7 +103,7 @@ namespace SH5ApiClient
         {
             CorrsRequest corrsRequest = new CorrsRequest(_connectionParam);
             string jsonAnswer = await _webClient.WebPostAsync(corrsRequest, cancellationToken);
-            return DataExecutable.Parse<Сorrespondents>(jsonAnswer);
+            return await DataExecutable.ParseAsync<Сorrespondents>(jsonAnswer, cancellationToken);
         }
         public Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames) =>
             GetPermissionExecuteProcedure(procedureNames, new CancellationToken());
@@ -119,7 +119,7 @@ namespace SH5ApiClient
         {
             LEntitiesRequest corrsRequest = new LEntitiesRequest(_connectionParam);
             string jsonAnswer = await _webClient.WebPostAsync(corrsRequest, cancellationToken);
-            return DataExecutable.Parse<InternalСorrespondents>(jsonAnswer);
+            return await DataExecutable.ParseAsync<InternalСorrespondents>(jsonAnswer, cancellationToken);
         }
         public Task<Dictionary<int, string>> LoadEnumeratedAttributeValuesAsync(string head, string path) =>
             LoadEnumeratedAttributeValuesAsync(head, path, new CancellationToken());
@@ -313,7 +313,7 @@ namespace SH5ApiClient
             GoodsRequest request = new GoodsRequest(_connectionParam, groupRid);
             string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return GoodsItem.ParseGoods(answer);
+            return GoodsItem.ParseGoods(answer, cancellationToken);
         }
         public Task<IEnumerable<MeasureUnit>> GetGoodsMUnitsAsync(uint goodRid) =>
             GetGoodsMUnitsAsync(goodRid, new CancellationToken());
@@ -330,8 +330,8 @@ namespace SH5ApiClient
         {
             GoodsTreeRequest request = new GoodsTreeRequest(_connectionParam);
             string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
-            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return GoodsItem.ParseGoods(answer);
+            ExecOperation answer = await Task.Run(() => { return OperationBase.Parse<ExecOperation>(jsonAnswer); });
+            return await Task.Run(() => { return GoodsItem.ParseGoods(answer, cancellationToken); });
         }
         public Task<GoodsItem> CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits) =>
             CreateGoodAsync(name, measureUnits, new CancellationToken());

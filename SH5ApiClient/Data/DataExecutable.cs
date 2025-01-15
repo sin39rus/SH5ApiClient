@@ -7,13 +7,17 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SH5ApiClient.Data
 {
     public abstract class DataExecutable
     {
         protected DataSet DataSet { private set; get; } = new DataSet();
-        public static T Parse<T>(string data) where T : DataExecutable
+        public static Task<T> ParseAsync<T>(string data, CancellationToken cancellationToken) where T : DataExecutable
+            => Task.Run(() => { return Parse<T>(data, cancellationToken); });
+        public static T Parse<T>(string data, CancellationToken cancellationToken = new CancellationToken()) where T : DataExecutable
         {
             T rootInstance = (T)Activator.CreateInstance(typeof(T))
                 ?? throw new ApiClientException($"Не удалось создать экземпляр класса {nameof(T)}");
@@ -21,6 +25,8 @@ namespace SH5ApiClient.Data
 
             foreach (System.Data.DataTable dataTable in rootInstance.DataSet.Tables)
             {
+                if (cancellationToken.IsCancellationRequested)
+                    throw new OperationCanceledException();
                 object tableInstance = rootInstance;
 
                 PropertyInfo property = typeof(T).GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
@@ -34,6 +40,8 @@ namespace SH5ApiClient.Data
 
                 foreach (System.Data.DataRow dataRow in dataTable.Rows)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                        throw new OperationCanceledException();
                     object rowInstance = tableInstance;
                     if (tableInstance.IsList())
                     {
@@ -44,6 +52,8 @@ namespace SH5ApiClient.Data
 
                     foreach (System.Data.DataColumn column in dataTable.Columns)
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                            throw new OperationCanceledException();
                         try
                         {
                             var value = dataRow[column.ColumnName];
