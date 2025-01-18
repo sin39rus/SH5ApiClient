@@ -131,6 +131,10 @@ namespace SH5ApiClient.Core.Requests
             values112.Add(new JArray(Items.Select(t => t.NdsRateValue)));
             original112.Add(Items.First().GetOriginalNameAttributeFromProperty(nameof(GDoc0Item.NspRateValue)));
             values112.Add(new JArray(Items.Select(t => t.NspRateValue)));
+
+            original112.Add(Items.First().GetOriginalNameAttributeFromProperty(nameof(GDoc0Item.GtdRid)));
+            values112.Add(new JArray(Items.Select(t => t.GtdRid)));
+
             original112.Add(Items.First().GetOriginalNameAttributeFromProperty(nameof(GDoc0Item.Options)));
             values112.Add(new JArray(Items.Select(t => t.Options)));
 

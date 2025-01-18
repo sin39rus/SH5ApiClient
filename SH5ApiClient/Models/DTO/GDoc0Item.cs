@@ -43,6 +43,10 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("31")]
         public decimal Amount { get; private set; }
 
+        /// <summary>ГТД RID</summary>
+        [OriginalName("116\\1")]
+        public uint? GtdRid { get; set; }
+
         /// <summary>Опции спецификаций накладных</summary>
         [OriginalName("32")]
         public InvoiceSpecOptions Options { get; set; } = InvoiceSpecOptions.GdsoActive;

@@ -17,16 +17,16 @@ namespace ConsoleForTest
             //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
             var gtds = client.CreateGtdAsync("GTD111", "GTD222").Result;
+            //var products = client.LoadGoodsTreeAsync().Result;
 
-            var nds = client.GetNdsListAsync().Result;
-            var ggc = nds.ToList();
             try
             {
-                var gg = client.CreateIncomingTTNAsync(new DateTime(2024, 01, 01), "12345", 0, 8388609, "comment", new List<GDoc0Item>
+                var gg = client.CreateIncomingTTNAsync(new DateTime(2025, 01, 01), "12345", 0, 8388609, "comment", new List<GDoc0Item>
                 {
-                    new GDoc0Item(68,1,416.67M,5)
+                    new GDoc0Item(38829,1,416.67M,5)
                     {
                          VatSum = 83.33M,
+                         GtdRid = null,
                     }
                 }).Result;
             }
