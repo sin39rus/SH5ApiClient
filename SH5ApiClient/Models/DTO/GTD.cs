@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
 
@@ -26,5 +28,8 @@ namespace SH5ApiClient.Models.DTO
                 Name = value.GetValueOrDefault("3"),
             };
         }
+
+        internal static IEnumerable<GTD> ParseRange(Dictionary<string, string>[] values) =>
+            values.Select(t => Parse(t));
     }
 }

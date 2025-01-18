@@ -13,9 +13,11 @@ namespace ConsoleForTest
         static void Main()
         {
             ////var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
-            ConnectionParamSH5 param = new("Admin", "", "127.0.0.1", 9798);
+            ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9798);
             //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
+            var gtds = client.CreateGtdAsync("GTD111", "GTD222").Result;
+
             var nds = client.GetNdsListAsync().Result;
             var ggc = nds.ToList();
             try

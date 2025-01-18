@@ -383,5 +383,12 @@ namespace SH5ApiClient
             return answer.GetAnswearContent("212").Values[0]
                 .Select(t => new NDSInfo() { Rate = Convert.ToUInt32(t) });
         }
+        public async Task<IEnumerable<GTD>> CreateGtdAsync(params string[] gtdNumbers)
+        {
+            ModCDeclsRequest request = new ModCDeclsRequest(_connectionParam, gtdNumbers);
+            string jsonAnswer = await _webClient.WebPostAsync(request, new CancellationToken());
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GTD.ParseRange(answer.GetAnswearContent("116").GetValues());
+        }
     }
 }
