@@ -34,6 +34,14 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("209#1")]
         public GGroup Parent { set; get; }
 
+        /// <summary>UserGroup</summary>
+        [OriginalName("239")]
+        public long UserGroup { set; get; }
+
+        /// <summary>Подразделение</summary>
+        [OriginalName("106")]
+        public Depart Depart { set; get; }
+
         internal static GGroup Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
