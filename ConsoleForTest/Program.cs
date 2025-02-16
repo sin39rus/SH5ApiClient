@@ -14,14 +14,11 @@ namespace ConsoleForTest
         {
             ////var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
             ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9798);
-            //ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
-            var gtds = client.CreateGtdAsync("GTD111", "GTD222").Result;
-            //var products = client.LoadGoodsTreeAsync().Result;
 
             try
             {
-                var gg = client.CreateIncomingTTNAsync(new DateTime(2025, 01, 01), "12345", 0, 8388609, "comment", new List<GDoc0Item>
+                var gg = client.CreateIncomingTTNAsync("null", new DateTime(2025, 01, 01), "12345", 0, 8388609, "comment", new List<GDoc0Item>
                 {
                     new GDoc0Item(38829,1,416.67M,5)
                     {

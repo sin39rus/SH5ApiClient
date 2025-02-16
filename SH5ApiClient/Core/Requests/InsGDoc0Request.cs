@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 
 namespace SH5ApiClient.Core.Requests
 {
@@ -53,12 +54,16 @@ namespace SH5ApiClient.Core.Requests
         [OriginalName("6\\Comment")]
         public string Comment { get; private set; }
 
+        [OriginalName("3")]
+        public string Name { get; private set; }
+
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
         public IEnumerable<GDoc0Item> Items { get; private set; }
 
-        public InsGDoc0Request(ConnectionParamSH5 connectionParamSH5, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items) : base("InsGDoc0", connectionParamSH5)
+        public InsGDoc0Request(ConnectionParamSH5 connectionParamSH5, string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items) : base("InsGDoc0", connectionParamSH5)
         {
+            Name = name;
             TimeStamp = timeStamp;
             ExtNumber = number;
             SupplierRid = supplierRid;
@@ -77,6 +82,11 @@ namespace SH5ApiClient.Core.Requests
             JArray original111 = new JArray();
             JArray values111 = new JArray();
 
+            if (!string.IsNullOrEmpty(Name))
+            {
+                original111.Add(this.GetOriginalNameAttributeFromProperty(nameof(Name)));
+                values111.Add(new JArray(Name));
+            }
             original111.Add(this.GetOriginalNameAttributeFromProperty(nameof(ExtNumber)));
             values111.Add(new JArray(ExtNumber));
 

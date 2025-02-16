@@ -364,11 +364,11 @@ namespace SH5ApiClient
             item.MeasureUnits = units;
             return item;
         }
-        public Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items) =>
-            CreateIncomingTTNAsync(timeStamp, number, supplierRid, consigneeRid, comment, items, new CancellationToken());
-        public async Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken)
+        public Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items) =>
+            CreateIncomingTTNAsync(name, timeStamp, number, supplierRid, consigneeRid, comment, items, new CancellationToken());
+        public async Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken)
         {
-            InsGDoc0Request request = new InsGDoc0Request(_connectionParam, timeStamp, number, supplierRid, consigneeRid, comment, items);
+            InsGDoc0Request request = new InsGDoc0Request(_connectionParam, name, timeStamp, number, supplierRid, consigneeRid, comment, items);
             string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return answer.GetAnswearContent("111").GetValues()[0]["3"];

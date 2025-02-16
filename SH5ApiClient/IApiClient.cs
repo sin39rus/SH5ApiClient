@@ -199,6 +199,7 @@ namespace SH5ApiClient
         /// <summary>
         /// Создание приходной накладной
         /// </summary>
+        /// <param name="name">Номер накладной</param>
         /// <param name="timeStamp">Дата</param>
         /// <param name="number">Номер</param>
         /// <param name="supplierRid">RID Поставщика</param>
@@ -206,8 +207,8 @@ namespace SH5ApiClient
         /// <param name="comment">Примечание</param>
         /// <param name="items">Содержимое накладной</param>
         /// <returns>Номер созданной накладной</returns>
-        Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items);
-        Task<string> CreateIncomingTTNAsync(DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken);
+        Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items);
+        Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken);
 
         /// <summary>Запрос списка ставок НДС</summary>
         /// <returns>Ставки НДС</returns>
