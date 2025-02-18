@@ -205,10 +205,30 @@ namespace SH5ApiClient
         /// <param name="supplierRid">RID Поставщика</param>
         /// <param name="consigneeRid">RID Склада</param>
         /// <param name="comment">Примечание</param>
+        /// <param name="createInvoice">Создавать счет фактуру</param>
         /// <param name="items">Содержимое накладной</param>
-        /// <returns>Номер созданной накладной</returns>
-        Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items);
-        Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken);
+        /// <returns>
+        /// <para>value1 RID созданной накладной</para>
+        /// <para>value2 Номер созданной накладной</para>
+        /// </returns>
+        Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, bool createInvoice, IEnumerable<GDoc0Item> items);
+        /// <summary>
+        /// Создание приходной накладной
+        /// </summary>
+        /// <param name="name">Номер накладной</param>
+        /// <param name="timeStamp">Дата</param>
+        /// <param name="number">Номер</param>
+        /// <param name="supplierRid">RID Поставщика</param>
+        /// <param name="consigneeRid">RID Склада</param>
+        /// <param name="comment">Примечание</param>
+        /// <param name="createInvoice">Создавать счет фактуру</param>
+        /// <param name="items">Содержимое накладной</param>
+        /// <param name="cancellationToken">Токен отмены</param>
+        /// <returns>
+        /// <para>item1 RID созданной накладной</para>
+        /// <para>item2 Номер созданной накладной</para>
+        /// </returns>
+        Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, bool createInvoice, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken);
 
         /// <summary>Запрос списка ставок НДС</summary>
         /// <returns>Ставки НДС</returns>

@@ -364,14 +364,28 @@ namespace SH5ApiClient
             item.MeasureUnits = units;
             return item;
         }
-        public Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items) =>
-            CreateIncomingTTNAsync(name, timeStamp, number, supplierRid, consigneeRid, comment, items, new CancellationToken());
-        public async Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken)
+        private async Task<string> CreateIncomingInvoiceAsync(string rid, DateTime timeStamp, CancellationToken cancellationToken)
+        {
+            InsIDoc0Request request = new InsIDoc0Request(_connectionParam, rid, timeStamp);
+            string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return answer.GetAnswearContent("111").GetValues()[0]["3"];
+        }
+        /// <inheritdoc/>
+        public Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, bool createInvoice, IEnumerable<GDoc0Item> items) =>
+            CreateIncomingTTNAsync(name, timeStamp, number, supplierRid, consigneeRid, comment, createInvoice, items, new CancellationToken());
+
+        /// <inheritdoc/>
+        public async Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, bool createInvoice, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken)
         {
             InsGDoc0Request request = new InsGDoc0Request(_connectionParam, name, timeStamp, number, supplierRid, consigneeRid, comment, items);
             string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return answer.GetAnswearContent("111").GetValues()[0]["3"];
+            var newName = answer.GetAnswearContent("111").GetValues()[0]["3"];
+            var newRid = answer.GetAnswearContent("111").GetValues()[0]["1"];
+            if (createInvoice)
+                await CreateIncomingInvoiceAsync(newRid, timeStamp, cancellationToken);
+            return newName;
         }
         public Task<IEnumerable<NDSInfo>> GetNdsListAsync() =>
             GetNdsListAsync(new CancellationToken());
