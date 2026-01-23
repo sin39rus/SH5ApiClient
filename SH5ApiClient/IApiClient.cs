@@ -1,6 +1,7 @@
 ﻿using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 using SH5ApiClient.Models.DTO;
+using SH5ApiClient.Models.DTO.Reports;
 using SH5ApiClient.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -234,5 +235,21 @@ namespace SH5ApiClient
         /// <returns>Ставки НДС</returns>
         Task<IEnumerable<NDSInfo>> GetNdsListAsync();
         Task<IEnumerable<NDSInfo>> GetNdsListAsync(CancellationToken cancellationToken);
+
+        /// <summary>Баланс по корреспондентам</summary>
+        /// <param name="from">С</param>
+        /// <param name="to">По</param>
+        /// <param name="correspondent">Собственное юридическое лицо</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken);
+
+        /// <summary>Баланс по корреспондентам</summary>
+        /// <param name="from">С</param>
+        /// <param name="to">По</param>
+        /// <param name="correspondentRid">Rid собственного юридического лица</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, uint correspondentRid, CancellationToken cancellationToken);
     }
 }

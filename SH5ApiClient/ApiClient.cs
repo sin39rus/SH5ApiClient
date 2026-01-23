@@ -6,6 +6,7 @@ using SH5ApiClient.Infrastructure.Helpers;
 using SH5ApiClient.Models;
 using SH5ApiClient.Models.DTO;
 using SH5ApiClient.Models.DTO.GDoc;
+using SH5ApiClient.Models.DTO.Reports;
 using SH5ApiClient.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -403,6 +404,20 @@ namespace SH5ApiClient
             string jsonAnswer = await _webClient.WebPostAsync(request, new CancellationToken());
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
             return GTD.ParseRange(answer.GetAnswearContent("116").GetValues());
+        }
+        ///<inheritdoc />
+        public async Task GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken)
+        {
+            await GetDocsByCorrsReportAsync(from, to, correspondent, cancellationToken);
+        }
+        ///<inheritdoc />
+        public async Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, uint correspondentRid, CancellationToken cancellationToken)
+        {
+            DocsByCorrsRequest request = new DocsByCorrsRequest(_connectionParam, from, to, correspondentRid);
+            string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            var report = DocsByCorrsReport.Parse(answer.GetAnswearContent("107").GetValues());
+            return report;
         }
     }
 }

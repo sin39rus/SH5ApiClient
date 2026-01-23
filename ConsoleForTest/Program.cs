@@ -13,19 +13,14 @@ namespace ConsoleForTest
         static void Main()
         {
             ////var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
-            ConnectionParamSH5 param = new("Admin", "", "192.168.200.41", 9798);
+            ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
 
             try
             {
-                var gg = client.CreateIncomingTTNAsync(null, new DateTime(2025, 01, 01), "12345", 0, 8388609, "comment", true, new List<GDoc0Item>
-                {
-                    new GDoc0Item(38829,1,416.67M,5)
-                    {
-                         VatSum = 83.33M,
-                         GtdRid = null,
-                    }
-                }).Result;
+                var now = DateTime.Now;
+                var report = client.GetDocsByCorrsReportAsync(now, now, 4, CancellationToken.None).Result;
+                var bk = report.Items.Single(t => t.CorrespondentRid == 2613);
             }
             catch (Exception ex)
             {
