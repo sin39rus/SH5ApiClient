@@ -406,9 +406,9 @@ namespace SH5ApiClient
             return GTD.ParseRange(answer.GetAnswearContent("116").GetValues());
         }
         ///<inheritdoc />
-        public async Task GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken)
+        public async Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken)
         {
-            await GetDocsByCorrsReportAsync(from, to, correspondent, cancellationToken);
+            return await GetDocsByCorrsReportAsync(from, to, correspondent.Rid.GetValueOrDefault(), cancellationToken);
         }
         ///<inheritdoc />
         public async Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, uint correspondentRid, CancellationToken cancellationToken)

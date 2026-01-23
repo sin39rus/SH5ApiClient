@@ -242,7 +242,7 @@ namespace SH5ApiClient
         /// <param name="correspondent">Собственное юридическое лицо</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken);
+        Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken);
 
         /// <summary>Баланс по корреспондентам</summary>
         /// <param name="from">С</param>
