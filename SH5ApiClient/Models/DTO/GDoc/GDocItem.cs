@@ -129,6 +129,9 @@ namespace SH5ApiClient.Models.DTO
         public Dictionary<string, string> Attributes6 { set; get; } = new Dictionary<string, string>();
 
         /// <summary>Связанная накладная (возврат поставщику)</summary>
+        [OriginalName("111")]
+        public GDocHeader Invoice { set; get; }
+        /// <summary>Связанная накладная (возврат поставщику)</summary>
         [OriginalName("111#1")]
         public GDocHeader RelatedInvoice { set; get; }
         public static GDocItem Parse(Dictionary<string, string> value)
@@ -167,6 +170,7 @@ namespace SH5ApiClient.Models.DTO
                 Attributes6 = value.Where(t => t.Key.StartsWith("6\\")).ToDictionary(t => t.Key.TrimStart("6\\".ToCharArray()), g => g.Value),
                 AmountWeighed = decimal.TryParse(value.GetValueOrDefault("74"), out decimal amountWeighed) ? (decimal?)amountWeighed : null,
                 RelatedInvoice = GDocHeader.Parse(value.Where(t => t.Key.StartsWith("111#1\\")).ToDictionary(t => t.Key.TrimStart("111#1\\"), g => g.Value)),
+                Invoice = GDocHeader.Parse(value.Where(t => t.Key.StartsWith("111\\")).ToDictionary(t => t.Key.TrimStart("111\\"), g => g.Value)),
             };
         }
     }

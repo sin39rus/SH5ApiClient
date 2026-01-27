@@ -251,5 +251,15 @@ namespace SH5ApiClient
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, uint correspondentRid, CancellationToken cancellationToken);
+
+        /// <summary>Расширенный список накладных</summary>
+        /// <param name="from">С (если передать null то будет загружен список за весь период)</param>
+        /// <param name="to">ПО (если передать null то будет загружен список за весь период)</param>
+        /// <param name="ttnType">Тип накладных</param>
+        /// <param name="filter">Фильтр</param>
+        /// <param name="departs">Фильтр по подразделениям</param>
+        /// <param name="cancellationToken">Токен отмены</param>
+        /// <returns>Отчет "Расширенный список накладных"</returns>
+        Task<GDocsExReport> GetGDocsExReportAsync(DateTime? from, DateTime? to, TTNTypeForRequest ttnType, GDocsRequestFilter filter, IEnumerable<Depart> departs, CancellationToken cancellationToken);
     }
 }

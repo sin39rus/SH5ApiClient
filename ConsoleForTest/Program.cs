@@ -19,8 +19,9 @@ namespace ConsoleForTest
             try
             {
                 var now = DateTime.Now;
-                var report = client.GetDocsByCorrsReportAsync(now, now, 4, CancellationToken.None).Result;
-                var bk = report.Items.Single(t => t.CorrespondentRid == 2613);
+                var departs = client.LoadDepartsAsync().Result;
+                var ggg = departs.Where(t => t.LegalEntity.Name.Contains("ДОГОВОРА")).ToArray();
+                var ids = client.GetGDocsExReportAsync(null,null,SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice, SH5ApiClient.Models.Enums.GDocsRequestFilter.ShowActiveInvoices, ggg, CancellationToken.None).Result;
             }
             catch (Exception ex)
             {

@@ -1,8 +1,10 @@
 ﻿using SH5ApiClient.Data;
-using System.Collections.Generic;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
 using SH5ApiClient.Models.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -64,5 +66,16 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Подразделение</summary>
         [OriginalName("106")]
         public Depart Depart { set; get; }
+
+        public static Сorrespondent Parse(Dictionary<string, string> value)
+        {
+            if (!value.Any())
+                return null;
+            return new Сorrespondent
+            {
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
+                Name = value.GetValueOrDefault("3"),
+            };
+        }
     }
 }

@@ -419,5 +419,13 @@ namespace SH5ApiClient
             var report = DocsByCorrsReport.Parse(answer.GetAnswearContent("107").GetValues());
             return report;
         }
+        ///<inheritdoc />
+        public async Task<GDocsExReport> GetGDocsExReportAsync(DateTime? from, DateTime? to, TTNTypeForRequest ttnType, GDocsRequestFilter filter, IEnumerable<Depart> departs, CancellationToken cancellationToken)
+        {
+            var request = new GDocsExRequest(from, to, _connectionParam, ttnType, filter, departs.ToArray());
+            string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
+            ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+            return GDocsExReport.Parse(answer);
+        }
     }
 }
