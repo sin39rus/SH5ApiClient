@@ -425,7 +425,11 @@ namespace SH5ApiClient
             var request = new GDocsExRequest(from, to, _connectionParam, ttnType, filter, departs.ToArray());
             string jsonAnswer = await _webClient.WebPostAsync(request, cancellationToken);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return GDocsExReport.Parse(answer);
+            var report = GDocsExReport.Parse(answer);
+            var headersDict = report.Headers.ToDictionary(t => t.Rid);
+            foreach (var item in report.Content)
+                item.Invoice = headersDict[item.Invoice.Rid];
+            return report;
         }
     }
 }

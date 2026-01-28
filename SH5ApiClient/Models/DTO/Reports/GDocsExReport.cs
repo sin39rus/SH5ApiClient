@@ -10,10 +10,10 @@ namespace SH5ApiClient.Models.DTO.Reports
     public class GDocsExReport : DataExecutable
     {
         [OriginalName("111")]
-        private ReadOnlyCollection<GDocHeader> Headers { set; get; } = new ReadOnlyCollection<GDocHeader>(new List<GDocHeader>());
+        public ReadOnlyCollection<GDocHeader> Headers { set; get; } = new ReadOnlyCollection<GDocHeader>(new List<GDocHeader>());
 
         [OriginalName("112")]
-        private ReadOnlyCollection<GDocItem> Content { set; get; } = new ReadOnlyCollection<GDocItem>(new List<GDocItem>());
+        public ReadOnlyCollection<GDocItem> Content { set; get; } = new ReadOnlyCollection<GDocItem>(new List<GDocItem>());
 
         public static GDocsExReport Parse(ExecOperation answear)
         {
