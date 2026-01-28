@@ -1,6 +1,10 @@
 ﻿using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Models.Enums;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using SH5ApiClient.Data;
+using SH5ApiClient.Infrastructure.Extensions;
 
 namespace SH5ApiClient.Models.DTO
 {
@@ -58,5 +62,16 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Cрок оплаты расходов</summary>
         [OriginalName("12")]
         public ushort? PaymentExpenseSpan { set; get; }
+
+        public static СorrespondentOld Parse(Dictionary<string, string> value)
+        {
+            if (!value.Any())
+                return null;
+            return new СorrespondentOld
+            {
+                Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
+                Name = value.GetValueOrDefault("3"),
+            };
+        }
     }
 }
