@@ -132,8 +132,8 @@ namespace SH5ApiClient.Data
 
                 foreach (DataColumn column in table.Columns)
                 {
-                    originals.Add(column.Caption);
-                    fields.Add(column.ColumnName);
+                    originals.Add(column.ColumnName);
+                    fields.Add(column.Caption);
 
                     JArray rowArray = new JArray();
                     foreach (DataRow row in table.Rows)

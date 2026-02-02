@@ -18,10 +18,11 @@ namespace ConsoleForTest
 
             try
             {
-                var now = DateTime.Now;
-                var departs = client.LoadDepartsAsync().Result;
-                var ggg = departs.Where(t => t.LegalEntity.Name.Contains("ДОГОВОРА")).ToArray();
-                var ids = client.GetGDocsExReportAsync(null,null,SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice, SH5ApiClient.Models.Enums.GDocsRequestFilter.ShowActiveInvoices, ggg, CancellationToken.None).Result;
+                //var docs = client.LoadGDocsAsync(new DateTime(2026, 01, 01), new DateTime(2026, 03, 31), SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice).Result;
+                //var doc = docs.Single(t => t.Rid == 113863);
+                var shInvoice = client.GetGDoc4Async(113863, "{330DE3F8-67C0-D300-A4E7-410FC0ED7180}").Result;
+                shInvoice.ChangeValue("111", "1", shInvoice.Header.Rid, "6\\DocumentLink_EDO", "Test test");
+                var fff = client.UpdateGDoc4(shInvoice).Result;
             }
             catch (Exception ex)
             {
