@@ -36,11 +36,19 @@ namespace SH5ApiClient.Core.Requests
         [OriginalName("19")]
         public decimal Ignore { set; get; } = 255;
 
+        /// <summary>Процент холодной обработки</summary>
+        [OriginalName("50")]
+        public decimal ProcessingPercentage1 { set; get; } = 0;
+
+        /// <summary>Процент горячей обработки</summary>
+        [OriginalName("51")]
+        public decimal ProcessingPercentage2 { set; get; } = 0;
+
         /// <summary>Товарная группа</summary>
         [OriginalName("200\\1")]
         public string GoodsCategories { set; get; } = "0";
 
-        /// <summary>Бухгалтерская товарная группа></summary>
+        /// <summary>Бухгалтерская товарная группа</summary>
         [OriginalName("290\\1")]
         public string BGoodsCategories { set; get; } = "0";
 
@@ -70,6 +78,12 @@ namespace SH5ApiClient.Core.Requests
 
             original210.Add(this.GetOriginalNameAttributeFromProperty(nameof(Ignore)));
             values210.Add(new JArray(Ignore));
+
+            original210.Add(this.GetOriginalNameAttributeFromProperty(nameof(ProcessingPercentage1)));
+            values210.Add(new JArray(ProcessingPercentage1));
+
+            original210.Add(this.GetOriginalNameAttributeFromProperty(nameof(ProcessingPercentage2)));
+            values210.Add(new JArray(ProcessingPercentage2));
 
             original210.Add("209\\1");
             values210.Add(new JArray(1));
