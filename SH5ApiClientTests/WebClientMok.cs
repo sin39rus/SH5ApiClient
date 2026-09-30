@@ -1,6 +1,5 @@
 ﻿using SH5ApiClient.Core.Requests;
 using SH5ApiClient.Infrastructure.Helpers;
-using SH5ApiClient.Models;
 using System;
 using System.IO;
 using System.Text;
@@ -15,7 +14,7 @@ namespace SH5ApiClientTests
         {
             throw new NotImplementedException();
         }
-        public Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam, CancellationToken cancellationToken)
+        public Task<string> WebPostAsync(string request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

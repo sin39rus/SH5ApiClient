@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static SH5ApiClient.Core.Requests.InsGDoc0Request;
 
 namespace SH5ApiClient
 {
@@ -54,20 +53,23 @@ namespace SH5ApiClient
         private const string ErrorDocsByCorrsReport = "Ошибка загрузки отчёта по документам корреспондента. Подробности во внутреннем исключении.";
         private const string ErrorGDocsExReport = "Ошибка загрузки расширенного отчёта по накладным. Подробности во внутреннем исключении.";
 
+        /// <summary>Дубликат документа из Честного знака (TTNOptions.Unknown = 32771).</summary>
+        private static readonly TTNOptions HonestSignDuplicateOption = TTNOptions.Unknown;
+
         private readonly ConnectionParamSH5 _connectionParam;
         private readonly IWebClient _webClient;
 
         public ApiClient(ConnectionParamSH5 connectionParamSH5, IWebClient webClient = null)
         {
             _connectionParam = connectionParamSH5 ?? throw new ArgumentNullException(nameof(connectionParamSH5));
-            _webClient = webClient ?? new WebClient();
+            _webClient = webClient ?? new WebClient(_connectionParam);
         }
 
         private Task<string> PostAsync(RequestBase request, CancellationToken cancellationToken) =>
             _webClient.WebPostAsync(request, cancellationToken);
 
         private Task<string> PostAsync(string request, CancellationToken cancellationToken) =>
-            _webClient.WebPostAsync(request, _connectionParam, cancellationToken);
+            _webClient.WebPostAsync(request, cancellationToken);
 
         private async Task<T> ExecuteAsync<T>(Func<Task<T>> action, string errorMessage)
         {
@@ -100,6 +102,45 @@ namespace SH5ApiClient
         private Task ExecuteAsync(Func<Task> action, string errorMessage) =>
             ExecuteAsync(async () => { await action(); return true; }, errorMessage);
 
+        private static void RequireGuid(string guid, string paramName)
+        {
+            if (string.IsNullOrWhiteSpace(guid) || !Guid.TryParse(guid, out _))
+                throw new ArgumentException($"\"{paramName}\" не может быть пустым, содержать только пробелы или иметь неверный формат.", paramName);
+        }
+
+        private static void RequireNotNullOrWhiteSpace(string value, string paramName)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException($"\"{paramName}\" не может быть пустым или содержать только пробелы.", paramName);
+        }
+
+        private static ExecOperationContent GetRequiredContent(ExecOperation answer, string head)
+        {
+            try
+            {
+                return answer.GetAnswearContent(head);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ApiClientException($"Ответ сервера не содержит блок данных \"{head}\".", ex);
+            }
+        }
+
+        private static Dictionary<string, string> GetRequiredFirstRow(ExecOperation answer, string head)
+        {
+            Dictionary<string, string>[] values = GetRequiredContent(answer, head).GetValues();
+            if (values == null || values.Length == 0)
+                throw new ApiClientException($"Ответ сервера не содержит строк в блоке данных \"{head}\".");
+            return values[0];
+        }
+
+        private static string GetRequiredField(Dictionary<string, string> row, string field, string head)
+        {
+            if (row == null || !row.TryGetValue(field, out string value) || value == null)
+                throw new ApiClientException($"Ответ сервера не содержит поле \"{field}\" в блоке данных \"{head}\".");
+            return value;
+        }
+
         private GDocsRequest CreateGDocsRequest(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter)
         {
             return new GDocsRequest(_connectionParam)
@@ -131,8 +172,8 @@ namespace SH5ApiClient
                 GDocsRequest request = CreateGDocsRequest(dateFrom, dateTo, ttnTypeForRequest, gDocsRequestFilter);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 var data = DataExecutable.Parse<GDocs>(jsonAnswer);
-                // При создании и отправки документа через Честный знак создается документ-дубликат с опцией 32771, пока фильтруем.
-                return data.Where(t => t.TTNOptions != null && t.TTNOptions.Value != TTNOptions.Unknown);
+                // При создании и отправки документа через Честный знак создается документ-дубликат с опцией HonestSignDuplicateOption (32771), пока фильтруем.
+                return data.Where(t => t.TTNOptions != null && t.TTNOptions.Value != HonestSignDuplicateOption);
             }, ErrorLoadGDocs);
         }
 
@@ -154,6 +195,7 @@ namespace SH5ApiClient
 
         public Task<Depart> GetDepartAsync(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 DepartRequest request = new DepartRequest(_connectionParam, rid, guid);
@@ -219,8 +261,7 @@ namespace SH5ApiClient
 
         public Task UpdateCorrespondentAsync(string guid, string bankName, string bankAccount, string bik, string corAccount, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(guid) || !Guid.TryParse(guid, out _))
-                throw new ArgumentException($"\"{nameof(guid)}\" не может быть пустым, содержать только пробелы или иметь неверный формат.", nameof(guid));
+            RequireGuid(guid, nameof(guid));
             return UpdateCorrespondentAsyncInternal(guid, bankName, bankAccount, bik, corAccount, cancellationToken);
         }
 
@@ -248,6 +289,7 @@ namespace SH5ApiClient
 
         public Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx, CancellationToken cancellationToken)
         {
+            RequireNotNullOrWhiteSpace(name, nameof(name));
             return ExecuteAsync(async () =>
             {
                 InsCorrRequest request = new InsCorrRequest(_connectionParam, name, inn)
@@ -333,6 +375,7 @@ namespace SH5ApiClient
 
         public Task<DataSet> GetGDoc0RawAsync(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
@@ -343,6 +386,7 @@ namespace SH5ApiClient
 
         public Task<GDoc0> GetGDoc0Async(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.PurchaseInvoice, rid, guid);
@@ -357,6 +401,7 @@ namespace SH5ApiClient
 
         public Task<DataSet> GetGDoc4RawAsync(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.SalesInvoice, rid, guid);
@@ -367,6 +412,7 @@ namespace SH5ApiClient
 
         public Task<GDoc4> GetGDoc4Async(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.SalesInvoice, rid, guid);
@@ -380,6 +426,8 @@ namespace SH5ApiClient
 
         public Task<GDoc4> UpdateGDoc4(GDoc4 doc, CancellationToken cancellationToken)
         {
+            if (doc == null)
+                throw new ArgumentNullException(nameof(doc));
             return ExecuteAsync(async () =>
             {
                 UpdGDoc4Request request = new UpdGDoc4Request(_connectionParam, doc);
@@ -393,6 +441,7 @@ namespace SH5ApiClient
 
         public Task<GDoc5> GetGDoc5Async(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.ReturnSupplier, rid, guid);
@@ -406,6 +455,7 @@ namespace SH5ApiClient
 
         public Task<GDoc8> GetGDoc8Async(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.CollationStatement, rid, guid);
@@ -419,6 +469,7 @@ namespace SH5ApiClient
 
         public Task<GDoc8Diffs> GetGDoc8DiffsAsync(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.CollationStatementDiffs, rid, guid);
@@ -432,6 +483,7 @@ namespace SH5ApiClient
 
         public Task<GDoc10> GetGDoc10Async(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.ActProcessing, rid, guid);
@@ -445,6 +497,7 @@ namespace SH5ApiClient
 
         public Task<GDoc11> GetGDoc11Async(uint rid, string guid, CancellationToken cancellationToken)
         {
+            RequireGuid(guid, nameof(guid));
             return ExecuteAsync(async () =>
             {
                 GDocRequest request = new GDocRequest(_connectionParam, TTNType.InternalMovement, rid, guid);
@@ -464,13 +517,20 @@ namespace SH5ApiClient
                 GGroupsRequest request = new GGroupsRequest(_connectionParam);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 var groups = DataExecutable.Parse<GGroups>(jsonAnswer);
+                var groupsByRid = groups.Where(g => g.Rid.HasValue).ToDictionary(g => g.Rid.Value);
 
                 foreach (GGroup group in groups)
                 {
-                    if (group?.Parent?.Rid != null)
-                        group.Parent = groups.Single(t => t.Rid == group.Parent.Rid);
+                    if (group?.Parent?.Rid is uint parentRid)
+                    {
+                        if (!groupsByRid.TryGetValue(parentRid, out GGroup parent))
+                            throw new ApiClientException($"Не найдена родительская группа товаров с Rid={parentRid}.");
+                        group.Parent = parent;
+                    }
                     else
+                    {
                         group.Parent = null;
+                    }
                 }
 
                 return (IEnumerable<GGroup>)groups;
@@ -513,8 +573,8 @@ namespace SH5ApiClient
             {
                 GoodsTreeRequest request = new GoodsTreeRequest(_connectionParam);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
-                ExecOperation answer = await Task.Run(() => OperationBase.Parse<ExecOperation>(jsonAnswer));
-                return (IEnumerable<GoodsItem>)await Task.Run(() => GoodsItem.ParseGoods(answer, cancellationToken));
+                ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+                return (IEnumerable<GoodsItem>)GoodsItem.ParseGoods(answer, cancellationToken);
             }, ErrorLoadGoodsTree);
         }
 
@@ -523,12 +583,15 @@ namespace SH5ApiClient
 
         public Task<GoodsItem> CreateGoodAsync(string name, IEnumerable<MeasureUnit> measureUnits, CancellationToken cancellationToken)
         {
+            RequireNotNullOrWhiteSpace(name, nameof(name));
+            if (measureUnits == null)
+                throw new ArgumentNullException(nameof(measureUnits));
             return ExecuteAsync(async () =>
             {
                 InsGoodRequest request = new InsGoodRequest(_connectionParam, name, measureUnits);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-                return GoodsItem.Parse(answer.GetAnswearContent("210").GetValues()[0]);
+                return GoodsItem.Parse(GetRequiredFirstRow(answer, "210"));
             }, ErrorCreateGood);
         }
 
@@ -537,12 +600,13 @@ namespace SH5ApiClient
 
         public Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid, CancellationToken cancellationToken)
         {
+            RequireNotNullOrWhiteSpace(name, nameof(name));
             return ExecuteAsync(async () =>
             {
                 InsMUnitRequest request = new InsMUnitRequest(_connectionParam, name, ration, groupRid);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-                return MeasureUnit.Parse(answer.GetAnswearContent("206").GetValues()[0]);
+                return MeasureUnit.Parse(GetRequiredFirstRow(answer, "206"));
             }, ErrorCreateMeasureUnit);
         }
 
@@ -556,8 +620,8 @@ namespace SH5ApiClient
                 GoodsItemRequest request = new GoodsItemRequest(_connectionParam, goodsItemRid);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-                var units = MeasureUnit.ParseUnits(answer.GetAnswearContent("211#1").GetValues());
-                var item = GoodsItem.Parse(answer.GetAnswearContent("210").GetValues()[0]);
+                var units = MeasureUnit.ParseUnits(GetRequiredContent(answer, "211#1").GetValues());
+                var item = GoodsItem.Parse(GetRequiredFirstRow(answer, "210"));
                 item.MeasureUnits = units;
                 return item;
             }, ErrorGetGoodsItem);
@@ -568,7 +632,8 @@ namespace SH5ApiClient
             InsIDoc0Request request = new InsIDoc0Request(_connectionParam, rid, timeStamp);
             string jsonAnswer = await PostAsync(request, cancellationToken);
             ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-            return answer.GetAnswearContent("111").GetValues()[0]["3"];
+            Dictionary<string, string> row = GetRequiredFirstRow(answer, "111");
+            return GetRequiredField(row, "3", "111");
         }
 
         /// <inheritdoc/>
@@ -578,15 +643,32 @@ namespace SH5ApiClient
         /// <inheritdoc/>
         public Task<string> CreateIncomingTTNAsync(string name, DateTime timeStamp, string number, uint supplierRid, uint consigneeRid, string comment, bool createInvoice, IEnumerable<GDoc0Item> items, CancellationToken cancellationToken)
         {
+            RequireNotNullOrWhiteSpace(name, nameof(name));
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
             return ExecuteAsync(async () =>
             {
                 InsGDoc0Request request = new InsGDoc0Request(_connectionParam, name, timeStamp, number, supplierRid, consigneeRid, comment, items);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-                var newName = answer.GetAnswearContent("111").GetValues()[0]["3"];
-                var newRid = answer.GetAnswearContent("111").GetValues()[0]["1"];
+                Dictionary<string, string> row = GetRequiredFirstRow(answer, "111");
+                string newName = GetRequiredField(row, "3", "111");
+                string newRid = GetRequiredField(row, "1", "111");
                 if (createInvoice)
-                    await CreateIncomingInvoiceAsync(newRid, timeStamp, cancellationToken);
+                {
+                    try
+                    {
+                        await CreateIncomingInvoiceAsync(newRid, timeStamp, cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ApiClientException($"Ошибка создания счёта после успешного создания ТТН (Rid={newRid}, Name={newName}). ТТН уже создана на сервере.", ex);
+                    }
+                }
                 return newName;
             }, ErrorCreateIncomingTTN);
         }
@@ -601,7 +683,10 @@ namespace SH5ApiClient
                 Taxes1Request request = new Taxes1Request(_connectionParam);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-                return answer.GetAnswearContent("212").Values[0].Select(t => new NDSInfo() { Rate = Convert.ToUInt32(t) });
+                ExecOperationContent content = GetRequiredContent(answer, "212");
+                if (content.Values == null || content.Values.Length == 0 || content.Values[0] == null)
+                    throw new ApiClientException("Ответ сервера не содержит значений ставок НДС в блоке данных \"212\".");
+                return content.Values[0].Select(t => new NDSInfo() { Rate = Convert.ToUInt32(t) });
             }, ErrorGetNdsList);
         }
 
@@ -610,18 +695,26 @@ namespace SH5ApiClient
 
         public Task<IEnumerable<GTD>> CreateGtdAsync(string[] gtdNumbers, CancellationToken cancellationToken)
         {
+            if (gtdNumbers == null)
+                throw new ArgumentNullException(nameof(gtdNumbers));
             return ExecuteAsync(async () =>
             {
                 ModCDeclsRequest request = new ModCDeclsRequest(_connectionParam, gtdNumbers);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-                return GTD.ParseRange(answer.GetAnswearContent("116").GetValues());
+                return GTD.ParseRange(GetRequiredContent(answer, "116").GetValues());
             }, ErrorCreateGtd);
         }
 
         ///<inheritdoc />
-        public Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken) =>
-            GetDocsByCorrsReportAsync(from, to, correspondent.Rid.GetValueOrDefault(), cancellationToken);
+        public Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken)
+        {
+            if (correspondent == null)
+                throw new ArgumentNullException(nameof(correspondent));
+            if (!correspondent.Rid.HasValue)
+                throw new ArgumentException("У корреспондента должен быть задан Rid.", nameof(correspondent));
+            return GetDocsByCorrsReportAsync(from, to, correspondent.Rid.Value, cancellationToken);
+        }
 
         ///<inheritdoc />
         public Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, uint correspondentRid, CancellationToken cancellationToken)
@@ -631,22 +724,37 @@ namespace SH5ApiClient
                 DocsByCorrsRequest request = new DocsByCorrsRequest(_connectionParam, from, to, correspondentRid);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
-                return DocsByCorrsReport.Parse(answer.GetAnswearContent("107").GetValues());
+                return DocsByCorrsReport.Parse(GetRequiredContent(answer, "107").GetValues());
             }, ErrorDocsByCorrsReport);
         }
 
         ///<inheritdoc />
         public Task<GDocsExReport> GetGDocsExReportAsync(DateTime? from, DateTime? to, TTNTypeForRequest ttnType, GDocsRequestFilter filter, IEnumerable<Depart> departs, CancellationToken cancellationToken)
         {
+            if (departs == null)
+                throw new ArgumentNullException(nameof(departs));
             return ExecuteAsync(async () =>
             {
                 GDocsExRequest request = new GDocsExRequest(from, to, _connectionParam, ttnType, filter, departs.ToArray());
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
                 var report = GDocsExReport.Parse(answer);
-                var headersDict = report.Headers.ToDictionary(t => t.Rid);
+                var headersDict = new Dictionary<uint, GDocHeader>();
+                foreach (GDocHeader header in report.Headers)
+                {
+                    if (!header.Rid.HasValue)
+                        throw new ApiClientException("В отчёте найден заголовок накладной без Rid.");
+                    if (headersDict.ContainsKey(header.Rid.Value))
+                        throw new ApiClientException($"В отчёте найден дубликат заголовка накладной с Rid={header.Rid.Value}.");
+                    headersDict.Add(header.Rid.Value, header);
+                }
                 foreach (var item in report.Content)
-                    item.Invoice = headersDict[item.Invoice.Rid];
+                {
+                    uint? invoiceRid = item.Invoice?.Rid;
+                    if (!invoiceRid.HasValue || !headersDict.TryGetValue(invoiceRid.Value, out GDocHeader invoice))
+                        throw new ApiClientException($"Не найден заголовок накладной с Rid={invoiceRid} для строки отчёта.");
+                    item.Invoice = invoice;
+                }
                 return report;
             }, ErrorGDocsExReport);
         }

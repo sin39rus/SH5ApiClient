@@ -23,12 +23,11 @@ namespace ConsoleForTest
                 var date = DateTime.Now + TimeSpan.FromDays(1);
                 var docs = client.LoadGDocsAsync(DateTime.Now, date, SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice).Result;
                 var doc1 = docs.Single(t => t.Rid == 124194);
-
-                client.GetGDoc4Async(doc1.Rid.Value, doc1.GUID);
+                foreach (var doc in docs)
+                {
+                    client.GetGDoc4Async(doc.Rid.Value, doc.GUID);
+                }
                 var fff = client.GetDocsByCorrsReportAsync(date, date, cor, CancellationToken.None).Result;
-                //var docs = client.LoadGDocsAsync(new DateTime(2026, 01, 01), new DateTime(2026, 03, 31), SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice).Result;
-                //var doc = docs.Single(t => t.Rid == 113863);
-
             }
             catch (Exception ex)
             {

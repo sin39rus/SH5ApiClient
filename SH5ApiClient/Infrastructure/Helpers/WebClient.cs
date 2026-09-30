@@ -11,54 +11,61 @@ namespace SH5ApiClient.Infrastructure.Helpers
 {
     public class WebClient : IWebClient
     {
+        private readonly HttpClient _httpClient;
+
+        public WebClient(ConnectionParamSH5 connectionParam)
+        {
+            if (connectionParam is null)
+                throw new ArgumentNullException(nameof(connectionParam));
+            _httpClient = CreateHttpClient(connectionParam);
+        }
+
+        private static HttpClient CreateHttpClient(ConnectionParamSH5 connectionParam)
+        {
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            };
+            return new HttpClient(handler)
+            {
+                BaseAddress = new Uri($"http://{connectionParam.Address}:{connectionParam.Port}/")
+            };
+        }
+
         public Task<string> WebGetAsync(string url, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new ArgumentException($"\"{nameof(url)}\" не может быть пустым или содержать только пробел.", nameof(url));
             return WebGetInternalAsync(url, cancellationToken);
         }
-        private static async Task<string> WebGetInternalAsync(string url, CancellationToken cancellationToken)
+        private async Task<string> WebGetInternalAsync(string url, CancellationToken cancellationToken)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                client.Timeout = TimeSpan.FromSeconds(3);
-                HttpResponseMessage response = await client.GetAsync(url, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
-            }
+            HttpResponseMessage response = await _httpClient.GetAsync(url, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
         }
-        public Task<string> WebPostAsync(string request, ConnectionParamSH5 connectionParam, CancellationToken cancellationToken)
+        public Task<string> WebPostAsync(string request, CancellationToken cancellationToken)
         {
-
-            string url = $"http://{connectionParam.Address}:{connectionParam.Port}/api/sh5exec";
-            return WebPostInternalAsync(url, request, cancellationToken);
+            return WebPostInternalAsync("api/sh5exec", request, cancellationToken);
         }
         public Task<string> WebPostAsync(RequestBase request, CancellationToken cancellationToken)
         {
             if (request is null)
                 throw new ArgumentNullException(nameof(request));
 
-            string url = $"http://{request.ConnectionParam.Address}:{request.ConnectionParam.Port}/api/{request.Operation.Uri}";
             string jsonRequest = request.CreateJsonRequest();
-            return WebPostInternalAsync(url, jsonRequest, cancellationToken);
+            return WebPostInternalAsync($"api/{request.Operation.Uri}", jsonRequest, cancellationToken);
         }
-        private static async Task<string> WebPostInternalAsync(string url, string request, CancellationToken cancellationToken)
+        private async Task<string> WebPostInternalAsync(string url, string request, CancellationToken cancellationToken)
         {
             try
             {
-                HttpClientHandler handler = new HttpClientHandler()
-                {
-                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-                };
-                using (HttpClient client = new HttpClient(handler))
-                {
-                    HttpContent content = new StringContent(request, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync(url, content, cancellationToken);
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    return responseBody;
-                }
+                HttpContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _httpClient.PostAsync(url, content, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return responseBody;
             }
             catch (Exception ex)
             {
