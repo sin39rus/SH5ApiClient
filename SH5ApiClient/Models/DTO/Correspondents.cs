@@ -1,4 +1,4 @@
-﻿using SH5ApiClient.Data;
+using SH5ApiClient.Data;
 using System.Collections;
 using System.Collections.Generic;
 using SH5ApiClient.Core.ServerOperations;
@@ -11,18 +11,18 @@ using SH5ApiClient.Models.Enums;
 
 namespace SH5ApiClient.Models.DTO
 {
-    internal class Сorrespondents : DataExecutable, IEnumerable<Сorrespondent>
+    internal class Correspondents : DataExecutable, IEnumerable<Correspondent>
     {
         [OriginalName("107#1")]
-        public Сorrespondent Сorrespondent { get; set; }
+        public Correspondent Correspondent { get; set; }
 
         [OriginalName("107")]
-        private List<Сorrespondent> InnerСorrespondentsCollection { set; get; } = new List<Сorrespondent>();
+        private List<Correspondent> InnerCorrespondentsCollection { set; get; } = new List<Correspondent>();
 
-        public IEnumerator<Сorrespondent> GetEnumerator() =>
-            InnerСorrespondentsCollection.GetEnumerator();
+        public IEnumerator<Correspondent> GetEnumerator() =>
+            InnerCorrespondentsCollection.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
-            InnerСorrespondentsCollection.GetEnumerator();
+            InnerCorrespondentsCollection.GetEnumerator();
     }
 }

@@ -1,4 +1,4 @@
-﻿using SH5ApiClient.Data;
+using SH5ApiClient.Data;
 using System.Collections.Generic;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -32,7 +32,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Тип подразделения</summary>
         [OriginalName("8")]
-        public DepatmenType? DepatmenType { get; set; }
+        public DepartmentType? DepartmentType { get; set; }
 
         /// <summary>битовая маска групп подразделения</summary>
         [OriginalName("32")]
@@ -60,7 +60,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Список обособленных подразделений</summary>
         [OriginalName("115")]
-        public List<AloLicInfo> AloLicInfos { get; set; }
+        public List<AlcLicInfo> AlcLicInfos { get; set; }
 
         [OriginalName("9")]
         public uint? Rate { get; set; }

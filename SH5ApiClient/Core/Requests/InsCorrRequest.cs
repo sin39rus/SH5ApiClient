@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -8,7 +8,7 @@ using System;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class InsCorrRequest : RequestBase
+    internal class InsCorrRequest : RequestBase
     {
         private string _inn = string.Empty;
         private CorrType corrType = CorrType.OutsideCorrespondent;

@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class MGroupsRequest : RequestBase
+    internal class MGroupsRequest : RequestBase
     {
         //Имя процедуры
         private const string procName = "MGroups";

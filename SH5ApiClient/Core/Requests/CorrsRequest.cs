@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class CorrsRequest : RequestBase
+    internal class CorrsRequest : RequestBase
     {
         //Имя процедуры
         private const string procName = "Corrs";

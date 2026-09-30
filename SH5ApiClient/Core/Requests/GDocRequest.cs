@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 using SH5ApiClient.Models.Enums;
@@ -6,7 +6,7 @@ using System;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class GDocRequest : RequestBase
+    internal class GDocRequest : RequestBase
     {
         private readonly uint _rid;
         private readonly string _guid;

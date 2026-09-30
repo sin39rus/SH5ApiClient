@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class GoodsTreeRequest : RequestBase
+    internal class GoodsTreeRequest : RequestBase
     {
         public GoodsTreeRequest(ConnectionParamSH5 connectionParam) :
             base("GoodsTree", connectionParam)

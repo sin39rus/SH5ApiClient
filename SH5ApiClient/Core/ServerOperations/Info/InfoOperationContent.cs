@@ -2,10 +2,8 @@
 
 namespace SH5ApiClient.Core.ServerOperations
 {
-    /// <summary>
-    /// Информация о базе данных
-    /// </summary>
-    public sealed class InfoOperationContent
+    /// <summary>Информация о базе данных</summary>
+    internal sealed class InfoOperationContent
     {
         /// <summary>
         /// Идентификатор

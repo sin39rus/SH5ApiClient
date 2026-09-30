@@ -15,7 +15,7 @@
 ### Сервер и права
 
 - `GetSHServerInfoAsync` — получение настроек сервера и информации о БД.
-- `GetPermissionExecuteProcedure` — проверка прав на выполнение процедур.
+- `GetPermissionExecuteProcedureAsync` — проверка прав на выполнение процедур.
 - `LoadEnumeratedAttributeValuesAsync` — значения перечислимого атрибута.
 
 ### Корреспонденты
@@ -56,7 +56,7 @@
 - `LoadGDocsAsync` — список накладных (по умолчанию только активные).
 - `GetGDoc0Async` — приходная накладная.
 - `GetGDoc4Async` — расходная накладная.
-- `UpdateGDoc4` — обновление расходной накладной.
+- `UpdateGDoc4Async` — обновление расходной накладной.
 - `GetGDoc5Async` — возврат поставщику.
 - `GetGDoc8Async` — сличительная ведомость.
 - `GetGDoc8DiffsAsync` — сличительная ведомость (излишки/недостачи).

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// <param name="dataHeader">Имя заголовка данных</param>
         /// <returns>Блок данных</returns>
         /// <exception cref="ArgumentException"></exception>
-        public StructOperationContent GetAnswearContent(string dataHeader)
+        public StructOperationContent GetAnswerContent(string dataHeader)
         {
             if (!_headersDict.ContainsKey(dataHeader))
                 throw new ArgumentException($"Блок данных с заголовком \"{dataHeader}\" отсутсвует.", nameof(dataHeader));

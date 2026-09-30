@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Exceptions;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -260,9 +260,9 @@ namespace SH5ApiClient.Data
                 {
                     data = Enum.Parse(typeof(TTNType), value?.ToString()) ?? null;
                 }
-                else if (property.PropertyType == typeof(DepatmenType?) || property.PropertyType == typeof(DepatmenType))
+                else if (property.PropertyType == typeof(DepartmentType?) || property.PropertyType == typeof(DepartmentType))
                 {
-                    data = Enum.Parse(typeof(DepatmenType), value?.ToString()) ?? null;
+                    data = Enum.Parse(typeof(DepartmentType), value?.ToString()) ?? null;
                 }
                 else if (property.PropertyType == typeof(GoodsItemFlags?) || property.PropertyType == typeof(GoodsItemFlags))
                 {

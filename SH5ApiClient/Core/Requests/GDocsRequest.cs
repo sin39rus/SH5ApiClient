@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class GDocsRequest : RequestBase
+    internal class GDocsRequest : RequestBase
     {
         //Имя процедуры
         private const string procName = "GDocs";

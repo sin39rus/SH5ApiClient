@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using SH5ApiClient.Models.Enums;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class EnumValuesRequest : RequestBase
+    internal class EnumValuesRequest : RequestBase
     {
         public string Head { private set; get; }
         public string Path { private set; get; }

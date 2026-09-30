@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Exceptions;
@@ -9,7 +9,7 @@ using SH5ApiClient.Models.Enums;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class DepartRequest : RequestBase
+    internal class DepartRequest : RequestBase
     {
         private const string procName = "Depart";
         public override OperationBase Operation => new ExecOperation();

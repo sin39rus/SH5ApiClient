@@ -1,15 +1,16 @@
-﻿using SH5ApiClient.Data;
 using SH5ApiClient.Infrastructure.Attributes;
-using SH5ApiClient.Infrastructure.Extensions;
 using SH5ApiClient.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SH5ApiClient.Data;
+using SH5ApiClient.Infrastructure.Extensions;
 
 namespace SH5ApiClient.Models.DTO
 {
-    [OriginalName("107")]
-    public class Сorrespondent : DataExecutable
+    /// <summary>Корреспондент SH</summary>
+    [OriginalName("105")]
+    public sealed class CorrespondentOld
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]
@@ -51,27 +52,22 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("34")]
         public Dictionary<string, string> Attributes34 { set; get; } = new Dictionary<string, string>();
 
-        /// <summary>Атрибуты типа 35</summary>
-        [OriginalName("35")]
-        public Dictionary<string, string> Attributes35 { set; get; } = new Dictionary<string, string>();
+        [OriginalName("114")]
+        public KPP KPP { set; get; }
 
-        /// <summary>Атрибуты типа 36</summary>
-        [OriginalName("36")]
-        public Dictionary<string, string> Attributes36 { set; get; } = new Dictionary<string, string>();
+        /// <summary>Cрок оплаты приходов</summary>
+        [OriginalName("11")]
+        public ushort? PaymentIncomeSpan { set; get; }
 
-        /// <summary>Rid</summary>
-        [OriginalName("37")]
-        public uint? AttrsMask { set; get; }
+        /// <summary>Cрок оплаты расходов</summary>
+        [OriginalName("12")]
+        public ushort? PaymentExpenseSpan { set; get; }
 
-        /// <summary>Подразделение</summary>
-        [OriginalName("106")]
-        public Depart Depart { set; get; }
-
-        public static Сorrespondent Parse(Dictionary<string, string> value)
+        public static CorrespondentOld Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
-            return new Сorrespondent
+            return new CorrespondentOld
             {
                 Rid = uint.TryParse(value.GetValueOrDefault("1"), out uint rid) ? (uint?)rid : null,
                 Name = value.GetValueOrDefault("3"),

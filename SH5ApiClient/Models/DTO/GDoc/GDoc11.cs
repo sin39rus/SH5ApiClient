@@ -1,4 +1,4 @@
-﻿using SH5ApiClient.Data;
+using SH5ApiClient.Data;
 using System.Collections.Generic;
 using System.Linq;
 using SH5ApiClient.Infrastructure.Attributes;
@@ -18,10 +18,10 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>Содержимое накладной</summary>
         [OriginalName("112")]
         public List<GDocItem> Content { get; set; }
-        public static GDoc11 Parse(ExecOperation answear)
+        public static GDoc11 Parse(ExecOperation answer)
         {
-            ExecOperationContent header = answear.GetAnswearContent("111");
-            ExecOperationContent content = answear.GetAnswearContent("112");
+            ExecOperationContent header = answer.GetAnswerContent("111");
+            ExecOperationContent content = answer.GetAnswerContent("112");
             return new GDoc11
             {
                 Header = GDocHeader.Parse(header.GetValues()[0]),

@@ -1,4 +1,4 @@
-﻿using SH5ApiClient.Core.ServerOperations;
+﻿using SH5ApiClient.Data;
 using SH5ApiClient.Models;
 using SH5ApiClient.Models.DTO;
 using SH5ApiClient.Models.DTO.Reports;
@@ -14,10 +14,10 @@ namespace SH5ApiClient
     {
         /// <summary>Получение настроек сервера и информации о БД.</summary>
         /// <returns>Информация о сервере SH</returns>
-        Task<InfoOperation> GetSHServerInfoAsync(CancellationToken cancellationToken);
+        Task<ServerInfo> GetSHServerInfoAsync(CancellationToken cancellationToken);
         /// <summary>Получение настроек сервера и информации о БД.</summary>
         /// <returns>Информация о сервере SH</returns>
-        Task<InfoOperation> GetSHServerInfoAsync();
+        Task<ServerInfo> GetSHServerInfoAsync();
 
         /// <summary>Создание корреспондента.
         /// <para>По умолчанию внешний контрагент</para></summary>
@@ -30,7 +30,7 @@ namespace SH5ApiClient
         /// <param name="corrType">Тип корреспондента (реализация, потери, внутренний/внешний контрагент)</param>
         /// <param name="corrTypeEx">Расширенный тип корреспондента (юр. лицо, физ. лицо, спец. корреспондент)</param>
         /// <returns>Созданный корреспондент</returns>
-        Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
+        Task<Correspondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx);
         /// <summary>Создание корреспондента.
         /// <para>По умолчанию внешний контрагент</para></summary>
         /// <param name="name">Наименование</param>
@@ -43,7 +43,7 @@ namespace SH5ApiClient
         /// <param name="corrTypeEx">Расширенный тип корреспондента (юр. лицо, физ. лицо, спец. корреспондент)</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Созданный корреспондент</returns>
-        Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx, CancellationToken cancellationToken);
+        Task<Correspondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx, CancellationToken cancellationToken);
 
         /// <summary>Запросить значения перечислимого атрибута.</summary>
         /// <param name="head">Идентификатор таблицы</param>
@@ -59,19 +59,19 @@ namespace SH5ApiClient
 
         /// <summary>Загрузка справочника корреспондентов.</summary>
         /// <returns>Список корреспондентов</returns>
-        Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync();
+        Task<IEnumerable<Correspondent>> LoadCorrespondentsAsync();
         /// <summary>Загрузка справочника корреспондентов.</summary>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Список корреспондентов</returns>
-        Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<Correspondent>> LoadCorrespondentsAsync(CancellationToken cancellationToken);
 
         /// <summary>Загрузка справочника внутренних корреспондентов.</summary>
         /// <returns>Список внутренних корреспондентов</returns>
-        Task<IEnumerable<InternalСorrespondent>> LoadInternalCorrespondentsAsync();
+        Task<IEnumerable<InternalCorrespondent>> LoadInternalCorrespondentsAsync();
         /// <summary>Загрузка справочника внутренних корреспондентов.</summary>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Список внутренних корреспондентов</returns>
-        Task<IEnumerable<InternalСorrespondent>> LoadInternalCorrespondentsAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<InternalCorrespondent>> LoadInternalCorrespondentsAsync(CancellationToken cancellationToken);
 
         /// <summary>Обновление банковских реквизитов у корреспондента.</summary>
         /// <param name="guid">GUID обновляемого корреспондента</param>
@@ -92,12 +92,12 @@ namespace SH5ApiClient
         /// <summary>Запросить наличие прав на выполнение процедуры.</summary>
         /// <param name="procedureNames">Имена процедур для проверки</param>
         /// <returns>Результат проверки прав</returns>
-        Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames);
+        Task<ProcedurePermissions> GetPermissionExecuteProcedureAsync(IEnumerable<string> procedureNames);
         /// <summary>Запросить наличие прав на выполнение процедуры.</summary>
         /// <param name="procedureNames">Имена процедур для проверки</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Результат проверки прав</returns>
-        Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames, CancellationToken cancellationToken);
+        Task<ProcedurePermissions> GetPermissionExecuteProcedureAsync(IEnumerable<string> procedureNames, CancellationToken cancellationToken);
 
         /// <summary>Загрузка списка товарных групп.</summary>
         /// <returns>Товарные группы</returns>
@@ -190,10 +190,10 @@ namespace SH5ApiClient
         /// <returns>Список единиц измерения в группе</returns>
         Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null);
         /// <summary>Запрос списка единиц измерения в группе.</summary>
-        /// <param name="cancellationToken">Токен отмены</param>
         /// <param name="groupRid">RID группы единиц измерения; если null — по всем группам</param>
+        /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Список единиц измерения в группе</returns>
-        Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(CancellationToken cancellationToken, uint? groupRid = null);
+        Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid, CancellationToken cancellationToken);
 
         /// <summary>Запрос списка единиц измерения товара.</summary>
         /// <param name="goodRid">Идентификатор товара</param>
@@ -207,17 +207,17 @@ namespace SH5ApiClient
 
         /// <summary>Создать единицу измерения.</summary>
         /// <param name="name">Наименование единицы измерения</param>
-        /// <param name="ration">Коэффициент к базовой единице измерения</param>
+        /// <param name="ratio">Коэффициент к базовой единице измерения</param>
         /// <param name="groupRid">RID группы единиц измерения</param>
         /// <returns>Созданная единица измерения</returns>
-        Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid);
+        Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ratio, uint groupRid);
         /// <summary>Создать единицу измерения.</summary>
         /// <param name="name">Наименование единицы измерения</param>
-        /// <param name="ration">Коэффициент к базовой единице измерения</param>
+        /// <param name="ratio">Коэффициент к базовой единице измерения</param>
         /// <param name="groupRid">RID группы единиц измерения</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Созданная единица измерения</returns>
-        Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid, CancellationToken cancellationToken);
+        Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ratio, uint groupRid, CancellationToken cancellationToken);
         #endregion
 
         #region Работа с документами GDoc
@@ -229,13 +229,22 @@ namespace SH5ApiClient
         /// <returns>Список заголовков накладных</returns>
         Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices);
         /// <summary>Запрос списка накладных; по умолчанию возвращает только активные накладные.</summary>
-        /// <param name="cancellationToken">Токен отмены</param>
         /// <param name="dateFrom">С даты включительно</param>
         /// <param name="dateTo">По дату включительно</param>
         /// <param name="ttnTypeForRequest">Типы запрашиваемых накладных</param>
         /// <param name="gDocsRequestFilter">Фильтр накладных</param>
+        /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Список заголовков накладных</returns>
-        Task<IEnumerable<GDocHeader>> LoadGDocsAsync(CancellationToken cancellationToken, DateTime? dateFrom = null, DateTime? dateTo = null, TTNTypeForRequest? ttnTypeForRequest = null, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices);
+        Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter, CancellationToken cancellationToken);
+
+        /// <summary>Запрос списка накладных в сыром виде (DataSet); по умолчанию возвращает только активные накладные.</summary>
+        /// <param name="dateFrom">С даты включительно</param>
+        /// <param name="dateTo">По дату включительно</param>
+        /// <param name="ttnTypeForRequest">Типы запрашиваемых накладных</param>
+        /// <param name="gDocsRequestFilter">Фильтр накладных</param>
+        /// <param name="cancellationToken">Токен отмены</param>
+        /// <returns>Сырой набор данных ответа сервера</returns>
+        Task<DataSet> LoadGDocsRawAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter, CancellationToken cancellationToken);
 
         /// <summary>Запросить приходную накладную.</summary>
         /// <param name="rid">RID накладной</param>
@@ -324,12 +333,12 @@ namespace SH5ApiClient
         /// <summary>Обновление расходной накладной.</summary>
         /// <param name="doc">Расходная накладная</param>
         /// <returns>Обновленная расходная накладная</returns>
-        Task<GDoc4> UpdateGDoc4(GDoc4 doc);
+        Task<GDoc4> UpdateGDoc4Async(GDoc4 doc);
         /// <summary>Обновление расходной накладной.</summary>
         /// <param name="doc">Расходная накладная</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Обновленная расходная накладная</returns>
-        Task<GDoc4> UpdateGDoc4(GDoc4 doc, CancellationToken cancellationToken);
+        Task<GDoc4> UpdateGDoc4Async(GDoc4 doc, CancellationToken cancellationToken);
         #endregion
 
         /// <summary>Создание приходной накладной.</summary>
@@ -380,7 +389,7 @@ namespace SH5ApiClient
         /// <param name="correspondent">Собственное юридическое лицо</param>
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Отчет «Баланс по корреспондентам»</returns>
-        Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken);
+        Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalCorrespondent correspondent, CancellationToken cancellationToken);
 
         /// <summary>Отчет «Баланс по корреспондентам».</summary>
         /// <param name="from">Дата начала периода</param>

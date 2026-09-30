@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Data;
 using SH5ApiClient.Models.Enums;
@@ -19,12 +19,12 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.IsNotNull(dep);
 
             Assert.IsNotNull(dep.KPPs);
-            Assert.IsNotNull(dep.AloLicInfos);
+            Assert.IsNotNull(dep.AlcLicInfos);
 
             Assert.AreEqual((uint)4194304, dep.Rid);
             Assert.AreEqual("{4B506473-BBED-0168-3416-8AE60ACEEE3F}", dep.Guid);
             Assert.AreEqual("Склад 1", dep.Name);
-            Assert.AreEqual(DepatmenType.Warehouse | DepatmenType.Trade | DepatmenType.Production, dep.DepatmenType);
+            Assert.AreEqual(DepartmentType.Warehouse | DepartmentType.Trade | DepartmentType.Production, dep.DepartmentType);
             Assert.IsNotNull(dep.LegalEntity);
             Assert.AreEqual((uint)0, dep.LegalEntity.Rid);
             Assert.AreEqual("Юридицеское лицо", dep.LegalEntity.Name);
@@ -71,9 +71,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual(null, kpp2.Attributes35["Host"]);
 
 
-            Assert.AreEqual(2, dep.AloLicInfos.Count());
-            var alcInfo1 = dep.AloLicInfos.ElementAt(0);
-            var alcInfo2 = dep.AloLicInfos.ElementAt(1);
+            Assert.AreEqual(2, dep.AlcLicInfos.Count());
+            var alcInfo1 = dep.AlcLicInfos.ElementAt(0);
+            var alcInfo2 = dep.AlcLicInfos.ElementAt(1);
 
 
             Assert.AreEqual((uint)2, alcInfo1.Rid);

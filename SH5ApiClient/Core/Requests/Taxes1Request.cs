@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class Taxes1Request : RequestBase
+    internal class Taxes1Request : RequestBase
     {
         //Имя процедуры
         private const string procName = "Taxes1";

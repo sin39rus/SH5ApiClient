@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class CreateAttrRequest : RequestBase
+    internal class CreateAttrRequest : RequestBase
     {
         public CreateAttrRequest(string bob, string ident, string caption, SHAttributeType sHAttributeType, ConnectionParamSH5 connectionParamSH5) : base(connectionParamSH5)
         {

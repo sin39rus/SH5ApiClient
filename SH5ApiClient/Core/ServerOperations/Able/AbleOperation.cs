@@ -6,7 +6,7 @@ using System.Linq;
 namespace SH5ApiClient.Core.ServerOperations
 {
     /// <summary>Запрос наличия прав для выполнения процедуры.</summary>
-    public sealed class AbleOperation : OperationBase
+    internal sealed class AbleOperation : OperationBase
     {
         [JsonProperty("Version")]
         public string Version { get; private set; }

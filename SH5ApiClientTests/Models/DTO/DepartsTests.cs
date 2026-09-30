@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Data;
 using SH5ApiClient.Models.Enums;
@@ -28,7 +28,7 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual((uint)8388608, dep1.Rid);
             Assert.AreEqual("{31ADB89D-1C0F-B3E3-6DA0-F4535DCED25E}", dep1.Guid);
             Assert.AreEqual("Склад 2", dep1.Name);
-            Assert.AreEqual(DepatmenType.Warehouse, dep1.DepatmenType);
+            Assert.AreEqual(DepartmentType.Warehouse, dep1.DepartmentType);
             Assert.IsNotNull(dep1.LegalEntity);
             Assert.AreEqual((uint)0, dep1.LegalEntity.Rid);
             Assert.AreEqual("Юридицеское лицо", dep1.LegalEntity.Name);
@@ -41,7 +41,7 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.AreEqual((uint)4194304, dep2.Rid);
             Assert.AreEqual("{4B506473-BBED-0168-3416-8AE60ACEEE3F}", dep2.Guid);
             Assert.AreEqual("Склад 1", dep2.Name);
-            Assert.AreEqual(DepatmenType.Warehouse | DepatmenType.Trade | DepatmenType.Production, dep2.DepatmenType);
+            Assert.AreEqual(DepartmentType.Warehouse | DepartmentType.Trade | DepartmentType.Production, dep2.DepartmentType);
             Assert.IsNotNull(dep2.LegalEntity);
             Assert.AreEqual((uint)0, dep2.LegalEntity.Rid);
             Assert.AreEqual("Юридицеское лицо", dep2.LegalEntity.Name);

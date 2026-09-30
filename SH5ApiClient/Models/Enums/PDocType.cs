@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace SH5ApiClient.Models.Enums
 {
     /// <summary>
     /// Тип платежного документа
     /// </summary>
-    public enum PGocType
+    public enum PDocType
     {
         /// <summary>
         /// Приходный платежный документ

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -14,7 +14,7 @@ namespace SH5ApiClient.Core.Requests
     /// <summary>
     /// Запрос на создание платежного документы
     /// </summary>
-    public class InsPDocRequest : RequestBase
+    internal class InsPDocRequest : RequestBase
     {
         /// <summary>
         /// Не определенный обязательный атрибут ToDo GDocOptions переделать
@@ -30,12 +30,12 @@ namespace SH5ApiClient.Core.Requests
         /// Курс валюты (единица базовой)
         /// </summary>
         [OriginalName("34")]
-        public int Indefinite1 { private set; get; } = 1;
+        public int CurrencyRateBaseUnit { private set; get; } = 1;
         /// <summary>
-        /// к единице валюты накладной)
+        /// Курс к единице валюты накладной
         /// </summary>
         [OriginalName("35")]
-        public int Indefinite2 { private set; get; } = 1;
+        public int CurrencyRateDocUnit { private set; get; } = 1;
         /// <summary>
         /// Вид платежа
         /// </summary>
@@ -50,12 +50,12 @@ namespace SH5ApiClient.Core.Requests
         /// Внешний корреспондент
         /// </summary>
         [OriginalName("105\\1")]
-        public СorrespondentOld Сorrespondent { private set; get; }
+        public CorrespondentOld Correspondent { private set; get; }
         /// <summary>
         /// Собственное юридическое лицо
         /// </summary>
         [OriginalName("102\\1")]
-        public InternalСorrespondent InternalСorrespondent { private set; get; }
+        public InternalCorrespondent InternalCorrespondent { private set; get; }
         /// <summary>
         /// Финансовый блок
         /// </summary>
@@ -86,24 +86,24 @@ namespace SH5ApiClient.Core.Requests
         /// </summary>
         public List<PaymentInfo> Payments { set; get; } = new List<PaymentInfo>();
         public override OperationBase Operation => new ExecOperation();
-        public InsPDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, СorrespondentOld correspondent, InternalСorrespondent internalСorrespondent) : base(connectionParam)
+        public InsPDocRequest(PDocType docType, ConnectionParamSH5 connectionParam, DateTime documentDate, PaymentType paymentType, Currency currency, CorrespondentOld correspondent, InternalCorrespondent internalCorrespondent) : base(connectionParam)
         {
             DocumentDate = documentDate;
             PaymentType = paymentType;
             Currency = currency ?? throw new ArgumentNullException(nameof(currency));
-            Сorrespondent = correspondent ?? throw new ArgumentNullException(nameof(correspondent));
-            InternalСorrespondent = internalСorrespondent ?? throw new ArgumentNullException(nameof(internalСorrespondent));
+            Correspondent = correspondent ?? throw new ArgumentNullException(nameof(correspondent));
+            InternalCorrespondent = internalCorrespondent ?? throw new ArgumentNullException(nameof(internalCorrespondent));
             ImportDate = DateTime.Now;
 
             switch (docType)
             {
-                case PGocType.Incoming:
+                case PDocType.Incoming:
                     ProcName = "InsPDoc0";
                     break;
-                case PGocType.Outgoing:
+                case PDocType.Outgoing:
                     ProcName = "InsPDoc1";
                     break;
-                case PGocType.Inside:
+                case PDocType.Inside:
                     throw new NotImplementedException("Создание внутренних платежных документов не реализовано.");
                 default:
                     throw new NotImplementedException($"Не известный тип документа \"{docType}\".");
@@ -121,18 +121,18 @@ namespace SH5ApiClient.Core.Requests
             values119.Add(new JArray(Id));
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(DocumentDate)));
             values119.Add(new JArray(DocumentDate.ToString("yyyy-MM-dd")));
-            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Indefinite1)));
-            values119.Add(new JArray(Indefinite1));
-            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Indefinite2)));
-            values119.Add(new JArray(Indefinite2));
+            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(CurrencyRateBaseUnit)));
+            values119.Add(new JArray(CurrencyRateBaseUnit));
+            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(CurrencyRateDocUnit)));
+            values119.Add(new JArray(CurrencyRateDocUnit));
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(PaymentType)));
             values119.Add(new JArray((int)PaymentType));
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Currency)));
             values119.Add(new JArray(Currency.Rid));
-            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Сorrespondent)));
-            values119.Add(new JArray(Сorrespondent.Rid));
-            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(InternalСorrespondent)));
-            values119.Add(new JArray(InternalСorrespondent.Rid));
+            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(Correspondent)));
+            values119.Add(new JArray(Correspondent.Rid));
+            original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(InternalCorrespondent)));
+            values119.Add(new JArray(InternalCorrespondent.Rid));
             original119.Add(this.GetOriginalNameAttributeFromProperty(nameof(ImportDate)));
             values119.Add(new JArray(ImportDate));
             if (Payment_Place != null)

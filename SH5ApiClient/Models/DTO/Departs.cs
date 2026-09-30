@@ -2,34 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using SH5ApiClient.Infrastructure.Attributes;
-using SH5ApiClient.Infrastructure.Extensions;
 
 namespace SH5ApiClient.Models.DTO
 {
     [OriginalName("106")]
-    public class Departs : DataExecutable, IEnumerable<Depart>
+    internal class Departs : DataExecutable, IEnumerable<Depart>
     {
         [OriginalName("108")]
-        private Ignore Ignore1 { set; get; }
-        
+        private UnusedTable UnusedTable1 { set; get; }
+
         [OriginalName("106")]
         private List<Depart> DepartCollection { set; get; } = new List<Depart>();
 
         [OriginalName("106#1")]
-        private Ignore Ignore2 { set; get; }
+        private UnusedTable UnusedTable2 { set; get; }
+
         public IEnumerator<Depart> GetEnumerator() =>
             DepartCollection.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
             DepartCollection.GetEnumerator();
 
-        public class Ignore
+        private class UnusedTable
         {
             [OriginalName("6")]
-            public string Temp1 { set; get; }
+            public string Field6 { set; get; }
 
             [OriginalName("239")]
-            public string Temp2 { set; get; }
+            public string Field239 { set; get; }
         }
     }
 }

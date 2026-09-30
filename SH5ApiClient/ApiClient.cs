@@ -118,7 +118,7 @@ namespace SH5ApiClient
         {
             try
             {
-                return answer.GetAnswearContent(head);
+                return answer.GetAnswerContent(head);
             }
             catch (ArgumentException ex)
             {
@@ -153,9 +153,9 @@ namespace SH5ApiClient
         }
 
         public Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices) =>
-            LoadGDocsAsync(CancellationToken.None, dateFrom, dateTo, ttnTypeForRequest, gDocsRequestFilter);
+            LoadGDocsAsync(dateFrom, dateTo, ttnTypeForRequest, gDocsRequestFilter, CancellationToken.None);
 
-        public Task<DataSet> LoadGDocsRawAsync(CancellationToken cancellationToken, DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices)
+        public Task<DataSet> LoadGDocsRawAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter, CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
             {
@@ -165,7 +165,7 @@ namespace SH5ApiClient
             }, ErrorLoadGDocs);
         }
 
-        public Task<IEnumerable<GDocHeader>> LoadGDocsAsync(CancellationToken cancellationToken, DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter = GDocsRequestFilter.ShowActiveInvoices)
+        public Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter, CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
             {
@@ -204,42 +204,43 @@ namespace SH5ApiClient
             }, ErrorGetDepart);
         }
 
-        public Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync() =>
+        public Task<IEnumerable<Correspondent>> LoadCorrespondentsAsync() =>
             LoadCorrespondentsAsync(CancellationToken.None);
 
-        public Task<IEnumerable<Сorrespondent>> LoadCorrespondentsAsync(CancellationToken cancellationToken)
+        public Task<IEnumerable<Correspondent>> LoadCorrespondentsAsync(CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
             {
                 CorrsRequest request = new CorrsRequest(_connectionParam);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
-                return (IEnumerable<Сorrespondent>)await DataExecutable.ParseAsync<Сorrespondents>(jsonAnswer, cancellationToken);
+                return (IEnumerable<Correspondent>)await DataExecutable.ParseAsync<Correspondents>(jsonAnswer, cancellationToken);
             }, ErrorLoadCorrespondents);
         }
 
-        public Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames) =>
-            GetPermissionExecuteProcedure(procedureNames, CancellationToken.None);
+        public Task<ProcedurePermissions> GetPermissionExecuteProcedureAsync(IEnumerable<string> procedureNames) =>
+            GetPermissionExecuteProcedureAsync(procedureNames, CancellationToken.None);
 
-        public Task<AbleOperation> GetPermissionExecuteProcedure(IEnumerable<string> procedureNames, CancellationToken cancellationToken)
+        public Task<ProcedurePermissions> GetPermissionExecuteProcedureAsync(IEnumerable<string> procedureNames, CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
             {
                 AbleRequest request = new AbleRequest(_connectionParam, procedureNames);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
-                return OperationBase.Parse<AbleOperation>(jsonAnswer);
+                AbleOperation operation = OperationBase.Parse<AbleOperation>(jsonAnswer);
+                return new ProcedurePermissions(operation.Version, operation.UserName, operation.ProcList, operation.Allow);
             }, ErrorGetPermission);
         }
 
-        public Task<IEnumerable<InternalСorrespondent>> LoadInternalCorrespondentsAsync() =>
+        public Task<IEnumerable<InternalCorrespondent>> LoadInternalCorrespondentsAsync() =>
             LoadInternalCorrespondentsAsync(CancellationToken.None);
 
-        public Task<IEnumerable<InternalСorrespondent>> LoadInternalCorrespondentsAsync(CancellationToken cancellationToken)
+        public Task<IEnumerable<InternalCorrespondent>> LoadInternalCorrespondentsAsync(CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
             {
                 LEntitiesRequest request = new LEntitiesRequest(_connectionParam);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
-                return (IEnumerable<InternalСorrespondent>)await DataExecutable.ParseAsync<InternalСorrespondents>(jsonAnswer, cancellationToken);
+                return (IEnumerable<InternalCorrespondent>)await DataExecutable.ParseAsync<InternalCorrespondents>(jsonAnswer, cancellationToken);
             }, ErrorLoadInternalCorrespondents);
         }
 
@@ -284,10 +285,10 @@ namespace SH5ApiClient
             }, ErrorUpdateCorrespondent);
         }
 
-        public Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx) =>
+        public Task<Correspondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx) =>
             CreateNewCorrespondentAsync(name, inn, bankAccount, bik, bankName, corAccount, corrType, corrTypeEx, CancellationToken.None);
 
-        public Task<Сorrespondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx, CancellationToken cancellationToken)
+        public Task<Correspondent> CreateNewCorrespondentAsync(string name, string inn, string bankAccount, string bik, string bankName, string corAccount, CorrType corrType, CorrTypeEx corrTypeEx, CancellationToken cancellationToken)
         {
             RequireNotNullOrWhiteSpace(name, nameof(name));
             return ExecuteAsync(async () =>
@@ -302,19 +303,35 @@ namespace SH5ApiClient
                     CorAccount = corAccount
                 };
                 string result = await PostAsync(request, cancellationToken);
-                return DataExecutable.Parse<Сorrespondents>(result).First();
+                return DataExecutable.Parse<Correspondents>(result).First();
             }, ErrorCreateCorrespondent);
         }
 
-        public Task<InfoOperation> GetSHServerInfoAsync() =>
+        public Task<ServerInfo> GetSHServerInfoAsync() =>
             GetSHServerInfoAsync(CancellationToken.None);
 
-        public Task<InfoOperation> GetSHServerInfoAsync(CancellationToken cancellationToken)
+        public Task<ServerInfo> GetSHServerInfoAsync(CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
             {
                 string answer = await PostAsync(new SHInfoRequest(_connectionParam), cancellationToken);
-                return OperationBase.Parse<InfoOperation>(answer);
+                InfoOperation operation = OperationBase.Parse<InfoOperation>(answer);
+                return new ServerInfo
+                {
+                    ApiVersion = operation.ApiVersion,
+                    LinkType = operation.LinkType,
+                    Host = operation.Host,
+                    Port = operation.Port,
+                    LinkDisp = operation.LinkDisp,
+                    Timeout = operation.Timeout,
+                    UserName = operation.UserName,
+                    Database = operation.DBInfo == null ? null : new DatabaseInfo
+                    {
+                        Ident = operation.DBInfo.Ident,
+                        Size = operation.DBInfo.Size,
+                        Version = operation.DBInfo.Version
+                    }
+                };
             }, ErrorGetServerInfo);
         }
 
@@ -345,9 +362,9 @@ namespace SH5ApiClient
         }
 
         public Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid = null) =>
-            LoadMeasureUnitsAsync(CancellationToken.None, groupRid);
+            LoadMeasureUnitsAsync(groupRid, CancellationToken.None);
 
-        public Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(CancellationToken cancellationToken, uint? groupRid = null)
+        public Task<IEnumerable<MeasureUnit>> LoadMeasureUnitsAsync(uint? groupRid, CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
             {
@@ -421,10 +438,10 @@ namespace SH5ApiClient
             }, ErrorGetGDoc4);
         }
 
-        public Task<GDoc4> UpdateGDoc4(GDoc4 doc) =>
-            UpdateGDoc4(doc, CancellationToken.None);
+        public Task<GDoc4> UpdateGDoc4Async(GDoc4 doc) =>
+            UpdateGDoc4Async(doc, CancellationToken.None);
 
-        public Task<GDoc4> UpdateGDoc4(GDoc4 doc, CancellationToken cancellationToken)
+        public Task<GDoc4> UpdateGDoc4Async(GDoc4 doc, CancellationToken cancellationToken)
         {
             if (doc == null)
                 throw new ArgumentNullException(nameof(doc));
@@ -595,15 +612,15 @@ namespace SH5ApiClient
             }, ErrorCreateGood);
         }
 
-        public Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid) =>
-            CreateMeasureUnitAsync(name, ration, groupRid, CancellationToken.None);
+        public Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ratio, uint groupRid) =>
+            CreateMeasureUnitAsync(name, ratio, groupRid, CancellationToken.None);
 
-        public Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ration, uint groupRid, CancellationToken cancellationToken)
+        public Task<MeasureUnit> CreateMeasureUnitAsync(string name, decimal ratio, uint groupRid, CancellationToken cancellationToken)
         {
             RequireNotNullOrWhiteSpace(name, nameof(name));
             return ExecuteAsync(async () =>
             {
-                InsMUnitRequest request = new InsMUnitRequest(_connectionParam, name, ration, groupRid);
+                InsMUnitRequest request = new InsMUnitRequest(_connectionParam, name, ratio, groupRid);
                 string jsonAnswer = await PostAsync(request, cancellationToken);
                 ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
                 return MeasureUnit.Parse(GetRequiredFirstRow(answer, "206"));
@@ -707,7 +724,7 @@ namespace SH5ApiClient
         }
 
         ///<inheritdoc />
-        public Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalСorrespondent correspondent, CancellationToken cancellationToken)
+        public Task<DocsByCorrsReport> GetDocsByCorrsReportAsync(DateTime from, DateTime to, InternalCorrespondent correspondent, CancellationToken cancellationToken)
         {
             if (correspondent == null)
                 throw new ArgumentNullException(nameof(correspondent));

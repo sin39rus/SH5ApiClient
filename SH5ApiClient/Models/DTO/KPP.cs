@@ -1,4 +1,4 @@
-﻿using SH5ApiClient.Infrastructure.Attributes;
+using SH5ApiClient.Infrastructure.Attributes;
 using System.Collections.Generic;
 
 namespace SH5ApiClient.Models.DTO
@@ -41,10 +41,10 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Контрагент</summary>
         [OriginalName("107")]
-        public СorrespondentOld Сorrespondent { set; get; }
+        public CorrespondentOld Correspondent { set; get; }
 
         /// <summary>Контрагент</summary>
         [OriginalName("105")]
-        public СorrespondentOld Сorrespondent2 { set; get; }
+        public CorrespondentOld Correspondent2 { set; get; }
     }
 }

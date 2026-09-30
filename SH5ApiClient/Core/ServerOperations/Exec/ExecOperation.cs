@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SH5ApiClient.Models;
 using System;
@@ -53,7 +53,7 @@ namespace SH5ApiClient.Core.ServerOperations
         /// <param name="dataHeader">Имя заголовка данных</param>
         /// <returns>Блок данных</returns>
         /// <exception cref="ArgumentException"></exception>
-        public ExecOperationContent GetAnswearContent(string dataHeader)
+        public ExecOperationContent GetAnswerContent(string dataHeader)
         {
             if (!_headersDict.ContainsKey(dataHeader))
                 throw new ArgumentException($"Блок данных с заголовком \"{dataHeader}\" отсутствует.", nameof(dataHeader));
@@ -68,9 +68,9 @@ namespace SH5ApiClient.Core.ServerOperations
         }
         public static string ChangeValue(string inputJsonText, string head, string originalName, object newValue)
         {
-            ExecOperation shAnswear = Parse<ExecOperation>(inputJsonText);
-            ExecOperationContent shAnswearContent = shAnswear.GetAnswearContent(head);
-            int originalNameIndex = shAnswearContent.GetIndexOriginalName(originalName);
+            ExecOperation shAnswer = Parse<ExecOperation>(inputJsonText);
+            ExecOperationContent shAnswerContent = shAnswer.GetAnswerContent(head);
+            int originalNameIndex = shAnswerContent.GetIndexOriginalName(originalName);
             JObject doc = JObject.Parse(inputJsonText);
 
             JToken value = doc["shTable"]?

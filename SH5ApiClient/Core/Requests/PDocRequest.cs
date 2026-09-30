@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Exceptions;
@@ -10,12 +10,12 @@ using System;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class PDocRequest : RequestBase
+    internal class PDocRequest : RequestBase
     {
         private readonly int _rid;
         private readonly string _guid;
         public override OperationBase Operation => new ExecOperation();
-        public PDocRequest(PGocType docType, ConnectionParamSH5 connectionParam, int rid, string guid) : base(connectionParam)
+        public PDocRequest(PDocType docType, ConnectionParamSH5 connectionParam, int rid, string guid) : base(connectionParam)
         {
             if (!Guid.TryParse(guid, out Guid _))
                 throw new ArgumentException("Не корректное значение параметра guid");
@@ -23,13 +23,13 @@ namespace SH5ApiClient.Core.Requests
             _guid = $"{{{guid}}}";
             switch(docType)
             {
-                case PGocType.Incoming:
+                case PDocType.Incoming:
                     ProcName = "PDoc0";
                     break;
-                case PGocType.Outgoing:
+                case PDocType.Outgoing:
                     ProcName = "PDoc1";
                     break;
-                case PGocType.Inside:
+                case PDocType.Inside:
                     ProcName = "PDoc2";
                     break;
                 default: 

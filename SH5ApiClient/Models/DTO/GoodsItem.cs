@@ -1,4 +1,4 @@
-﻿using SH5ApiClient.Core.ServerOperations;
+using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
 using SH5ApiClient.Models.Enums;
@@ -102,7 +102,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Углевода на 100 гр</summary>
         [OriginalName("22")]
-        public decimal EnergyСarbs { set; get; }
+        public decimal EnergyCarbs { set; get; }
 
         /// <summary>% Этилового спирта</summary>
         [OriginalName("19")]
@@ -154,7 +154,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Маршрут Контрагент</summary>
         [OriginalName("105")]
-        public СorrespondentOld RouteСorrespondent { set; get; }
+        public CorrespondentOld RouteCorrespondent { set; get; }
         //ToDo Object106 не разобрался
 
 
@@ -176,7 +176,7 @@ namespace SH5ApiClient.Models.DTO
 
         /// <summary>Контрагент</summary>
         [OriginalName("107")]
-        public СorrespondentOld Сorrespondent { set; get; }
+        public CorrespondentOld Correspondent { set; get; }
 
         /// <summary>Единица измерения</summary>
         [OriginalName("206")]
@@ -226,7 +226,7 @@ namespace SH5ApiClient.Models.DTO
                 EnergyBaseUnitCalorie = decimal.TryParse(value.GetValueOrDefault("67"), out decimal energyBaseUnitCalorie) ? energyBaseUnitCalorie : 0,
                 EnergyProteins = decimal.TryParse(value.GetValueOrDefault("20"), out decimal energyProteins) ? energyProteins : 0,
                 EnergyFat = decimal.TryParse(value.GetValueOrDefault("21"), out decimal energyFat) ? energyFat : 0,
-                EnergyСarbs = decimal.TryParse(value.GetValueOrDefault("22"), out decimal energyСarbs) ? energyСarbs : 0,
+                EnergyCarbs = decimal.TryParse(value.GetValueOrDefault("22"), out decimal energyCarbs) ? energyCarbs : 0,
                 PercentageEthylAlcohol = decimal.TryParse(value.GetValueOrDefault("19"), out decimal percentageEthylAlcohol) ? percentageEthylAlcohol : 0,
                 EnergyValue = decimal.TryParse(value.GetValueOrDefault("23"), out decimal energyValue) ? energyValue : 0,
                 PurchasePriceWithoutTaxes = decimal.TryParse(value.GetValueOrDefault("53"), out decimal purchasePriceWithoutTaxes) ? purchasePriceWithoutTaxes : 0,
@@ -239,7 +239,7 @@ namespace SH5ApiClient.Models.DTO
                 SaleNSP = NSPInfo.Parse(value.Where(t => t.Key.StartsWith("213#1\\")).ToDictionary(t => t.Key.TrimStart("213#1\\"), g => g.Value)),
 
                 RouteTTNType = Enum.TryParse<TTNType>(value.GetValueOrDefault("24"), out TTNType routeTTNType) ? (TTNType?)routeTTNType : null,
-                //RouteСorrespondent = СorrespondentOld.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value)),
+                //RouteCorrespondent = CorrespondentOld.Parse(value.Where(t => t.Key.StartsWith("105\\")).ToDictionary(t => t.Key.TrimStart("105\\"), g => g.Value)),
                 RKeeperCode = uint.TryParse(value.GetValueOrDefault("241"), out uint rKeeperCode) ? (uint?)rKeeperCode : null,
 
                 //Producer = KPP.Parse(value.Where(t => t.Key.StartsWith("114\\")).ToDictionary(t => t.Key.TrimStart("114\\"), g => g.Value)),
@@ -248,10 +248,10 @@ namespace SH5ApiClient.Models.DTO
             };
         }
 
-        public static GoodsItem[] ParseGoods(ExecOperation answear, CancellationToken cancellationToken)
+        public static GoodsItem[] ParseGoods(ExecOperation answer, CancellationToken cancellationToken)
         {
             List<GoodsItem> goodsItems = new List<GoodsItem>();
-            var values = answear.GetAnswearContent("210").GetValues();
+            var values = answer.GetAnswerContent("210").GetValues();
             foreach (var value in values)
             {
                 if(cancellationToken.IsCancellationRequested)

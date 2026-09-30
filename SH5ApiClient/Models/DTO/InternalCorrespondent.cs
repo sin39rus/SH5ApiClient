@@ -1,4 +1,4 @@
-﻿using SH5ApiClient.Data;
+using SH5ApiClient.Data;
 using System.Collections.Generic;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -8,7 +8,7 @@ namespace SH5ApiClient.Models.DTO
     /// <summary>Собственный корреспондент</summary>
     
     [OriginalName("102")]
-    public class InternalСorrespondent : DataExecutable
+    public class InternalCorrespondent : DataExecutable
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]

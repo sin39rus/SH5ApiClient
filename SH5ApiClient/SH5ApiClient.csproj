@@ -14,7 +14,7 @@
     <Product>SH5 WebAPI Client</Product>
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
     <DebugType>portable</DebugType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
@@ -26,6 +26,10 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net461'">
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 	</ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SH5ApiClientTests" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Core\ServerOperations\Pass\" />

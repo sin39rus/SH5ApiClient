@@ -37,7 +37,7 @@ namespace SH5ApiClientTests
         public void GetDocsByCorrsReportAsync_NullCorrespondent_ThrowsArgumentNullException()
         {
             var client = CreateClient(new FakeWebClient());
-            InternalСorrespondent correspondent = null!;
+            InternalCorrespondent correspondent = null!;
             Assert.ThrowsExceptionAsync<ArgumentNullException>(() => client.GetDocsByCorrsReportAsync(DateTime.Today, DateTime.Today, correspondent, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
@@ -45,7 +45,7 @@ namespace SH5ApiClientTests
         public void GetDocsByCorrsReportAsync_CorrespondentWithoutRid_ThrowsArgumentException()
         {
             var client = CreateClient(new FakeWebClient());
-            var correspondent = new InternalСorrespondent { Rid = null };
+            var correspondent = new InternalCorrespondent { Rid = null };
             Assert.ThrowsExceptionAsync<ArgumentException>(() => client.GetDocsByCorrsReportAsync(DateTime.Today, DateTime.Today, correspondent, CancellationToken.None)).GetAwaiter().GetResult();
         }
 

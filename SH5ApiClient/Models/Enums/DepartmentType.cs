@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 
 namespace SH5ApiClient.Models.Enums
 {
     /// <summary>Тип подразделения</summary>
     [Flags]
-    public enum DepatmenType
+    public enum DepartmentType
     {
         /// <summary>Склад</summary>
         Warehouse = 1,

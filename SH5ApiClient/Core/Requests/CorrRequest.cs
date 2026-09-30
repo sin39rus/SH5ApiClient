@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -7,7 +7,7 @@ using System;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class CorrRequest : RequestBase
+    internal class CorrRequest : RequestBase
     {
         [OriginalName("4")]
         public string Guid { private set; get; }

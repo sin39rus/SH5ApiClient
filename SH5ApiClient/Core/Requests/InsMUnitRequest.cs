@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Extensions;
@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class InsMUnitRequest : RequestBase
+    internal class InsMUnitRequest : RequestBase
     {
         [OriginalName("3")]
         public string Name {  get; set; }

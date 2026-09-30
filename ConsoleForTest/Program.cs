@@ -1,4 +1,4 @@
-﻿using SH5ApiClient;
+using SH5ApiClient;
 using SH5ApiClient.Data;
 using SH5ApiClient.Models;
 using SH5ApiClient.Models.DTO;
@@ -12,7 +12,7 @@ namespace ConsoleForTest
     {
         static void Main()
         {
-            ////var dd = ModelSHBase.Parse<InternalСorrespondent>(null);
+            ////var dd = ModelSHBase.Parse<InternalCorrespondent>(null);
             ConnectionParamSH5 param = new("Admin", "776417", "192.168.200.5", 9797);
             ApiClient client = new ApiClient(param);
 

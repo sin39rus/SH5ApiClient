@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 using SH5ApiClient.Models.DTO;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace SH5ApiClient.Core.Requests
 {
     /// <summary>Отчет Баланс по корреспондентам</summary>
-    public class DocsByCorrsRequest : RequestBase
+    internal class DocsByCorrsRequest : RequestBase
     {
         private const string procName = "DocsByCorrs";
         private readonly DateTime _from;

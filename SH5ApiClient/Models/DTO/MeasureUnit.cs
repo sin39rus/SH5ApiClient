@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -44,9 +44,9 @@ namespace SH5ApiClient.Models.DTO
         [OriginalName("10")]
         public bool? IsBase { set; get; }
 
-        /// <summary>Flags</summary>
+        /// <summary>Связанные данные (служебное поле парсера).</summary>
         [OriginalName("255")]
-        public Ignore Ignore2 { set; get; }
+        private UnusedRelatedData UnusedRelated { set; get; }
 
         /// <summary>Flags</summary>
         [OriginalName("42")]
@@ -78,7 +78,7 @@ namespace SH5ApiClient.Models.DTO
         }
 
         [OriginalName("255")]
-        public class Ignore
+        private class UnusedRelatedData
         {
             /// <summary>Rid</summary>
             [OriginalName("1")]
@@ -94,13 +94,13 @@ namespace SH5ApiClient.Models.DTO
 
             /// <summary>Углевода на 100 гр</summary>
             [OriginalName("22")]
-            public decimal EnergyСarbs { set; get; }
+            public decimal EnergyCarbs { set; get; }
 
             [OriginalName("244")]
-            public Ignore2 Ignore3 { set; get; }
+            public RelatedEntity Related { set; get; }
 
             [OriginalName("244")]
-            public class Ignore2
+            public class RelatedEntity
             {
                 /// <summary>Rid</summary>
                 [OriginalName("1")]

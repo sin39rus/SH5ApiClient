@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SH5ApiClient.Core.ServerOperations;
 using System.IO;
 using System.Linq;
@@ -34,9 +34,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.IsNotNull(item1.GoodsItem.Producer);
             Assert.IsNull(item1.GoodsItem.Producer.Rid);
             Assert.IsNull(item1.GoodsItem.Producer.Name);
-            Assert.IsNotNull(item1.GoodsItem.Producer.Сorrespondent2);
-            Assert.IsNull(item1.GoodsItem.Producer.Сorrespondent2.Rid);
-            Assert.IsNull(item1.GoodsItem.Producer.Сorrespondent2.Name);
+            Assert.IsNotNull(item1.GoodsItem.Producer.Correspondent2);
+            Assert.IsNull(item1.GoodsItem.Producer.Correspondent2.Rid);
+            Assert.IsNull(item1.GoodsItem.Producer.Correspondent2.Name);
             Assert.IsNotNull(item1.GoodsItem.AlcoholProductType);
             Assert.IsNull(item1.GoodsItem.AlcoholProductType.Rid);
             Assert.IsNull(item1.GoodsItem.AlcoholProductType.Flags);
@@ -74,9 +74,9 @@ namespace SH5ApiClient.Models.DTO.Tests
             Assert.IsNotNull(item2.GoodsItem.Producer);
             Assert.IsNull(item2.GoodsItem.Producer.Rid);
             Assert.IsNull(item2.GoodsItem.Producer.Name);
-            Assert.IsNotNull(item2.GoodsItem.Producer.Сorrespondent2);
-            Assert.IsNull(item2.GoodsItem.Producer.Сorrespondent2.Rid);
-            Assert.IsNull(item2.GoodsItem.Producer.Сorrespondent2.Name);
+            Assert.IsNotNull(item2.GoodsItem.Producer.Correspondent2);
+            Assert.IsNull(item2.GoodsItem.Producer.Correspondent2.Rid);
+            Assert.IsNull(item2.GoodsItem.Producer.Correspondent2.Name);
             Assert.IsNotNull(item2.GoodsItem.AlcoholProductType);
             Assert.IsNull(item2.GoodsItem.AlcoholProductType.Rid);
             Assert.IsNull(item2.GoodsItem.AlcoholProductType.Flags);

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace SH5ApiClient.Core.Requests
     /// <summary>
     /// Запрос наличия прав пользователя на выполнение процедур
     /// </summary>
-    public class AbleRequest : RequestBase
+    internal class AbleRequest : RequestBase
     {
         /// <summary>
         /// Процедуры необходимые для работы программы.

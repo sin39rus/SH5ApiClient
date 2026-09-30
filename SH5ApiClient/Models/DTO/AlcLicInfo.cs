@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SH5ApiClient.Core.ServerOperations;
@@ -9,7 +9,7 @@ namespace SH5ApiClient.Models.DTO
 {
     /// <summary>Алкогольные лицензии</summary>
     [OriginalName("115")]
-    public class AloLicInfo
+    public class AlcLicInfo
     {
         /// <summary>Rid</summary>
         [OriginalName("1")]
@@ -34,20 +34,20 @@ namespace SH5ApiClient.Models.DTO
         /// <summary>KPP</summary>
         [OriginalName("114")]
         public KPP KPP { set; get; }
-        public static IEnumerable<AloLicInfo> GetAloLicInfosFromSHAnswear(ExecOperationContent answear)
+        public static IEnumerable<AlcLicInfo> GetAlcLicInfosFromSHAnswer(ExecOperationContent answer)
         {
-            foreach (Dictionary<string, string> value in answear.GetValues())
+            foreach (Dictionary<string, string> value in answer.GetValues())
             {
                 var info = Parse(value);
                 if (info != null)
                     yield return info;
             }
         }
-        public static AloLicInfo Parse(Dictionary<string, string> value)
+        public static AlcLicInfo Parse(Dictionary<string, string> value)
         {
             if (!value.Any())
                 return null;
-            return new AloLicInfo
+            return new AlcLicInfo
             {
                 Rid = uint.TryParse(value["1"], out uint rid) ? (uint?)rid : null,
                 From = DateTime.TryParse(value["31"], out DateTime from) ? (DateTime?)from : null,

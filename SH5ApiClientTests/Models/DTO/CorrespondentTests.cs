@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models.Enums;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text;
 namespace SH5ApiClient.Models.DTO.Tests
 {
     [TestClass()]
-    public class СorrespondentTests
+    public class CorrespondentTests
     {
         [TestMethod()]
         public void ParseCorrespondentsTest()
@@ -58,12 +58,12 @@ namespace SH5ApiClient.Models.DTO.Tests
         [TestMethod()]
         public void ParseInternalCorrespondentsTest()
         {
-            var corrs = (InternalСorrespondents)Options.ApiClient.LoadInternalCorrespondentsAsync().Result;
+            var corrs = (InternalCorrespondents)Options.ApiClient.LoadInternalCorrespondentsAsync().Result;
 
             Assert.AreEqual(1, corrs.Count());
             
-            Assert.AreEqual((uint)65534, corrs.InnerСorrespondent.MaxCount);
-            Assert.AreEqual((uint)0, corrs.InnerСorrespondent.HiddenCount);
+            Assert.AreEqual((uint)65534, corrs.InnerCorrespondent.MaxCount);
+            Assert.AreEqual((uint)0, corrs.InnerCorrespondent.HiddenCount);
 
             var cor = corrs.First();
 

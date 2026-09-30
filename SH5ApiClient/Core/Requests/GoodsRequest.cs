@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Infrastructure.Attributes;
 using SH5ApiClient.Infrastructure.Exceptions;
@@ -9,7 +9,7 @@ using SH5ApiClient.Models.Enums;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class GoodsRequest : RequestBase
+    internal class GoodsRequest : RequestBase
     {
         private readonly uint _gGroupRID;
         public GoodsRequest(ConnectionParamSH5 connectionParam, uint gGroupRID) : base("Goods", connectionParam)

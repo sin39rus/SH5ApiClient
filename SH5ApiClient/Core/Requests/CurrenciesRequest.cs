@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using SH5ApiClient.Core.ServerOperations;
 using SH5ApiClient.Models;
 
 namespace SH5ApiClient.Core.Requests
 {
-    public class CurrenciesRequest : RequestBase
+    internal class CurrenciesRequest : RequestBase
     {
         //Имя процедуры
         private const string procName = "Currencies";

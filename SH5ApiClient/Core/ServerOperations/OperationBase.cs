@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using SH5ApiClient.Infrastructure.Exceptions;
 using SH5ApiClient.Models;
 using System;
@@ -45,12 +45,12 @@ namespace SH5ApiClient.Core.ServerOperations
         {
             if (string.IsNullOrWhiteSpace(jsonText))
                 throw new ArgumentException($"\"{nameof(jsonText)}\" не может быть пустым или содержать только пробел.", nameof(jsonText));
-            T answear = JsonConvert.DeserializeObject<T>(jsonText);
-            if (answear == null)
+            T answer = JsonConvert.DeserializeObject<T>(jsonText);
+            if (answer == null)
                 throw new ArgumentException("Ошибка разбора ответа SH.");
-            answear.CheckError();
-            answear.AfterParse();
-            return answear;
+            answer.CheckError();
+            answer.AfterParse();
+            return answer;
         }
     }
 }

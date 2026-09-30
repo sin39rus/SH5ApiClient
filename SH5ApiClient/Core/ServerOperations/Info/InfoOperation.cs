@@ -2,7 +2,7 @@
 
 namespace SH5ApiClient.Core.ServerOperations
 {
-    public sealed class InfoOperation : OperationBase
+    internal sealed class InfoOperation : OperationBase
     {
         /// <summary>
         /// Версия API
