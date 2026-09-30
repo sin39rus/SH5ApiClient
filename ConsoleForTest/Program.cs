@@ -18,11 +18,18 @@ namespace ConsoleForTest
 
             try
             {
+                var corrs = client.LoadInternalCorrespondentsAsync().Result;
+                var cor = corrs.Single(t => t.Rid == 0);
+                var date = DateTime.Now + TimeSpan.FromDays(1);
+                var docs = client.LoadGDocsAsync(date, date, SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice).Result;
+                var doc1 = docs.Single(t => t.Rid == 124194);
+                var doc2 = docs.Single(t => t.Rid == 122797);
+                client.GetGDoc4Async(doc1.Rid.Value, doc1.GUID);
+                client.GetGDoc4Async(doc2.Rid.Value, doc1.GUID);
+                var fff = client.GetDocsByCorrsReportAsync(date, date, cor, CancellationToken.None).Result;
                 //var docs = client.LoadGDocsAsync(new DateTime(2026, 01, 01), new DateTime(2026, 03, 31), SH5ApiClient.Models.Enums.TTNTypeForRequest.SalesInvoice).Result;
                 //var doc = docs.Single(t => t.Rid == 113863);
-                var shInvoice = client.GetGDoc4Async(113863, "{330DE3F8-67C0-D300-A4E7-410FC0ED7180}").Result;
-                shInvoice.ChangeValue("111", "1", shInvoice.Header.Rid, "6\\DocumentLink_EDO", "Test test");
-                var fff = client.UpdateGDoc4(shInvoice).Result;
+
             }
             catch (Exception ex)
             {

@@ -236,6 +236,14 @@ namespace SH5ApiClient
         Task<IEnumerable<NDSInfo>> GetNdsListAsync();
         Task<IEnumerable<NDSInfo>> GetNdsListAsync(CancellationToken cancellationToken);
 
+        /// <summary>Создание ГТД по номерам</summary>
+        /// <param name="gtdNumbers">Номера ГТД</param>
+        Task<IEnumerable<GTD>> CreateGtdAsync(params string[] gtdNumbers);
+        /// <summary>Создание ГТД по номерам</summary>
+        /// <param name="gtdNumbers">Номера ГТД</param>
+        /// <param name="cancellationToken">Токен отмены</param>
+        Task<IEnumerable<GTD>> CreateGtdAsync(string[] gtdNumbers, CancellationToken cancellationToken);
+
         /// <summary>Баланс по корреспондентам</summary>
         /// <param name="from">С</param>
         /// <param name="to">По</param>
