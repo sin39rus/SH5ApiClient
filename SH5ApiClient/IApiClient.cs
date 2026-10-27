@@ -408,5 +408,15 @@ namespace SH5ApiClient
         /// <param name="cancellationToken">Токен отмены</param>
         /// <returns>Отчет «Расширенный список накладных»</returns>
         Task<GDocsExReport> GetGDocsExReportAsync(DateTime? from, DateTime? to, TTNTypeForRequest ttnType, GDocsRequestFilter filter, IEnumerable<Depart> departs, CancellationToken cancellationToken);
+
+        /// <summary>Запрос списка кетегорий товаров</summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<GoodsCategories>> LoadGoodsCategoriesAsync(CancellationToken cancellationToken);
+
+        /// <summary>Запрос списка кетегорий товаров</summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IEnumerable<GoodsCategories>> LoadGoodsCategoriesAsync();
     }
 }

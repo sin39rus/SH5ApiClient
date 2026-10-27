@@ -18,6 +18,7 @@ namespace SH5ApiClient
 {
     public class ApiClient : IApiClient
     {
+        private const string ErrorLoadGoodsCategories = "Ошибка загрузки списка категорий товаров. Подробности во внутреннем исключении.";
         private const string ErrorLoadGDocs = "Ошибка загрузки списка накладных. Подробности во внутреннем исключении.";
         private const string ErrorLoadDeparts = "Ошибка загрузки справочника подразделений. Подробности во внутреннем исключении.";
         private const string ErrorGetDepart = "Ошибка загрузки информации о подразделении. Подробности во внутреннем исключении.";
@@ -164,7 +165,17 @@ namespace SH5ApiClient
                 return DataSet.ParseFromJson(jsonAnswer);
             }, ErrorLoadGDocs);
         }
-
+        public Task<IEnumerable<GoodsCategories>> LoadGoodsCategoriesAsync() => LoadGoodsCategoriesAsync(CancellationToken.None);
+        public Task<IEnumerable<GoodsCategories>> LoadGoodsCategoriesAsync(CancellationToken cancellationToken)
+        {
+            return ExecuteAsync(async () =>
+            {
+                GoodsCategoriesRequest request = new GoodsCategoriesRequest(_connectionParam);
+                string jsonAnswer = await PostAsync(request, cancellationToken);
+                ExecOperation answer = OperationBase.Parse<ExecOperation>(jsonAnswer);
+                return GoodsCategories.ParseRange(GetRequiredContent(answer, "200").GetValues());
+            }, ErrorLoadGoodsCategories);
+        }
         public Task<IEnumerable<GDocHeader>> LoadGDocsAsync(DateTime? dateFrom, DateTime? dateTo, TTNTypeForRequest? ttnTypeForRequest, GDocsRequestFilter? gDocsRequestFilter, CancellationToken cancellationToken)
         {
             return ExecuteAsync(async () =>
